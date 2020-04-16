@@ -166,9 +166,7 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 4. Plug a usb 2 device in every usb port
 5. Plug a usb 3 device in every usb port
 6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port)
-7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3
-
-   (if you're mapping the internal port (HS13) make sure it's set to internal)
+7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3 (if you're mapping the internal port (HS13) make sure it's set to internal)
 8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one)
 9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```
 10. Reboot
