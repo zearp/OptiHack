@@ -13,9 +13,9 @@ For those with some experience the EFI folder itself should be enough to get goi
 
 I suck at writing documentation but I need to keep track of things I do for myself and keeping track of progress in guide form it can also help others, hopefully. I've learned a lot in the passed week thanks to all the great guides and awesome software developed totally free by the community. I want to give back and share my findings and journey with all of you.
 
-Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance.
+Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
 
-> Note: If you've used a version prior to the 15th of April 2020 it is best to start from scratch as a lot has changed.)
+> Note: If you've used a version prior to the 15th of April 2020 it is best to start from scratch as a lot has changed.
 
 ## Index
 * [BIOS settings](#bios-settings)
@@ -81,6 +81,8 @@ Boot from the installer and clear the NVRAM this is important as Clover and Open
 
 Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press enter. You'll end up in a shell where you can execute commands.
 
+> Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
+
 ## Disable CFG Lock
 To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Executing ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here.
 
@@ -119,7 +121,7 @@ If it says *NO*; close all open apps, open a terminal and execute ```sudo trimfo
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
 ### Sleep
-Sleep is working as it should. It will fall asleep automatically after a while. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works. Hibernation is disabled. To regain some disk space you can delete the sleepimage by executing the following commands. This saves about 2GB of disk space. Entering manual sleep takes about 30 seconds. And for good measure lets disable stand-by and auto power off as well. We just want sleep.
+Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works. Hibernation is disabled. To regain some disk space you can delete the sleepimage by executing the following commands. This saves about 2GB of disk space. Entering manual sleep takes about 30 seconds. And for good measure lets disable stand-by and auto power off as well. We just want sleep.
 
 ```
 sudo rm /var/vm/sleepimage
@@ -135,7 +137,7 @@ Verify the new settings with ```pmset -g``` and if you notice hibernation is ena
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
-> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model so I'm not sure if CPUFriend is needed when you have an exact match. But you can still use it to tweak things. I'm not using it when the cpu matches and existing model. Less kexts feels good too and it doesn't surprise Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
+> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model so I'm not sure if CPUFriend is needed when you have an exact match. But you can still use it to tweak things. I'm not using it when the cpu matches and existing model. Less kexts feels good too and it doesn't surprise me Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
@@ -165,6 +167,7 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 5. Plug a usb 3 device in every usb port
 6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port)
 7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3
+
    (if you're mapping the internal port (HS13) make sure it's set to internal)
 8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one)
 9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```
@@ -239,7 +242,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [Cog](https://github.com/kode54/Cog) - A lovely minimalist music player that has been around for a very long time.
 * [EFI Agent](https://github.com/headkaze/EFI-Agent/) - Using the command line to mount EFI folders is very 2019.
 * [Hackintool](https://github.com/headkaze/Hackintool) - My EDC.
-* [Hex Friend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made my someone named Ridiculous Fish. How can you say no to that? On top of that its very fast and capable and free.
+* [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made my someone named Ridiculous Fish. How can you say no to that? On top of that its very fast and capable and free.
 * [HWMonitor](https://bitbucket.org/RehabMan/os-x-fakesmc-kozlek/downloads/) - Hidden inside the FakeSMC zip file we find an old dog with tricks you still want to see from time to time.
 * [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) - More accurate cpu/gpu/pwr stats (see screenshots below).
 * [IOJones](https://github.com/acidanthera/IOJones) - Because IORegistryExplorer doesn't have dark mode.
@@ -259,7 +262,9 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 ### Issues
 * Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
-If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun! 
+When dealing with sleep issues make sure to test things with no usb devices conencted other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is [by design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up when wake for enternet is enabled.
+
+If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun! 
 
 ### Misc
 Geekbench 4.
