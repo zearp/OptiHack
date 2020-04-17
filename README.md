@@ -1,5 +1,5 @@
 # OptiHack
-My hackintosh journey with the Dell Optiplex 7020 SFF.
+My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 <sub>Should also work on 9020 SFF and MT models without additional modifications. For the 9020 USFF you need to create a usb portmap post-install. The 9020 micro needs the same and possibly more modifications, I have no experience with that model. The 7020 was only available in SFF and MT form-factor.</sub>
 
