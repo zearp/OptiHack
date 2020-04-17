@@ -176,7 +176,7 @@ Verify the ports in Hackintool, go to the usb tab again, select all ports and de
 > Note: Don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Just use simple usb 2 and usb 3 sticks.
 
 ### SMBIOS
-Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was 14,3. When in doubt use 14,1 with only iGPU, 14,2 when used with dGPU.
+Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was *14,3*. When in doubt use *14,1* with only iGPU, *14,2* when used with dGPU and *15,1* for Haswell Refresh.
 
 If you change this you will have to create a new USBPorts.kext as the kext is linked to product name. While things may appear to work fine after you changed the product name and keep using the kext for 14,3 it can lead to weird usb issues. To create a new portmap refer to the section above this one.
 
