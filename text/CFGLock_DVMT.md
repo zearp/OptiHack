@@ -1,4 +1,6 @@
-Extracted from the A18 BIOS, which is the same as the A25 BIOS for 9020 models. The 9020 BIOS also has raid functionaility in it. An add-on I would like to try and port to 7020. Other than that they're identical. It is however a fun learnign experience to verify these yourself by downloading the A18 or A25 BIOS and extracting it yourself. This [guide](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) helped me a lot.
+Extracted from the A18 BIOS, which is the same as the A25 BIOS for 9020 models. It is however a fun learning experience to verify these yourself by downloading the A18 or A25 BIOS and extracting it yourself. This [guide](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) helped me a lot.
+
+The 9020 BIOS also has raid functionaility in it. ~~An add-on I would like to try and port to 7020.~~ Tried some flashing with [UBU](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) and learned a lot but nont daring to do much until I learn how to recover from a bad flash hah!
 
 CFG Lock:
 
