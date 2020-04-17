@@ -260,9 +260,11 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 ### Issues
 * Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
-When dealing with sleep issues make sure to test things with no usb devices conencted other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is [by design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up when wake for enternet is enabled.
+When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled.
 
-If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun! 
+If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
+
+When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
 
 ### Misc
 Geekbench 4.
