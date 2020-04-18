@@ -238,6 +238,7 @@ Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in 
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
 * [AppCleaner](https://freemacsoft.net/appcleaner/) - Easy way to remove apps including all their crud. Be sure to enable the *SmartDelete* function.
 * [Cog](https://github.com/kode54/Cog) - A lovely minimalist music player that has been around for a very long time.
+* [CotEditor](https://github.com/coteditor/CotEditor) - Fast and free editor with lots of features, dark mode and syntax highlighting.
 * [EFI Agent](https://github.com/headkaze/EFI-Agent/) - Using the command line to mount EFI folders is very 2019.
 * [Hackintool](https://github.com/headkaze/Hackintool) - My EDC.
 * [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made my someone named Ridiculous Fish. How can you say no to that? On top of that its very fast and capable and free.
