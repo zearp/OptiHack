@@ -241,7 +241,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [CotEditor](https://github.com/coteditor/CotEditor) - Fast and free editor with lots of features, dark mode and syntax highlighting.
 * [EFI Agent](https://github.com/headkaze/EFI-Agent/) - Using the command line to mount EFI folders is very 2019.
 * [Hackintool](https://github.com/headkaze/Hackintool) - My EDC.
-* [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made my someone named Ridiculous Fish. How can you say no to that? On top of that its very fast and capable and free.
+* [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made by someone named Ridiculous Fish. How can you say no to that? On top of that its very fast, capable and totally free.
 * [HWMonitor](https://bitbucket.org/RehabMan/os-x-fakesmc-kozlek/downloads/) - Hidden inside the FakeSMC zip file we find an old dog with tricks you still want to see from time to time.
 * [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) - More accurate cpu/gpu/pwr stats (see screenshots below).
 * [IOJones](https://github.com/acidanthera/IOJones) - Because IORegistryExplorer doesn't have dark mode.
