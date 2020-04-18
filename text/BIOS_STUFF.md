@@ -83,9 +83,9 @@ We now have a backup of the BIOS and the file we need to apply our modifications
 ## Modifying
 Download and extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v5.0.0.7 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
 
-First we will apply microcode patches. These fix processor related bugs ans security issues. It is a must to keep these up to date. And don't expect much from Dell at this point.
+First we will apply microcode patches. These fix processor related bugs and security issues. It is a must to keep these up to date. And don't expect much from Dell at this point.
 
-Still in the UBU root folder right click ``UBU.bat``` and run it as admin. It will find the extracted bios and starts to analyse its parts and taking it apart. Let it do its thing, when its done press any key to continue and you'll be presented with a menu (the file not found message can be ignored).
+Still in the UBU root folder right click ```UBU.bat``` and run it as admin. It will find the extracted bios and starts to analyse it and taking it apart. Let it do its thing, when its done press any key to continue and you'll be presented with a menu (the file not found message can be ignored).
 
 Next enter ```5``` to enter the microcode section. It will print a table showing the current versions if there are any updates for it. On mine it looked like this:
 
