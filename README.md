@@ -151,10 +151,10 @@ Once this config has proven itself stable I will update this section with a litt
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future.
 
 ### Mapping the internal usb header for MT models
-The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb port mapping please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
+The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
 
 ### USB portmap
-Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases). 
+Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases).
 
 (If you're mapping the internal usb port make sure there is something connected to it before you start.)
 
@@ -171,7 +171,9 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 
 Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
 
-> Note: Don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Just use simple usb 2 and usb 3 sticks.
+Please don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Use simple usb 2 and usb 3 devices to be safe.
+
+> Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
 ### SMBIOS
 Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was *14,3*. When in doubt use *14,1* with only iGPU, *14,2* when used with dGPU and *15,1* for Haswell Refresh.
@@ -236,9 +238,10 @@ Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in 
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
 * [AppCleaner](https://freemacsoft.net/appcleaner/) - Easy way to remove apps including all their crud. Be sure to enable the *SmartDelete* function.
 * [Cog](https://github.com/kode54/Cog) - A lovely minimalist music player that has been around for a very long time.
+* [CotEditor](https://github.com/coteditor/CotEditor) - Fast and free editor with lots of features, dark mode and syntax highlighting.
 * [EFI Agent](https://github.com/headkaze/EFI-Agent/) - Using the command line to mount EFI folders is very 2019.
 * [Hackintool](https://github.com/headkaze/Hackintool) - My EDC.
-* [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made my someone named Ridiculous Fish. How can you say no to that? On top of that its very fast and capable and free.
+* [Hex Fiend](https://ridiculousfish.com/hexfiend/) - We all need a hex editor in our life. This is made by someone named Ridiculous Fish. How can you say no to that? On top of that its very fast, capable and totally free.
 * [HWMonitor](https://bitbucket.org/RehabMan/os-x-fakesmc-kozlek/downloads/) - Hidden inside the FakeSMC zip file we find an old dog with tricks you still want to see from time to time.
 * [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) - More accurate cpu/gpu/pwr stats (see screenshots below).
 * [IOJones](https://github.com/acidanthera/IOJones) - Because IORegistryExplorer doesn't have dark mode.
@@ -313,4 +316,4 @@ $29 for a decent brand new 120-250GB entry level SSD. Hunt for bargains on Amazo
 
 > Don't forget to replace the thermal paste!
 
-You can find [me](https://www.reddit.com/user/ze_arp/) on Reddit. I don't plan on giving support but I am very open to optimising my config. Please open an issue if you think I messed something up or if something could be better. I'm here to learn and improve.
+I don't plan on giving support but I am very open to optimising my config. Please open an issue if you think I messed something up or if something could be better. I'm here to learn and improve.
