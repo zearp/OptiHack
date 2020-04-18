@@ -313,4 +313,4 @@ $29 for a decent brand new 120-250GB entry level SSD. Hunt for bargains on Amazo
 
 > Don't forget to replace the thermal paste!
 
-You can find [me](https://www.reddit.com/user/ze_arp/) on Reddit. I don't plan on giving support but I am very open to optimising my config. Please open an issue if you think I messed something up or if something could be better. I'm here to learn and improve.
+I don't plan on giving support but I am very open to optimising my config. Please open an issue if you think I messed something up or if something could be better. I'm here to learn and improve.
