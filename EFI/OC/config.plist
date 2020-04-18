@@ -420,6 +420,8 @@
 			<false/>
 			<key>XhciPortLimit</key>
 			<false/>
+			<key>PatchAppleRtcChecksum</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>Misc</key>
@@ -442,7 +444,7 @@
 			<key>PickerAudioAssist</key>
 			<false/>
 			<key>PickerMode</key>
-			<string>External</string>
+			<string>Buildtin</string>
 			<key>PollAppleHotKeys</key>
 			<true/>
 			<key>ShowPicker</key>
