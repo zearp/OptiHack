@@ -266,6 +266,10 @@ If you have any issues where the machine wakes up right after falling asleep run
 
 When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
 
+* Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
+
+* Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
+
 ### Misc
 Geekbench 4.
 [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) whilst running Geekbench 4 and Geekbench 4 Compute:
