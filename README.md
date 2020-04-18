@@ -121,18 +121,16 @@ If it says *NO*; close all open apps, open a terminal and execute ```sudo trimfo
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
 ### Sleep
-Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works. Hibernation is disabled. To regain some disk space you can delete the sleepimage by executing the following commands. This saves about 2GB of disk space. Entering manual sleep takes about 30 seconds. And for good measure lets disable stand-by and auto power off as well. We just want sleep.
+Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is enabled, if you only want regular sleep execute ```sudo pmset -a hibernatemode 0```. For good measure lets disable stand-by and auto power off.
 
 ```
-sudo rm /var/vm/sleepimage
-sudo mkdir /var/vm/sleepimage
 sudo pmset -a standby 0
 sudo pmset -a autopoweroff 0
 ```
 
 Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it actually works though (doing Time Machine backups while sleeping, etc). Don't want Power Nap? Disable it while you're here; ```sudo pmset -a powernap 0```
 
-Verify the new settings with ```pmset -g``` and if you notice hibernation is enabled, disable it; ```sudo pmset -a hibernatemode 0```.
+Verify the settings with ```pmset -g```.
 
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
