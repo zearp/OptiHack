@@ -14,7 +14,7 @@ What can we do?
 * Intel firmware files
 * MMTool
 
-All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up. We also need to download ```Binary Modification Program``` found that forum thread.
+All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up. We also need to download and install ```Binary Modification Program``` found that forum thread.
 
 The things you need to download from the Mega repo are:
 * UBU_v1_xxxxx.rar
