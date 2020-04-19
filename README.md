@@ -250,6 +250,8 @@ Refer to [this list](https://github.com/zearp/OptiHack/blob/master/text/FANS.md)
 
 Thats it! Your silent OptiPlex will now be even more silent.
 
+> Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifcations are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slwoer but its not audible.
+
 ### SIP
 Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in OpenCore config, which does the same as running ```csrutil enable --without kext --without fs``` from recovery/installer. If you don't plan on undervolting you can set the ```csr-active-config``` value to ```00000000```. That is the most secure option. Verify the current SIP settings by running ```csrutil status```.
 
