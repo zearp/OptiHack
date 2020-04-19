@@ -1,6 +1,6 @@
 # Live Toolbox
 
-I'm not sure what to call this but it is possible to make a small ~600MB disk image that can be booted with some custom tools. Essentialy it's a modified base image that the installer uses.
+I'm not sure what to call this but it is possible to make a small ~600MB compressed disk image that can be restored and booted with your own custom apps and tools. Essentialy it's a modified base image that the installer uses.
 
 Not all apps will work, but for some it could be what they're looking for. Faster to boot than a complete macOS and with enough functionality to fix things or clone a system.
 
@@ -25,9 +25,9 @@ Adding apps is a bit like adding kexsts to OpenCore manually. You give it the co
 
 So for example, say I wanted to add EFI Agent to my Live Toolbox. First I copy the app itself into the Applications folder and then add a new entry for it in the greeter or menu or both. I only want it to be in the menu:
 ```
-BundlePath /Applications/EFI Agent.app
-Path /Applications/EFI Agent.app/Contents/MacOS/EFI Agent
-TitleKey EFI Agent
+BundlePath    /Applications/EFI Agent.app
+Path          /Applications/EFI Agent.app/Contents/MacOS/EFI Agent
+TitleKey      EFI Agent
 ```
 Rinse and repeat for each app you want to add to it. Not all apps will work or work properly. You'll have to test and play around.
 
@@ -49,8 +49,8 @@ Finally we mount the EFI partitions of both our internal and of the new usb stic
 
 Now it will be bootable, try it out and see if everything works.
 
-To update/change things around simply mount the read/write version of the image, make the changes and create a new red only/compressed image from it and restore again.
+To update/change things around simply mount the read/write version of the image, make the changes and create a new read only/compressed image from it and restore again.
 
-Personally, I find these kind of lightweight bootable stick very useful. Specially as rescue stick with some tools, or simply to boot from to my internal disk if I messed up my EFI folder again.
+Personally, I find these kind of lightweight bootable sticks very useful. Specially as rescue stick with some tools, or simply to boot from to my internal disk ~~if~~ when I mess up my EFI folder again.
 
 Good luck!
