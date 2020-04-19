@@ -121,7 +121,7 @@ If it says *NO*; close all open apps, open a terminal and execute ```sudo trimfo
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
 ### Sleep
-Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is enabled, if you only want regular sleep execute ```sudo pmset -a hibernatemode 0```. For good measure lets disable stand-by and auto power off.
+Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is enabled disabled by default on desktops. For good measure lets disable stand-by and auto power off too.
 
 ```
 sudo pmset -a standby 0
@@ -131,6 +131,14 @@ sudo pmset -a autopoweroff 0
 Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it actually works though (doing Time Machine backups while sleeping, etc). Don't want Power Nap? Disable it while you're here; ```sudo pmset -a powernap 0```
 
 Verify the settings with ```pmset -g```.
+
+Apple documents the hibernation modes as such;
+
+* hibernatemode = 0 by default on desktops. The system will not back memory up to persistent storage. The system must wake from the contents of memory; the system will lose context on power loss. This is, historically, plain old sleep.
+* hibernatemode = 3 by default on portables. The system will store a copy of memory to persistent storage (the disk), and will power memory during sleep. The system will wake from memory, unless a power loss forces it to restore from hibernate image.
+* hibernatemode = 25 is only settable via pmset. The system will store a copy of memory to persistent storage (the disk), and will remove power to memory. The system will restore from disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you should use this setting.
+
+You can experiment with these.
 
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
