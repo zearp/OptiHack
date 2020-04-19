@@ -7,8 +7,6 @@ What can we do?
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
 * Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined.
 
-These versions should be pretty much be the same for you given you're on the latest Dell BIOS.
-
 ## Things to download
 * Windows 10, see below for a guide for those who have left Windows behind long ago
 * UBU
@@ -16,9 +14,9 @@ These versions should be pretty much be the same for you given you're on the lat
 * Intel firmware files
 * MMTool
 
-All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up.
+All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up. We also need to download ```Binary Modification Program``` found that forum thread.
 
-The things you need to download from here are:
+The things you need to download from the Mega repo are:
 * UBU_v1_xxxxx.rar
 * Tools -> mmt.rar
 * Files_xxxxx -> Intel GOP/RST/VBIOS *.7z files
@@ -232,10 +230,13 @@ Before we get started it we need to make a backup. Navigate to the ```Flash Prog
 
 We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
 
-Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
-
-
-To be continued...
+1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
+2. Open the ````\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```spi.bin``` file in it. 
+3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\spi\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
+4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```. Once again navigate to that folder in a PowerShell.
+5. We're ready flash the new image execute ```.\fptw64.exe -me -f outimage.bin ```. We tell it to only flash the ME region, this speeds thigns up and leaves the BIOS untouched. A good safety measure as well.
+6. Once done flashing execute ```.\fptw64.exe -greset``` and for it to reboot. When it's reboot press F12 to the boot menu and enter MEBx and check if KVM/AMT options are there and can be enabled. If not go back to step 5 and execute the same command minus the -me flag. This will replace everything in the flash. It should not be needed to follow that step.
+7. With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
 
 ## Recovery
 It is possible to recover from a bad flash. I will detail the process here in the future.
