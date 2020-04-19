@@ -216,8 +216,9 @@ There is a lot more to update and modify here, but for now we're done here.
 So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
 
 You'll need:
-* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk
-* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website
+* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks.
+* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do.
+* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
 
 Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
 
