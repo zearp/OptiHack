@@ -104,12 +104,18 @@ We're done. Exit the shell by executing the ```reboot``` command.
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
 
+1. Boot from installer, select ```Install macOS Catalina (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
+2. Back in the OpenCore menu, boot from ```Install macOS Catalina (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
+3. Back again in the OpenCore menu your internal disk should now be selected automatically. It will be named whatever you named your internal disk. Press enter to boot into your macOS and move on to the next section.
+
+> Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
+
 If you run into any boot issues, check the [troubleshooting sections](https://desktop.dortania.ml/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
 (It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
 
 ## Post install
-Once macOS is installed, we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
+Once macOS is installed and made it trought the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
 
 Yes, we're nearly done now.
 
@@ -297,6 +303,7 @@ When I was testing native hibernation with [HibernationFixup](https://github.com
 
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
+* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
 
 ### Misc
 Geekbench 4.
