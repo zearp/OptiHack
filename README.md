@@ -121,11 +121,17 @@ If it says *NO*; close all open apps, open a terminal and execute ```sudo trimfo
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
 ### Sleep
-Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off too.
+Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off.
 
 ```
 sudo pmset -a standby 0
 sudo pmset -a autopoweroff 0
+```
+If you don't plan on enabling hibernation you can delete the ```sleepimage``` to regain some space. Delete the file and create a folder so macOS can't generate the ```sleepimage``` file again.
+
+```
+sudo rm /var/vm/sleepimage
+sudo mkdir /var/vm/sleepimage
 ```
 
 Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it actually works though (doing Time Machine backups while sleeping, etc). Don't want Power Nap? Disable it while you're here; ```sudo pmset -a powernap 0```
