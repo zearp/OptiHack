@@ -238,5 +238,41 @@ We will also need to download the latest MEBx compatible with our machine. You c
 6. Once done flashing execute ```.\fptw64.exe -greset``` and for it to reboot. When it's reboot press F12 to the boot menu and enter MEBx and check if KVM/AMT options are there and can be enabled. If not go back to step 5 and execute the same command minus the -me flag. This will replace everything in the flash. It should not be needed to follow that step.
 7. With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
 
+It's a good idea to verify the current settings once done with ```MEInfoWin64.exe```:
+```
+PS C:\Intel ME System Tools v9.1 r7\MEInfo\WIN64> .\MEInfoWin64.exe
+
+Intel(R) MEInfo Version: 9.1.45.3000
+Copyright(C) 2005 - 2017, Intel Corporation. All rights reserved.
+
+Intel(R) Manageability and Security Application code versions:
+
+BIOS Version:                           A18
+MEBx Version:                           9.0.0.0029
+Gbe Version:                            1.3
+VendorID:                               8086
+PCH Version:                            4
+FW Version:                             9.1.45.3000 H
+LMS Version:                            Not Available
+MEI Driver Version:                     11.7.0.1032
+Wireless Hardware Version:              Not Available
+Wireless Driver Version:                Not Available
+
+FW Capabilities:                        0x4DFE5947
+
+    Intel(R) Active Management Technology - PRESENT/ENABLED
+    Intel(R) Capability Licensing Service - PRESENT/ENABLED
+    Protect Audio Video Path - PRESENT/ENABLED
+    Intel(R) Dynamic Application Loader - PRESENT/ENABLED
+    Service Advertisement & Discovery - PRESENT/ENABLED
+
+Intel(R) AMT State:                     Enabled
+TLS:                                    Enabled
+Last ME reset reason:                   Global system reset
+Local FWUpdate:                         Enabled
+BIOS Config Lock:                       Enabled
+```
+All looks good, firmware has been updated and after I changed the password from the ```admin``` default to ```uHhvd!sD^8``` the options to enable remote management could be enabled (KVM/AMT). Network by default is unconfigured, you'll need to turn that on too. You can configure the IP manually or using DHCP. I've had mixed resutls with DHCP. Manual setup is best. Pick an IP outside the range your router/DHCP server serves.
+
 ## Recovery
 It is possible to recover from a bad flash. I will detail the process here in the future.
