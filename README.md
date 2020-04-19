@@ -260,6 +260,8 @@ Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in 
 ### Security
 * One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your likes. If AMT/KVM is missing you will need to update that. More on that later. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equiped with fully fledged vPro options.
 
+To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md#kvmamtspi).
+
 * If you're not going to undervolt please refer to the SIP section on how to set that back to its more secure default.
 
 I personally suggest to also install an app that keeps track of apps connecting out. There are many options out there. Personally I use [TripMode](https://www.tripmode.ch). It is cheap and works great blocking apps that call home a bit too often or shouldn't be accessing the internet at all. I'm looking at you Apple!
@@ -332,8 +334,6 @@ A deep bow to all of you!
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
 TODO:
-* Make graphical picker default once it's more polished by setting *PickerMode* to External. All resources are in place. The upcoming release of OpenCore 0.5.8 will improve the rendering.
-* Add disabling of MEBx and also [howto add KVM to MEBx](https://www.win-.com/t5079f39-Dell-is-there-a-chance-to-activate-AMT-for-KVM-remote-control.html). It's cool to have.
 * FileVault2 testing, the config is ready for it.
 * Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
 * Wifi, I haven't received my Broadcom wifi/BT combo card yet.
