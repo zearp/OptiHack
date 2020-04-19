@@ -83,11 +83,11 @@ We now have a backup of the BIOS and the file we need to apply our modifications
 ## Modifying
 Download and extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v5.0.0.7 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
 
-First we will apply microcode patches. These fix processor related bugs and security issues. It is a must to keep these up to date. And don't expect much from Dell at this point.
+First we will apply microcode patches. These fix processor related bugs and security issues. It is a must to keep these up to date, don't expect much from Dell at this point.
 
 Still in the UBU root folder right click ```UBU.bat``` and run it as admin. It will find the extracted bios and starts to analyse it and taking it apart. Let it do its thing, when its done press any key to continue and you'll be presented with a menu (the file not found message can be ignored).
 
-Next enter ```5``` to enter the microcode section. It will print a table showing the current versions if there are any updates for it. On mine it looked like this:
+Next enter ```5``` to enter the microcode section. It will print a table showing the current versions and if there are any updates for it. On mine it looked like this:
 
 ```
 ╔═════════════════════════════════════════╗
@@ -110,7 +110,7 @@ Next enter ```5``` to enter the microcode section. It will print a table showing
 ╚═╧═════╧═══════════╧════════╧══════════╧════╧══════╧════════╧════╝
 ```
 
-We'll end up in another menu, all we want to enter here is ```F```. It will find and replace anythign that can be updated, like this:
+We'll end up in another menu, all we want to enter here is ```F```. It will find and replace anything that can be updated, like this:
 
 ```
 Choice:F
@@ -171,7 +171,7 @@ Changes _FIT_ saved
 Press any key to continue . . .
 ```
 
-After pressing any key we're back in the menu with the table on top. You will notice the table now shows the updates microcodes. We are now done here. Press ```0``` to return to the main menu.
+After pressing any key we're back in the menu with the table on top. You will notice the table now shows the updated microcodes. We are now done here. Press ```0``` to return to the main menu.
 
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
@@ -224,8 +224,18 @@ You'll need:
 Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
 
 ## KVM/AMT/SPI
-Under construction.
+Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
 
+Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
+
+Before we get started it we need to make a backup. Navigate to the ```Flash Programming Tool\WIN64``` folder and execute ```.\fptw64.exe -d spi.bin```. This file contains the BIOS and other flash regions, we will not touch the BIOS this time. What we want to do is verify the current MEBx in the image we just made and then if needed update the ME region and only flash the ME region back.
+
+We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
+
+Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
+
+
+To be continued...
 
 ## Recovery
 It is possible to recover from a bad flash. I will detail the process here in the future.
