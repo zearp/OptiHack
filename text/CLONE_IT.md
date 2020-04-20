@@ -1,6 +1,6 @@
 # Cloning
 
-First off all, this is not a backup solution but also it is a backup solution. A rule of thumb when it comes to backups is that doesn't exist in 3 different places one of which in another location is not really backed up.
+First off all, this is not a backup solution but also it is a backup solution. A rule of thumb when it comes to backups is that if your data doesn't exist in 3 different places one of which in another location is not really backed up.
 
 But, for our purposes -- hackingtoshing -- it is pretty much essential to have a clone of your working system. Not only does it allow you to use it's EFI to boot to your internal disk in case the EFI got messed on there, but in a case of drive failure you can boot into your clone and resume work as if nothing happens and/or clone it to a new drive.
 
