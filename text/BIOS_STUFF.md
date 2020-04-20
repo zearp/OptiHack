@@ -7,6 +7,11 @@ What can we do?
 * [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi).
 * [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo).
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
+* [Flashing](#flashing).
+* [Verify](#verify).
+* [Windows 10 Live](#windows-for-those-that-dont-want-it).
+* [Recovery](#recovery).
+* [Unlocking](#unlocking).
 
 ## Things to download
 * Windows 10, see below for a guide for those who have left Windows behind long ago
@@ -178,13 +183,11 @@ Press any key to continue . . .
 After pressing any key we're back in the menu with the table on top. You will notice the table now shows the updated microcodes. We are now done here. Press ```0``` to return to the main menu.
 
 ## RST
-
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
 I have tried [a few versions](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
 
-# iGPU/LAN
-
+## iGPU/LAN
 What I did update were the ethernet firmware and iGPU VBIOS. Remember those Intel GOP/VBIOS/RST files we grabber earlier? We're going to extract the GOP one. Copy the 2 files found in ```\Intel_GOP_VBT_r2\HSW\189``` to ```C:\UBU\Files\Intel\VBIOS```.
 
 UBU should still be open and if you enter ```2``` in the menu now and new menu will appear displaying a current and available section. Verify the available version is newer than your current one and press ```1``` to update those in the BIOS file.
@@ -193,13 +196,43 @@ At the time of writing version ```5.5.1034``` was the newest and probably will b
 
 Press any key to return to the main menu and now press ```3``` another current and available menu will appear. Here I could update my ethernet firmware from ```0.0.17``` to ```0.0.27```. PRess ```1``` to update the drivers inside the BIOS.
 
-If you wish you can also try RST drivers, but for now I left those alone until I know a bit more about the impact they may or may not have on performance. I left mine at the default.
+If you wish you can also try RST drivers, but for now I left those alone until I know a bit more about the impact they may or may not have on performance. I left mine at the default. Only apply updates you want. But at least apply the microcode updates for security sake.
 
 We're now done modifying the BIOS, wew.
 
 Press ```0``` to return to the main menu and then press ```0``` again then press ```1``` to save the BIOS as ```mod_bios.bin```.
 
-Time to move on to the next section!
+Time to move on to the next section or if you don't want to add KVM/AMT or change the BIOS logo skip ahead to [flashing](#flashing).
+
+## KVM/AMT/SPI
+Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
+
+Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
+
+We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
+
+1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
+2. Open the ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```mod_bios.bin``` file in it. 
+3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\mod_bios\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
+4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to your desktop and rename it back to ```mod_\bios.bin``` (this is optional but to keep this guide working it has to to be renamed to avoid confusion).
+
+> Tip: With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
+
+
+## BIOS Logo
+Now that we have a final image (mod_bios.bin) all up to date we can change the Dell BIOS logo. This will be easy compared to the other mods.
+
+Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.0/UEFITool_0.28.0_win32.zip) and [paint.net](https://www.getpaint.net/download.html). 
+
+* Open UEFITool and drag your mod_bios.bin BIOS image in there then press ```control + f``` and change to the GUID tab.
+* Paste ```EB3001D5-F827-4938-95E2-5C8F644B966F``` in to the GUID search box and double click on the result in the box below.
+* In the main window the GUID is now highlighted, expand it until see ```Raw section``` and right click on it.
+* Select ```Extract body``` and save it as ```logo.bmp```. Leave UEFITool open for now.
+* Open the logo in paint.net and do your thing!
+* Once done save the file as a 4bit bitmap, don't use too many colours it will look bad. Save it as ```new-logo.bmp```.
+* Exit paint.net and rename the file to ```new-logo.raw```.
+* UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
+* Press ```control + s``` to save the modified BIOS, save it as ```mod_bios.bin``` again overwriting the existing one. UEFITool will ask if you want to open the newly saved image. It's not needed.
 
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
@@ -212,7 +245,7 @@ Before you can write anything you have to short the service pins on the motherbo
 
 Turn the machine off and short the service jumper and turn it back on. You'll get a notice about it and have to press F1 to resume booting.
 
-Once back in Windows it is time to flash the modified BIOS file. Copy ```mod_bios.bin``` from C:\UBI to the WIN64 folder of the Intel ME System Tools Flash Programming Tool.
+Once back in Windows it is time to flash the modified BIOS file. Copy ```mod_bios.bin``` to the ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```.
 
 Navigate to the same folder in a PowerShell running as admin, and execute ```.\fptw64.exe -bios -f mod_bios.bin```. It will start the process right away. Once it's finished execute ``` .\fptw64.exe -greset```. The machine will now reboot and it is recommended to enter the BIOS and load the factor defaults. Make sure you set things up correctly for your hackingtosh config too. Like legacy roms etc. Save and exit the BIOS.
 
@@ -222,26 +255,10 @@ There is a lot more to update and modify here, but for now we're done here.
 
 > Note: None of these actions will clear the modifications we made in the modified Grub shell. Clearing those can probably only be done with a jumper on the motherboard or with the Intel tools we used earlier or the recovery methods that are there to recover from bad or corrupt updates.
 
+# Verify
 Verify that your microcodes are up to date with [InSpectre](https://www.majorgeeks.com/files/details/inspectre.html).
 
-## KVM/AMT/SPI
-Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
-
-Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
-
-Before we get started it we need to make a backup. Navigate to the ```Flash Programming Tool\WIN64``` folder and execute ```.\fptw64.exe -d spi.bin```. This file contains the BIOS and other flash regions, we will not touch the BIOS this time. What we want to do is verify the current MEBx in the image we just made and then if needed update the ME region and only flash the ME region back.
-
-We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
-
-1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
-2. Open the ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```spi.bin``` file in it. 
-3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\spi\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
-4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```. Once again navigate to that folder in a PowerShell.
-5. We're ready flash the new image execute ```.\fptw64.exe -me -f outimage.bin ```. We tell it to only flash the ME region, this speeds thigns up and leaves the BIOS untouched. A good safety measure as well.
-6. Once done flashing execute ```.\fptw64.exe -greset``` and for it to reboot. When it's reboot press F12 to the boot menu and enter MEBx and check if KVM/AMT options are there and can be enabled. If not go back to step 5 and execute the same command minus the -me flag. This will replace everything in the flash. It should not be needed to follow that step.
-7. With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
-
-It's a good idea to verify the current settings once done with ```MEInfoWin64.exe```:
+It's also a good idea to verify the current MEBx versions with ```MEInfoWin64.exe```:
 ```
 PS C:\Intel ME System Tools v9.1 r7\MEInfo\WIN64> .\MEInfoWin64.exe
 
@@ -276,25 +293,6 @@ Local FWUpdate:                         Enabled
 BIOS Config Lock:                       Enabled
 ```
 All looks good, firmware has been updated and after I changed the password from the ```admin``` default to ```uHhvd!sD^8``` the options to enable remote management could be enabled (KVM/AMT). Network by default is unconfigured, you'll need to turn that on too. You can configure the IP manually or using DHCP. I've had mixed resutls with DHCP. Manual setup is best. Pick an IP outside the range your router/DHCP server serves.
-
-## BIOS Logo
-Now that we have a final image all up to date we can change the Dell BIOS logo. This will be easy compared to the other mods.
-
-Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.0/UEFITool_0.28.0_win32.zip) and [paint.net](https://www.getpaint.net/download.html). 
-
-* Open UEFITool and drag your final .bin BIOS image in there then press ```control + f``` and change to the GUID tab.
-* Paste ```EB3001D5-F827-4938-95E2-5C8F644B966F``` in to the GUID search box and double click on the result in the box below.
-* In the main window the GUID is now highlighted, expand it until see ```Raw section``` and right click on it.
-* Select ```Extract body``` and save it as ```logo.bmp```. Leave UEFITool open for now.
-* Open the logo in paint.net and do your thing!
-* Once done save the file as a 4bit bitmap, don't use too many colours it will look bad. Save it as ```new-logo.bmp```.
-* Exit paint.net and rename the file to ```new-logo.raw```.
-* UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
-* Press ```control + s``` to save the modified BIOS, save it as ```bios-logo.bin```. UEFITool will ask if you want to ope nthe newly saved image. It's not needed.
-* Copy the file to ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64``` and open a PowerShell there too.
-* Execute ```.\fptw64.exe -f bios-logo.bin``` and afterwards ```.\fptw64.exe -greset```. 
-
-It will reboot and if all went well display the logo you just added!
 
 ## Windows for those that don't want it
 So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
