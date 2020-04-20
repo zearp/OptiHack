@@ -348,3 +348,7 @@ Some BIOS areas can be unlocked which means you don't have to short the service 
 0x48132 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
 0x48140 		End One Of {29 02}
 ```
+
+# Misc
+https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
+
