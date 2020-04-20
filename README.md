@@ -283,6 +283,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [IOJones](https://github.com/acidanthera/IOJones) - Because IORegistryExplorer doesn't have dark mode.
 * [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements) - Make remapping keys and buttons a breeze.
 * [MaciASL](https://github.com/acidanthera/MaciASL) - Dark mode enabled MaciASL? Yes please!
+* [Meld](https://github.com/yousseb/meld) - Compare (and merge) everything! Sweet little diff tool.
 * [Monolingual](https://ingmarstein.github.io/Monolingual/) - Remove unused languages and architectures from apps. Yes I like it tidy!
 * [Onyx](https://titanium-software.fr/en/onyx.html) - Always seem to come in handy at some point or another.
 * [ProperTree](https://github.com/corpnewt/ProperTree) - OpenCore config editor and very useful for other plist editing too.
