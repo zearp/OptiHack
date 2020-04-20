@@ -1,11 +1,12 @@
 # BIOS Stuff
 What can we do?
-* Update the microcodes, this is the most important modification to make.
-* Update RST firmware, this is responsible for SATA/RAID.
-* Update iGPU VBIOS.
-* Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off.
+* [Extract current BIOS](#extracting).
+* [Update the microcodes, this is the most important modification to make](#modifying).
+* [Update RST firmware, this is responsible for SATA/RAID](#rst).
+* [Update iGPU VBIOS](#igpulan).
+* [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi).
+* [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo).
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
-* Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined.
 
 ## Things to download
 * Windows 10, see below for a guide for those who have left Windows behind long ago
@@ -176,9 +177,13 @@ Press any key to continue . . .
 
 After pressing any key we're back in the menu with the table on top. You will notice the table now shows the updated microcodes. We are now done here. Press ```0``` to return to the main menu.
 
+## RST
+
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
 I have tried [a few versions](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
+
+# iGPU/LAN
 
 What I did update were the ethernet firmware and iGPU VBIOS. Remember those Intel GOP/VBIOS/RST files we grabber earlier? We're going to extract the GOP one. Copy the 2 files found in ```\Intel_GOP_VBT_r2\HSW\189``` to ```C:\UBU\Files\Intel\VBIOS```.
 
