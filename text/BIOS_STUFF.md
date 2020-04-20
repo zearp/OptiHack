@@ -281,3 +281,43 @@ All looks good, firmware has been updated and after I changed the password from 
 
 ## Recovery
 It is possible to recover from a bad flash. I will detail the process here in the future.
+
+## Unlocking
+Some BIOS areas can be unlocked which means you don't have to short the service pins to write to those areas. Use with caution.
+```
+0x47FC7 		One Of: SMI Lock, VarStoreInfo (VarOffset/VarName): 0x74, VarStore: 0x2, QuestionId: 0x7B, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BA 01 BB 01 7B 00 02 00 74 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x47FED 			Default: DefaultId: 0x0, Value (8 bit): 0x1 {5B 0D 00 00 00 01 00 00 00 00 00 00 00}
+0x47FFA 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x48008 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x48016 		End One Of {29 02}
+```
+
+```
+0x48018 		One Of: BIOS Lock, VarStoreInfo (VarOffset/VarName): 0x75, VarStore: 0x2, QuestionId: 0x7C, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 C0 01 C1 01 7C 00 02 00 75 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4803E 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x4804C 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x4805A 		End One Of {29 02}
+```
+
+```
+0x4805C 		One Of: GPIO Lock, VarStoreInfo (VarOffset/VarName): 0x76, VarStore: 0x2, QuestionId: 0x7D, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BE 01 BF 01 7D 00 02 00 76 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48082 			Default: DefaultId: 0x0, Value (8 bit): 0x0 {5B 0D 00 00 00 00 00 00 00 00 00 00 00}
+0x4808F 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x4809D 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x480AB 		End One Of {29 02}
+```
+
+```
+0x480AD 		One Of: BIOS Interface Lock, VarStoreInfo (VarOffset/VarName): 0x77, VarStore: 0x2, QuestionId: 0x7E, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BC 01 BD 01 7E 00 02 00 77 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x480D3 			Default: DefaultId: 0x0, Value (8 bit): 0x1 {5B 0D 00 00 00 01 00 00 00 00 00 00 00}
+0x480E0 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x480EE 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x480FC 		End One Of {29 02}
+```
+
+```
+0x480FE 		One Of: RTC RAM Lock, VarStoreInfo (VarOffset/VarName): 0x78, VarStore: 0x2, QuestionId: 0x7F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 C2 01 C3 01 7F 00 02 00 78 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48124 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x48132 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x48140 		End One Of {29 02}
+```
