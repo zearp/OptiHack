@@ -219,16 +219,6 @@ There is a lot more to update and modify here, but for now we're done here.
 
 Verify that your microcodes are up to date with [InSpectre](https://www.majorgeeks.com/files/details/inspectre.html).
 
-## Windows for those that don't want it
-So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
-
-You'll need:
-* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks.
-* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do.
-* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
-
-Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
-
 ## KVM/AMT/SPI
 Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
 
@@ -281,6 +271,37 @@ Local FWUpdate:                         Enabled
 BIOS Config Lock:                       Enabled
 ```
 All looks good, firmware has been updated and after I changed the password from the ```admin``` default to ```uHhvd!sD^8``` the options to enable remote management could be enabled (KVM/AMT). Network by default is unconfigured, you'll need to turn that on too. You can configure the IP manually or using DHCP. I've had mixed resutls with DHCP. Manual setup is best. Pick an IP outside the range your router/DHCP server serves.
+
+## BIOS Logo
+Now that we have a final image all up to date we can change the Dell BIOS logo. This will be easy compared to the other mods.
+
+Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.0/UEFITool_0.28.0_win32.zip) and [paint.net](https://www.getpaint.net/download.html). 
+
+* Open UEFITool and drag your final .bin BIOS image in there then press ```control + f``` and change to the GUID tab.
+* Paste ```EB3001D5-F827-4938-95E2-5C8F644B966F``` in to the GUID search box and double click on the result in the box below.
+* In the main window the GUID is now highlighted, expand it until see ```Raw section``` and right click on it.
+* Select ```Extract body``` and save it as ```logo.bmp```. Leave UEFITool open for now.
+* Open the logo in paint.net and do your thing!
+* Once done save the file as a 4bit bitmap, don't use too many colours it will look bad. Save it as ```new-logo.bmp```.
+* Exit paint.net and rename the file to ```new-logo.raw```.
+* UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
+* Press ```control + s``` to save the modified BIOS, save it as ```bios-logo.bin```. UEFITool will ask if you want to ope nthe newly saved image. It's not needed.
+* Copy the file to ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64``` and open a PowerShell there too.
+* Execute ```.\fptw64.exe -f bios-logo.bin``` and afterwards ```.\fptw64.exe -greset```. 
+
+It will reboot and if all went well display the logo you just added!
+
+## Windows for those that don't want it
+So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
+
+You'll need:
+* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks.
+* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do.
+* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
+
+Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
+
+> Tip: To see file extentions and hidde nfiels and such the easy way, search for "developer" i nthe search or start menu and open thsoe settings. Scroll down to the File Explorer section and click apply.
 
 ## Recovery
 It is possible to recover from a bad flash. I will detail the process here in the future.
