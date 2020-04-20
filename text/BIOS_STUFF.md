@@ -110,6 +110,8 @@ Next enter ```5``` to enter the microcode section. It will print a table showing
 
 We'll end up in another menu, all we want to enter here is ```F```. It will find and replace anything that can be updated, like this:
 
+> Note: The values and number of updates for your machine could be different, on mine it also cleared out 2 entries. It won't remove anything that could prevent booting up. And you can always flash back your backup, or download the BIOS from Dell and flash the BIOS with that. If you change the CPU you may need to re-run the above but I'm not certain about that.
+
 ```
 Choice:F
 CPUID 306C3 found.
