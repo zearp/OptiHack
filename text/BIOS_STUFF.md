@@ -212,6 +212,8 @@ There is a lot more to update and modify here, but for now we're done here.
 
 > Note: None of these actions will clear the modifications we made in the modified Grub shell. Clearing those can probably only be done with a jumper on the motherboard or with the Intel tools we used earlier or the recovery methods that are there to recover from bad or corrupt updates.
 
+Verify that your microcodes are up to date with [InSpectre](https://www.majorgeeks.com/files/details/inspectre.html).
+
 ## Windows for those that don't want it
 So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
 
