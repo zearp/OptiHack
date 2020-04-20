@@ -127,6 +127,8 @@ If it says *NO*; close all open apps, open a terminal and execute ```sudo trimfo
 
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
+> Tip: Make a [clone](https://github.com/zearp/OptiHack/blob/master/text/CLONE_IT.md) once you're happy with your setup and everything works as it should. It doesn't take much time and I'd say it's essential to have one.
+
 ### Sleep
 Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off.
 
