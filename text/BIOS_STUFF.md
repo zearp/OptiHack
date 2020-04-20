@@ -232,7 +232,7 @@ Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.
 * Once done save the file as a 4bit bitmap, don't use too many colours it will look bad. Save it as ```new-logo.bmp```.
 * Exit paint.net and rename the file to ```new-logo.raw```.
 * UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
-* Press ```control + s``` to save the modified BIOS, save it as ```mod_bios.bin``` again overwriting the existing one. UEFITool will ask if you want to open the newly saved image. It's not needed.
+* Press ```control + s``` to save the modified BIOS, save it as ```mod_bios.bin``` overwriting the existing one. UEFITool will ask if you want to open the newly saved image. It's not needed.
 
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
