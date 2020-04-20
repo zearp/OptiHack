@@ -82,7 +82,7 @@ FPT Operation Passed
 We now have a backup of the BIOS and the file we need to apply our modifications to. We can move on to the next section.
 
 ## Modifying
-Download and extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v5.0.0.7 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
+Download and extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v4.50.0.23 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
 
 First we will apply microcode patches. These fix processor related bugs and security issues. It is a must to keep these up to date, don't expect much from Dell at this point.
 
