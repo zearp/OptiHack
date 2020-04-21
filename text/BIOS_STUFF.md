@@ -7,6 +7,7 @@ What can we do?
 * [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi).
 * [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo).
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
+* Add NVMe support to the BIOS. It is possible.
 * [Flashing](#flashing).
 * [Verify](#verify).
 * [Windows 10 Live](#windows-for-those-that-dont-want-it).
