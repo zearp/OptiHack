@@ -1,18 +1,18 @@
 # BIOS Stuff
 What can we do?
-* [Extract current BIOS](#extracting).
-* [Update the microcodes, this is the most important modification to make](#modifying).
-* [Update RST firmware, this is responsible for SATA/RAID](#rst).
-* [Update iGPU VBIOS](#igpulan).
-* [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi).
-* [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo).
-* Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
-* Add NVMe support to the BIOS. It is possible.
-* [Flashing](#flashing).
-* [Verify](#verify).
-* [Windows 10 Live](#windows-for-those-that-dont-want-it).
-* [Recovery](#recovery).
-* [Unlocking](#unlocking).
+* [Extract current BIOS](#extracting)
+* [Update the microcodes, this is the most important modification to make](#modifying)
+* [Update RST firmware, this is responsible for SATA/RAID](#rst)
+* [Update iGPU VBIOS](#igpulan)
+* [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi)
+* [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo)
+* Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself
+* Add NVMe support to the BIOS, it is possible!
+* [Flashing](#flashing)
+* [Verify](#verify)
+* [Windows 10 Live](#windows-for-those-that-dont-want-it)
+* [Recovery](#recovery)
+* [Unlocking](#unlocking)
 
 ## Things to download
 * Windows 10, see below for a guide for those who have left Windows behind long ago
