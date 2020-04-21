@@ -351,4 +351,4 @@ Some BIOS areas can be unlocked which means you don't have to short the service 
 
 # Misc
 https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
-
+https://raw.githubusercontent.com/syscl/ASUS-H67-series/master/BIOS_Utilities/AMIBCP4.55.0070.exe
