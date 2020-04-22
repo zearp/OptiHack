@@ -85,17 +85,19 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 > Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
-To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Executing ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here.
+To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here.
 
 ## Set DVMT pre-alloc to 64MB
-Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Execute ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
+Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
 
 > Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot.
 
 ## Enable EHCI hand-off
-For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by executing the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it. Lastly we enable routing of the EHCx ports to XHCI ones. Execute ```setup_var 0x15A 0x2```. You can find these values [here](https://github.com/zearp/OptiHack/blob/master/text/XHCI_EHCI.md).
+For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by entering the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it.
 
-We're done. Exit the shell by executing the ```reboot``` command. 
+Lastly we enable routing of the EHCx ports to XHCI ones and disable EHCx all together. Only legacy OS would need it and it also removed the need for the EHCx_OFF patch. Enter ```setup_var 0x15A 0x2``` to enable the routing then enter ```setup_var 0x146 0x0``` and ```setup_var 0x147 0x0``` to disable the EHCx ports. You can find these values [here](https://github.com/zearp/OptiHack/blob/master/text/XHCI_EHCI.md).
+
+We're done. Exit the shell by running the ```reboot``` command. 
 
 <sub>Credit for DVMT/CFG Lock BIOS research goes to @JimLee1996 and his nice [write up](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) on this subject. Thanks to his work I was able to figure out how to enable EHCI hand-off. More might still come, there's a lot of interesting things that Dell is not exposing in the BIOS. Another big thanks goes to @datasone for providing [the modified Grub shell](https://github.com/datasone/grub-mod-setup_var/).</sub>
 
