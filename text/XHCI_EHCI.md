@@ -50,7 +50,7 @@ Another bad default. EHCx ports should all be routed to XHC.
 0x484B0 		End One Of {29 02}
 ```
 
-Disabling these two will probaly remove the need for the EHCx_OFF patch. Needs to be tested.
+Disabling these two removes the need for the EHCx_OFF patch.
 ```
 0x48A40 		One Of: EHCI1, VarStoreInfo (VarOffset/VarName): 0x146, VarStore: 0x2, QuestionId: 0xA0, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 3E 02 40 02 A0 00 02 00 46 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
 0x48A66 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
