@@ -237,12 +237,12 @@ Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.
 
 Some other images you might want to replace:
 ```
-F8C4B76D-4D4B-4CF9-BCDF-384644F385C6 - F12 Boot Options. It literally only says that.
-FC213366-3BE1-4BE8-B0B0-A4DAAC9E0778 - Energy Star logo. This logo is disabled by default I think, I never seen it).
+F8C4B76D-4D4B-4CF9-BCDF-384644F385C6 - F12 Boot Options.
+FC213366-3BE1-4BE8-B0B0-A4DAAC9E0778 - Energy Star logo. This logo is disabled by default I think, I never seen it.
 7225BDBD-F72C-4955-9F5D-E86C143D8026 - Optiplex 9010 Series. Wonder why this in a 9020 BIOS haha.
 80EEAEB5-9099-443D-A919-EF12385D141C - Preparing one time boot menu.
 ED6DDA63-C41E-4B8D-9CD5-429B0378AE6A - Preparing to enter Setup.
-53257F05-9942-44FA-BA0B-B97B712C705F - PReparing MEBx menu.
+53257F05-9942-44FA-BA0B-B97B712C705F - Preparing MEBx menu.
 9273B6D9-F255-482D-83D3-C1AE0DFF0275 - Diagnostic boot selected.
 ```
 
