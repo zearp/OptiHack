@@ -387,6 +387,67 @@ WOL.
 0x47AD7 		End One Of {29 02}
 ```
 
+PCI hot swapping. Untested by me haha.
+```
+0x4A202 		One Of: Hot Plug, VarStoreInfo (VarOffset/VarName): 0xE9, VarStore: 0x2, QuestionId: 0xF5, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 D9 02 DA 02 F5 00 02 00 E9 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4A228 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x4A236 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x4A244 		End One Of {29 02}
+```
+
+RAM timings.
+```
+0x51634 		One Of: DIMM profile, VarStoreInfo (VarOffset/VarName): 0x28C, VarStore: 0x2, QuestionId: 0x423, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 06 05 07 05 23 04 02 00 8C 02 14 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x5165A 			One Of Option: Default DIMM profile, Value (8 bit): 0x0 (default) {09 0E 08 05 30 00 00 00 00 00 00 00 00 00}
+0x51668 			One Of Option: Custom profile, Value (8 bit): 0x1 {09 0E 0B 05 00 00 01 00 00 00 00 00 00 00}
+0x51676 			One Of Option: XMP profile 1, Value (8 bit): 0x2 {09 0E 09 05 00 00 02 00 00 00 00 00 00 00}
+0x51684 			One Of Option: XMP profile 2, Value (8 bit): 0x3 {09 0E 0A 05 00 00 03 00 00 00 00 00 00 00}
+0x51692 		End One Of {29 02}
+```
+
+Set voltage (DDR3 = 1.5v / DDR3L = 1.35v)
+```
+0x51694 		One Of: DDR Selection, VarStoreInfo (VarOffset/VarName): 0x287, VarStore: 0x2, QuestionId: 0x285, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 12 05 13 05 85 02 02 00 87 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x516BA 			One Of Option: DDR3, Value (8 bit): 0x0 (default) {09 0E 14 05 30 00 00 00 00 00 00 00 00 00}
+0x516C8 			One Of Option: DDR3L, Value (8 bit): 0x1 {09 0E 15 05 00 00 01 00 00 00 00 00 00 00}
+0x516D6 			One Of Option: Auto, Value (8 bit): 0x2 {09 0E C0 03 00 00 02 00 00 00 00 00 00 00}
+0x516E4 		End One Of {29 02}
+```
+
+Timings, one block for each pair of DRIMM slots.
+```
+0x51729 		One Of: Memory Frequency, VarStoreInfo (VarOffset/VarName): 0x284, VarStore: 0x2, QuestionId: 0x287, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 18 05 19 05 87 02 02 00 84 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x5174F 			One Of Option: Auto, Value (8 bit): 0x0 (default) {09 0E C0 03 30 00 00 00 00 00 00 00 00 00}
+0x5175D 			One Of Option: 1067, Value (8 bit): 0x3 {09 0E 1A 05 00 00 03 00 00 00 00 00 00 00}
+0x5176B 			One Of Option: 1333, Value (8 bit): 0x5 {09 0E 1B 05 00 00 05 00 00 00 00 00 00 00}
+0x51779 			One Of Option: 1600, Value (8 bit): 0x7 {09 0E 1C 05 00 00 07 00 00 00 00 00 00 00}
+0x51787 			One Of Option: 1867, Value (8 bit): 0x9 {09 0E 1D 05 00 00 09 00 00 00 00 00 00 00}
+0x51795 			One Of Option: 2133, Value (8 bit): 0xB {09 0E 1E 05 00 00 0B 00 00 00 00 00 00 00}
+0x517A3 			One Of Option: 2400, Value (8 bit): 0xD {09 0E 1F 05 00 00 0D 00 00 00 00 00 00 00}
+0x517B1 			One Of Option: 2667, Value (8 bit): 0xF {09 0E 20 05 00 00 0F 00 00 00 00 00 00 00}
+0x517BF 		End One Of {29 02}
+```
+
+```
+0x517C1 		One Of: Memory Frequency, VarStoreInfo (VarOffset/VarName): 0x285, VarStore: 0x2, QuestionId: 0x288, Size: 2, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 18 05 19 05 88 02 02 00 85 02 10 11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x517E7 			One Of Option: 1067, Value (16 bit): 0x42B {09 0E 1A 05 00 01 2B 04 00 00 00 00 00 00}
+0x517F5 			One Of Option: 1333, Value (16 bit): 0x535 (default) {09 0E 1B 05 30 01 35 05 00 00 00 00 00 00}
+0x51803 			One Of Option: 1600, Value (16 bit): 0x640 {09 0E 1C 05 00 01 40 06 00 00 00 00 00 00}
+0x51811 			One Of Option: 1867, Value (16 bit): 0x74B {09 0E 1D 05 00 01 4B 07 00 00 00 00 00 00}
+0x5181F 			One Of Option: 2133, Value (16 bit): 0x855 {09 0E 1E 05 00 01 55 08 00 00 00 00 00 00}
+0x5182D 			One Of Option: 2400, Value (16 bit): 0x960 {09 0E 1F 05 00 01 60 09 00 00 00 00 00 00}
+0x5183B 			One Of Option: 2667, Value (16 bit): 0xA75 {09 0E 20 05 00 01 75 0A 00 00 00 00 00 00}
+0x51849 		End One Of {29 02}
+```
+
+I don't think ECC memory works without also fitting the board with a Xeon or something. Server memory is cheap though. Too bad I have no ECC sticks to try.
+```
+0x5184B 		One Of: ECC Support, VarStoreInfo (VarOffset/VarName): 0x27D, VarStore: 0x2, QuestionId: 0x289, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 32 05 33 05 89 02 02 00 7D 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x51871 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x5187F 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x5188D 		End One Of {29 02}
+```
+
 # Misc
 https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
 
