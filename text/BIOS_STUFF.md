@@ -7,7 +7,7 @@ What can we do?
 * [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi)
 * [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo)
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself
-* Add NVMe support to the BIOS, it is possible!
+* [Add NVMe support to the BIOS](#nvme)
 * [Flashing](#flashing)
 * [Verify](#verify)
 * [Windows 10 Live](#windows-for-those-that-dont-want-it)
@@ -245,6 +245,23 @@ ED6DDA63-C41E-4B8D-9CD5-429B0378AE6A - Preparing to enter Setup.
 53257F05-9942-44FA-BA0B-B97B712C705F - Preparing MEBx menu.
 9273B6D9-F255-482D-83D3-C1AE0DFF0275 - Diagnostic boot selected.
 ```
+
+## Adding NVME module
+This should allow for booting from NVME disks. It is a very easy add-on. 
+
+First we download *NvmExpressDxe_4* it is hidden in a spoiler in [this](https://www.win-raid.com/t871f50-Guide-How-to-get-full-NVMe-support-for-all-Systems-with-an-AMI-UEFI-BIOS.html) thread.
+
+Open ```mod_bios.bin``` in ```mmtool_a4.exe``` in C:\UBU and scroll down till you're in section 4:03-00. Highlight any entry in that section. Then on the insert tab above click on browse and select .ffs the file you just downloaded. The module will now be inserted. Save the new file as ```nvme.fd``` and quit the tool. Now rename it back to ```mod_bios.rom```.
+
+If you get an error that there is not enough space you can download a smaller version from the thread above and if that isn't enough or you don't want to you can delete some IPv6 modules. These moduels are only used while booting. I only had to delete ```Mtftp6Dxe``` to get enough space and since I'm not planning on using tftp over IPv6 in UEFI/boot it's not a problem. You can also export modules before you delete them and restore them later.
+
+```
+|160|Dhcp6Dxe       |8DD9176D-EE87-4F0E-8A84-3F998311F930|0043FB2A|00899D|DRVR|
+|161|Ip6Dxe         |8F92960E-2880-4659-B857-915A8901BDC8|004484C7|012F39|DRVR|
+|162|Mtftp6Dxe      |61AFA251-8AC8-4440-9AB5-762B1BF05156|0045B400|0073BD|DRVR|
+|163|Udp6Dxe        |10EE54AE-B207-4A4F-ABD8-CB522ECAA3A4|004627BD|006759|DRVR|
+```
+You can delete all of those if you're not planning on using IPv6 networking in UEFI/boot. You migt need the space if you want to add more modules or replace exisintg ones with newer (larger) versions.
 
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
