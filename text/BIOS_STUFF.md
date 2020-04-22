@@ -414,7 +414,7 @@ Set voltage (DDR3 = 1.5v / DDR3L = 1.35v)
 0x516E4 		End One Of {29 02}
 ```
 
-Freqencies, one block for each pair of DRIMM slots.
+Freqencies, one block for each pair of DIMM slots.
 ```
 0x51729 		One Of: Memory Frequency, VarStoreInfo (VarOffset/VarName): 0x284, VarStore: 0x2, QuestionId: 0x287, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 18 05 19 05 87 02 02 00 84 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
 0x5174F 			One Of Option: Auto, Value (8 bit): 0x0 (default) {09 0E C0 03 30 00 00 00 00 00 00 00 00 00}
