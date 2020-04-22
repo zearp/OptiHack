@@ -235,6 +235,17 @@ Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.
 * UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
 * Press ```control + s``` to save the modified BIOS, save it as ```mod_bios.bin``` overwriting the existing one. UEFITool will ask if you want to open the newly saved image. It's not needed.
 
+Some other images you might want to replace:
+```
+F8C4B76D-4D4B-4CF9-BCDF-384644F385C6 - F12 Boot Options. It literally only says that.
+FC213366-3BE1-4BE8-B0B0-A4DAAC9E0778 - Energy Star logo. This logo is disabled by default I think, I never seen it).
+7225BDBD-F72C-4955-9F5D-E86C143D8026 - Optiplex 9010 Series. Wonder why this in a 9020 BIOS haha.
+80EEAEB5-9099-443D-A919-EF12385D141C - Preparing one time boot menu.
+ED6DDA63-C41E-4B8D-9CD5-429B0378AE6A - Preparing to enter Setup.
+53257F05-9942-44FA-BA0B-B97B712C705F - PReparing MEBx menu.
+9273B6D9-F255-482D-83D3-C1AE0DFF0275 - Diagnostic boot selected.
+```
+
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
 
