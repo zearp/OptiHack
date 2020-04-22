@@ -64,12 +64,3 @@ Disabling these two will probaly remove the need for the EHCx_OFF patch. Needs t
 0x48AB8 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
 0x48AC6 		End One Of {29 02}
 ```
-
-This one should be enabled most likely. My machine wakes up if I unplug a usb device now. I don't know if disabling this will break waking up the machine with a usb device. Needs to be tested too.
-
-```
-0x48B0C 		One Of: EHCI Connect/Disconnect Wake Up, VarStoreInfo (VarOffset/VarName): 0x149, VarStore: 0x2, QuestionId: 0xA3, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 43 02 44 02 A3 00 02 00 49 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x48B32 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
-0x48B40 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
-0x48B4E 		End One Of {29 02}
-```
