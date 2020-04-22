@@ -246,7 +246,7 @@ ED6DDA63-C41E-4B8D-9CD5-429B0378AE6A - Preparing to enter Setup.
 9273B6D9-F255-482D-83D3-C1AE0DFF0275 - Diagnostic boot selected.
 ```
 
-## Adding NVME module
+## NVMe
 This should allow for booting from NVME disks. It is a very easy add-on. 
 
 First we download *NvmExpressDxe_4* it is hidden in a spoiler in [this](https://www.win-raid.com/t871f50-Guide-How-to-get-full-NVMe-support-for-all-Systems-with-an-AMI-UEFI-BIOS.html) thread.
