@@ -448,6 +448,15 @@ I don't think ECC memory works without also fitting the board with a Xeon or som
 0x5188D 		End One Of {29 02}
 ```
 
+Could it be?
+```
+0x4C9FE 		One Of: SATA RAID ROM, VarStoreInfo (VarOffset/VarName): 0x174, VarStore: 0x2, QuestionId: 0x183, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 23 02 24 02 83 01 02 00 74 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4CA24 			One Of Option: Legacy ROM, Value (8 bit): 0x0 (default) {09 0E 25 02 30 00 00 00 00 00 00 00 00 00}
+0x4CA32 			One Of Option: UEFI Driver, Value (8 bit): 0x1 {09 0E 26 02 00 00 01 00 00 00 00 00 00 00}
+0x4CA40 			One Of Option: Both, Value (8 bit): 0x2 {09 0E 27 02 00 00 02 00 00 00 00 00 00 00}
+0x4CA4E 		End One Of {29 02}
+```
+
 # Misc
 https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
 
