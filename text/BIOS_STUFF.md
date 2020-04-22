@@ -361,6 +361,33 @@ Some BIOS areas can be unlocked which means you don't have to short the service 
 0x48140 		End One Of {29 02}
 ```
 
+# Other interesting stuff in the BIOS
+https://software.intel.com/en-us/articles/intel-trusted-execution-technology-a-primer/
+```
+0x47834 		One Of: Intel TXT(LT) Support, VarStoreInfo (VarOffset/VarName): 0x44, VarStore: 0x2, QuestionId: 0x5F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 ED 00 EE 00 5F 00 02 00 44 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4785A 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
+0x47868 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
+0x47876 		End One Of {29 02}
+```
+
+Disabled: ACPI thermal management uses EC reported temperature values.
+Enabled: ACPI thermal management uses DTS SMM mechanism to obtain CPU temperature values.
+```
+0x478BC 		One Of: CPU DTS, VarStoreInfo (VarOffset/VarName): 0x45, VarStore: 0x2, QuestionId: 0x61, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 EF 00 F0 00 61 00 02 00 45 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x478E2 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
+0x478F0 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
+0x478FE 		End One Of {29 02}
+```
+
+WOL.
+```
+0x47A95 		One Of: Wake on LAN Enable, VarStoreInfo (VarOffset/VarName): 0x67, VarStore: 0x2, QuestionId: 0x68, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 7D 02 7E 02 68 00 02 00 67 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x47ABB 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x47AC9 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x47AD7 		End One Of {29 02}
+```
+
 # Misc
 https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
+
 https://raw.githubusercontent.com/syscl/ASUS-H67-series/master/BIOS_Utilities/AMIBCP4.55.0070.exe
