@@ -38,14 +38,6 @@
 				<key>Path</key>
 				<string>SSDT-SBUS-MCHC.aml</string>
 			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>Prevents EHCx ghosts disturbing sleep</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Path</key>
-				<string>SSDT-EHCx_OFF.aml</string>
-			</dict>
 		</array>
 		<key>Block</key>
 		<array>
@@ -669,7 +661,7 @@
 		<true/>
 		<key>Drivers</key>
 		<array>
-			<string>HfsPlus.efi</string>
+			<string>HFSPlus.efi</string>
 			<string>OpenRuntime.efi</string>
 			<string>OpenCanopy.efi</string>
 		</array>
