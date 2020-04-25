@@ -274,8 +274,8 @@ I personally suggest to also install an app that keeps track of apps connecting 
 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
-### Issues
-## Sleep
+## Issues
+### Sleep
 Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
 When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
@@ -305,12 +305,12 @@ The ```pmset``` settings after install are:
  standbydelaylow      86400
 ```
 
-##Logs
+### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
 * OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
 
-### Toolbox
+## Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
 * [AppCleaner](https://freemacsoft.net/appcleaner/) - Easy way to remove apps including all their crud. Be sure to enable the *SmartDelete* function.
 * [Cog](https://github.com/kode54/Cog) - A lovely minimalist music player that has been around for a very long time.
@@ -335,7 +335,7 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 * [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 
-### Misc
+## Misc
 Geekbench 4.
 [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) whilst running Geekbench 4 and Geekbench 4 Compute:
 
