@@ -50,61 +50,17 @@ Another bad default. EHCx ports should all be routed to XHC.
 0x484B0 		End One Of {29 02}
 ```
 
+Disabling these two removes the need for the EHCx_OFF patch.
 ```
-0x484B2 		One Of: USB 2.0 PIN #0, VarStoreInfo (VarOffset/VarName): 0x15B, VarStore: 0x2, QuestionId: 0x8B, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 5F 02 BF 03 8B 00 02 00 5B 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x484D8 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x484E6 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x484F4 		End One Of {29 02}
-0x484F6 		One Of: USB 2.0 PIN #1, VarStoreInfo (VarOffset/VarName): 0x15C, VarStore: 0x2, QuestionId: 0x8C, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 60 02 BF 03 8C 00 02 00 5C 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4851C 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4852A 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48538 		End One Of {29 02}
-0x4853A 		One Of: USB 2.0 PIN #2, VarStoreInfo (VarOffset/VarName): 0x15D, VarStore: 0x2, QuestionId: 0x8D, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 61 02 BF 03 8D 00 02 00 5D 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x48560 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4856E 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x4857C 		End One Of {29 02}
-0x4857E 		One Of: USB 2.0 PIN #3, VarStoreInfo (VarOffset/VarName): 0x15E, VarStore: 0x2, QuestionId: 0x8E, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 62 02 BF 03 8E 00 02 00 5E 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x485A4 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x485B2 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x485C0 		End One Of {29 02}
-0x485C2 		One Of: USB 2.0 PIN #4, VarStoreInfo (VarOffset/VarName): 0x15F, VarStore: 0x2, QuestionId: 0x8F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 63 02 BF 03 8F 00 02 00 5F 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x485E8 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x485F6 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48604 		End One Of {29 02}
-0x48606 		One Of: USB 2.0 PIN #5, VarStoreInfo (VarOffset/VarName): 0x160, VarStore: 0x2, QuestionId: 0x90, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 64 02 BF 03 90 00 02 00 60 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4862C 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4863A 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48648 		End One Of {29 02}
-0x4864A 		One Of: USB 2.0 PIN #6, VarStoreInfo (VarOffset/VarName): 0x161, VarStore: 0x2, QuestionId: 0x91, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 65 02 BF 03 91 00 02 00 61 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x48670 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4867E 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x4868C 		End One Of {29 02}
-0x4868E 		One Of: USB 2.0 PIN #7, VarStoreInfo (VarOffset/VarName): 0x162, VarStore: 0x2, QuestionId: 0x92, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 66 02 BF 03 92 00 02 00 62 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x486B4 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x486C2 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x486D0 		End One Of {29 02}
-0x486D2 		One Of: USB 2.0 PIN #8, VarStoreInfo (VarOffset/VarName): 0x163, VarStore: 0x2, QuestionId: 0x93, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 67 02 BF 03 93 00 02 00 63 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x486F8 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x48706 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48714 		End One Of {29 02}
-0x48716 		One Of: USB 2.0 PIN #9, VarStoreInfo (VarOffset/VarName): 0x164, VarStore: 0x2, QuestionId: 0x94, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 68 02 BF 03 94 00 02 00 64 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4873C 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4874A 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48758 		End One Of {29 02}
-0x4875A 		One Of: USB 2.0 PIN #10, VarStoreInfo (VarOffset/VarName): 0x165, VarStore: 0x2, QuestionId: 0x95, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 69 02 BF 03 95 00 02 00 65 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x48780 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4878E 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x4879C 		End One Of {29 02}
-0x4879E 		One Of: USB 2.0 PIN #11, VarStoreInfo (VarOffset/VarName): 0x166, VarStore: 0x2, QuestionId: 0x96, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 6A 02 BF 03 96 00 02 00 66 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x487C4 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x487D2 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x487E0 		End One Of {29 02}
-0x487E2 		One Of: USB 2.0 PIN #12, VarStoreInfo (VarOffset/VarName): 0x167, VarStore: 0x2, QuestionId: 0x97, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 6B 02 BF 03 97 00 02 00 67 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x48808 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x48816 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48824 		End One Of {29 02}
-0x48826 		One Of: USB 2.0 PIN #13, VarStoreInfo (VarOffset/VarName): 0x168, VarStore: 0x2, QuestionId: 0x98, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 6C 02 BF 03 98 00 02 00 68 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4884C 			One Of Option: Route to EHCI, Value (8 bit): 0x0 (default) {09 0E 76 02 30 00 00 00 00 00 00 00 00 00}
-0x4885A 			One Of Option: Route to XHCI, Value (8 bit): 0x1 {09 0E 77 02 00 00 01 00 00 00 00 00 00 00}
-0x48868 		End One Of {29 02}
-````
+0x48A40 		One Of: EHCI1, VarStoreInfo (VarOffset/VarName): 0x146, VarStore: 0x2, QuestionId: 0xA0, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 3E 02 40 02 A0 00 02 00 46 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48A66 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x48A74 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x48A82 		End One Of {29 02}
+```
+
+```
+0x48A84 		One Of: EHCI2, VarStoreInfo (VarOffset/VarName): 0x147, VarStore: 0x2, QuestionId: 0xA1, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 3F 02 40 02 A1 00 02 00 47 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48AAA 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x48AB8 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x48AC6 		End One Of {29 02}
+```

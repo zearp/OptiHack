@@ -54,3 +54,6 @@ To update/change things around simply mount the read/write version of the image,
 Personally, I find these kind of lightweight bootable sticks very useful. Specially as rescue stick with some tools, or simply to boot from to my internal disk ~~if~~ when I mess up my EFI folder again.
 
 Good luck!
+
+## Credit!
+Of course I didn't come up with this method on my own. Modifying the installer base image has been around for a long time. Back in the days I used [this](https://jacobsalmela.com/2014/05/19/osx-customize-recovery-partition-with-your-own-apps/) article, that surprisingly still exists.

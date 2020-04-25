@@ -1,27 +1,37 @@
 # BIOS Stuff
 What can we do?
-* Update the microcodes, this is the most important modification to make.
-* Update RST firmware, this is responsible for SATA/RAID.
-* Update iGPU VBIOS.
-* Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off.
-* Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself.
-* Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined.
+* [Extract current BIOS](#extracting)
+* [Update the microcodes, this is the most important modification to make](#modifying)
+* [Update RST firmware, this is responsible for SATA/RAID](#rst)
+* [Update iGPU VBIOS](#igpulan)
+* [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi)
+* [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo)
+* Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself
+* [Add NVMe support to the BIOS](#nvme)
+* [Flashing](#flashing)
+* [Verify](#verify)
+* [Windows 10 Live](#windows-for-those-that-dont-want-it)
+* [Recovery](#recovery)
+* [Unlocking](#unlocking)
 
 ## Things to download
 * Windows 10, see below for a guide for those who have left Windows behind long ago
 * UBU
 * Intel ME Platform Tools 9.1
 * Intel firmware files
+* Intel BMP
 * MMTool
 
-All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up. We also need to download and install ```Binary Modification Program``` found that forum thread.
-
+All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up.
 The things you need to download from the Mega repo are:
 * UBU_v1_xxxxx.rar
 * Tools -> mmt.rar
-* Files_xxxxx -> Intel GOP/RST/VBIOS *.7z files
+* Files_xxxxx -> Intel GOP/RST/VBIOS .7z files
+* BMPv2_xxPV_External.zip
 
 We also need Intel ME System Tools 9.1, a download link can be found [here](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html), search for ```9.1 r7```.
+
+Install Intel BMP and unpack the ME System Tools to C:\.
 
 ## Extracting
 
@@ -79,7 +89,7 @@ FPT Operation Passed
 We now have a backup of the BIOS and the file we need to apply our modifications to. We can move on to the next section.
 
 ## Modifying
-Download and extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v5.0.0.7 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
+Extract UBU somewhere simple. I picked C:\UBU. Now you'll need to find a copy of MMTool. We downloaded a file called mmt.rar, extract it and you'll find a bunch of versions of the MMTool utility. I used v4.50.0.23 and renamed it to ```mmtool_a4.exe``` and placed in the UBU root folder. At this point also copy your extracted BIOS to this folder and rename it to ```bios.bin```.
 
 First we will apply microcode patches. These fix processor related bugs and security issues. It is a must to keep these up to date, don't expect much from Dell at this point.
 
@@ -109,6 +119,8 @@ Next enter ```5``` to enter the microcode section. It will print a table showing
 ```
 
 We'll end up in another menu, all we want to enter here is ```F```. It will find and replace anything that can be updated, like this:
+
+> Note: The values and number of updates for your machine could be different, on mine it also cleared out 2 entries. It won't remove anything that could prevent booting up. And you can always flash back your backup, or download the BIOS from Dell and flash the BIOS with that. If you change the CPU you may need to re-run the above but I'm not certain about that.
 
 ```
 Choice:F
@@ -171,10 +183,12 @@ Press any key to continue . . .
 
 After pressing any key we're back in the menu with the table on top. You will notice the table now shows the updated microcodes. We are now done here. Press ```0``` to return to the main menu.
 
+## RST
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
 I have tried [a few versions](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
 
+## iGPU/LAN
 What I did update were the ethernet firmware and iGPU VBIOS. Remember those Intel GOP/VBIOS/RST files we grabber earlier? We're going to extract the GOP one. Copy the 2 files found in ```\Intel_GOP_VBT_r2\HSW\189``` to ```C:\UBU\Files\Intel\VBIOS```.
 
 UBU should still be open and if you enter ```2``` in the menu now and new menu will appear displaying a current and available section. Verify the available version is newer than your current one and press ```1``` to update those in the BIOS file.
@@ -183,13 +197,71 @@ At the time of writing version ```5.5.1034``` was the newest and probably will b
 
 Press any key to return to the main menu and now press ```3``` another current and available menu will appear. Here I could update my ethernet firmware from ```0.0.17``` to ```0.0.27```. PRess ```1``` to update the drivers inside the BIOS.
 
-If you wish you can also try RST drivers, but for now I left those alone until I know a bit more about the impact they may or may not have on performance. I left mine at the default.
+If you wish you can also try RST drivers, but for now I left those alone until I know a bit more about the impact they may or may not have on performance. I left mine at the default. Only apply updates you want. But at least apply the microcode updates for security sake.
 
 We're now done modifying the BIOS, wew.
 
 Press ```0``` to return to the main menu and then press ```0``` again then press ```1``` to save the BIOS as ```mod_bios.bin```.
 
-Time to move on to the next section!
+Time to move on to the next section or if you don't want to add KVM/AMT or change the BIOS logo skip ahead to [flashing](#flashing).
+
+## KVM/AMT/SPI
+Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
+
+Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
+
+We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
+
+1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1.
+2. Open the ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```mod_bios.bin``` file in it. 
+3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\mod_bios\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
+4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to your desktop and rename it back to ```mod_\bios.bin``` (this is optional but to keep this guide working it has to to be renamed to avoid confusion).
+
+> Tip: With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
+
+
+## BIOS Logo
+Now that we have a final image (mod_bios.bin) all up to date we can change the Dell BIOS logo. This will be easy compared to the other mods.
+
+Download [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/0.28.0/UEFITool_0.28.0_win32.zip) and [paint.net](https://www.getpaint.net/download.html). 
+
+* Open UEFITool and drag your mod_bios.bin BIOS image in there then press ```control + f``` and change to the GUID tab.
+* Paste ```EB3001D5-F827-4938-95E2-5C8F644B966F``` in to the GUID search box and double click on the result in the box below.
+* In the main window the GUID is now highlighted, expand it until see ```Raw section``` and right click on it.
+* Select ```Extract body``` and save it as ```logo.bmp```. Leave UEFITool open for now.
+* Open the logo in paint.net and do your thing!
+* Once done save the file as a 4bit bitmap, don't use too many colours it will look bad. Save it as ```new-logo.bmp```.
+* Exit paint.net and rename the file to ```new-logo.raw```.
+* UEFITool is still open and the ```Raw section``` is highlighted again, this time right click and select ```Replace body``` and choose new-logo.raw to replace it with.
+* Press ```control + s``` to save the modified BIOS, save it as ```mod_bios.bin``` overwriting the existing one. UEFITool will ask if you want to open the newly saved image. It's not needed.
+
+Some other images you might want to replace:
+```
+F8C4B76D-4D4B-4CF9-BCDF-384644F385C6 - F12 Boot Options.
+FC213366-3BE1-4BE8-B0B0-A4DAAC9E0778 - Energy Star logo. This logo is disabled by default I think, I never seen it.
+7225BDBD-F72C-4955-9F5D-E86C143D8026 - Optiplex 9010 Series. Wonder why this in a 9020 BIOS haha.
+80EEAEB5-9099-443D-A919-EF12385D141C - Preparing one time boot menu.
+ED6DDA63-C41E-4B8D-9CD5-429B0378AE6A - Preparing to enter Setup.
+53257F05-9942-44FA-BA0B-B97B712C705F - Preparing MEBx menu.
+9273B6D9-F255-482D-83D3-C1AE0DFF0275 - Diagnostic boot selected.
+```
+
+## NVMe
+This should allow for booting from NVME disks. It is a very easy add-on. 
+
+First we download *NvmExpressDxe_4* it is hidden in a spoiler in [this](https://www.win-raid.com/t871f50-Guide-How-to-get-full-NVMe-support-for-all-Systems-with-an-AMI-UEFI-BIOS.html) thread.
+
+Open ```mod_bios.bin``` in ```mmtool_a4.exe``` in C:\UBU and scroll down till you're in section 4:03-00. Highlight any entry in that section. Then on the insert tab above click on browse and select .ffs the file you just downloaded. The module will now be inserted. Save the new file as ```nvme.fd``` and quit the tool. Now rename it back to ```mod_bios.rom```.
+
+If you get an error that there is not enough space you can download a smaller version from the thread above and if that isn't enough or you don't want to you can delete some IPv6 modules. These moduels are only used while booting. I only had to delete ```Mtftp6Dxe``` to get enough space and since I'm not planning on using tftp over IPv6 in UEFI/boot it's not a problem. You can also export modules before you delete them and restore them later.
+
+```
+|160|Dhcp6Dxe       |8DD9176D-EE87-4F0E-8A84-3F998311F930|0043FB2A|00899D|DRVR|
+|161|Ip6Dxe         |8F92960E-2880-4659-B857-915A8901BDC8|004484C7|012F39|DRVR|
+|162|Mtftp6Dxe      |61AFA251-8AC8-4440-9AB5-762B1BF05156|0045B400|0073BD|DRVR|
+|163|Udp6Dxe        |10EE54AE-B207-4A4F-ABD8-CB522ECAA3A4|004627BD|006759|DRVR|
+```
+You can delete all of those if you're not planning on using IPv6 networking in UEFI/boot. You migt need the space if you want to add more modules or replace exisintg ones with newer (larger) versions.
 
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
@@ -202,7 +274,7 @@ Before you can write anything you have to short the service pins on the motherbo
 
 Turn the machine off and short the service jumper and turn it back on. You'll get a notice about it and have to press F1 to resume booting.
 
-Once back in Windows it is time to flash the modified BIOS file. Copy ```mod_bios.bin``` from C:\UBI to the WIN64 folder of the Intel ME System Tools Flash Programming Tool.
+Once back in Windows it is time to flash the modified BIOS file. Copy ```mod_bios.bin``` to the ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```.
 
 Navigate to the same folder in a PowerShell running as admin, and execute ```.\fptw64.exe -bios -f mod_bios.bin```. It will start the process right away. Once it's finished execute ``` .\fptw64.exe -greset```. The machine will now reboot and it is recommended to enter the BIOS and load the factor defaults. Make sure you set things up correctly for your hackingtosh config too. Like legacy roms etc. Save and exit the BIOS.
 
@@ -212,33 +284,10 @@ There is a lot more to update and modify here, but for now we're done here.
 
 > Note: None of these actions will clear the modifications we made in the modified Grub shell. Clearing those can probably only be done with a jumper on the motherboard or with the Intel tools we used earlier or the recovery methods that are there to recover from bad or corrupt updates.
 
-## Windows for those that don't want it
-So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
+# Verify
+Verify that your microcodes are up to date with [InSpectre](https://www.majorgeeks.com/files/details/inspectre.html).
 
-You'll need:
-* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk
-* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website
-
-Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
-
-## KVM/AMT/SPI
-Most Dell OptiPlex system have an Intel feature called vPro, this allows for remote management. Even when the computer is turned off! When I went into the MEBx the first to change the password I noticed sometimes KVM/AMT was not an option or could not be enabled. The BIOS was missing some parts. This is not an issue because we can update MEBx so these options become available again.
-
-Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
-
-Before we get started it we need to make a backup. Navigate to the ```Flash Programming Tool\WIN64``` folder and execute ```.\fptw64.exe -d spi.bin```. This file contains the BIOS and other flash regions, we will not touch the BIOS this time. What we want to do is verify the current MEBx in the image we just made and then if needed update the ME region and only flash the ME region back.
-
-We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
-
-1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1. We'll also need to download the last release of [ME Analyzer](https://github.com/platomav/MEAnalyzer/releases).
-2. Open the ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```spi.bin``` file in it. 
-3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\spi\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
-4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```. Once again navigate to that folder in a PowerShell.
-5. We're ready flash the new image execute ```.\fptw64.exe -me -f outimage.bin ```. We tell it to only flash the ME region, this speeds thigns up and leaves the BIOS untouched. A good safety measure as well.
-6. Once done flashing execute ```.\fptw64.exe -greset``` and for it to reboot. When it's reboot press F12 to the boot menu and enter MEBx and check if KVM/AMT options are there and can be enabled. If not go back to step 5 and execute the same command minus the -me flag. This will replace everything in the flash. It should not be needed to follow that step.
-7. With KVM/AMT enabled you can manage the machine with something like [Meshcommander](https://www.meshcommander.com/meshcommander). And some basics from the a web browser. I'll leave that all to you to explore.
-
-It's a good idea to verify the current settings once done with ```MEInfoWin64.exe```:
+It's also a good idea to verify the current MEBx versions with ```MEInfoWin64.exe```:
 ```
 PS C:\Intel ME System Tools v9.1 r7\MEInfo\WIN64> .\MEInfoWin64.exe
 
@@ -274,5 +323,200 @@ BIOS Config Lock:                       Enabled
 ```
 All looks good, firmware has been updated and after I changed the password from the ```admin``` default to ```uHhvd!sD^8``` the options to enable remote management could be enabled (KVM/AMT). Network by default is unconfigured, you'll need to turn that on too. You can configure the IP manually or using DHCP. I've had mixed resutls with DHCP. Manual setup is best. Pick an IP outside the range your router/DHCP server serves.
 
+## Windows for those that don't want it
+So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
+
+You'll need:
+* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks.
+* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do.
+* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
+
+Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
+
+> Tip: To see file extentions and hidde nfiels and such the easy way, search for "developer" i nthe search or start menu and open thsoe settings. Scroll down to the File Explorer section and click apply.
+
 ## Recovery
-It is possible to recover from a bad flash. I will detail the process here in the future.
+It is possible to recover from a bad flash. You will need:
+
+**SECTION NOT FINSIHED YET!**
+
+* A dump of the BIOS (like we made previously with ```fptw64```)
+* Another computer
+* 2 usb sticks
+* A $10 ($15 with Amazon Prime) [usb programmer](http://keeyees.com/a/Products/ej/36.html)
+* Not being afraid of command line and Linux (it soudns more difficult than it is)
+* Patience
+* And mayeb a usb extention cable)
+
+> Note: You can *not* use a bios update extracted from an update to recover without going trought a lot of hassle. If the *flashing* of your modified BIOS failed you can use the modified BIOS instead of the backup. If the BIOS flashed correctly but doesn't work you have to use the backup file.
+
+The programmer linked is sold on eBay and the usual sites under many brand names. I linked to the page to show you want you need. Buy it anywhere you wish.
+
+Getting ready, the recovery process seems complex but it's fairly straigh forward. First lets boot into Windows again where our bios_backup.bin dump we made in the first step should still reside in the ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64``` folder. Go there in Windows Explorer. In another Windows Explorer window we go to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32```. If there is a ```Build``` folder there delete it, we need a fresh start. Now double click ```fitc.exe``` and as before and drag your backup in there. It will unpack the BIOS.
+
+Also as before in the build menu disable ```Generate intermediate build files``` and then build the new image. Say yes when asked about bootguard. A new ```Build``` folder should have been created. Inside it are 3 .bin files. Note their sizes. Copy the 4MB and 8MB files to the desktop and rename them to 4mb.bin and 8mb.bin.
+
+Now we are ready to create a Liux Live usb stick. This very easy to do with Balana Etcher, download it [here](https://www.balena.io/etcher/). We're also going to need a Linux distro. Use something Debian/Ubuntu based. As I liek to stay close to macOS my go to Live distro is [elementary OS](https://elementary.io). On their page select $0 and download the ISO directly or use the magnet link to do it via torrent. When the download is complete insert the first usb stick and write the ISO file to it with Balana Etcher. When it's done writing Windows may complain about it, just eject it. That usb stick is now done.
+
+Format the second usb stick to FAT32 (right click and select format in My Computer) and copy the 4mb and 8mb .bin files to it. Make sure to safely eject it from the systray or by right clicking on the drive in My Computer.
+
+Now we're finally ready to get started. Boot up elementary OS and choose ```try``` when asked if you want to install or try it. You can also install it, but thats not needed. You will end up on a desktop, in the top left corner open the app list and in there scroll to the the next page and open up the Terminal app. I think you can also press Windows Key + T. 
+
+In there type ```sudo su``` and then ```apt install flashrom```. I assume you have an ethernet connection. If not you can setup wifi in the top right of the screen or in the terminal with ```nmtui```. If you get an error that the files are in use just wait a little while and try again (the system itself checks for updates after booting up). Also insert the usb stick with the 2 backup files. We need to manually mount it. Enter ```lsblk``` to see a block devices. Check the sizes to determine which one it is then mount it like so ```mount /dev/sdX /mnt```.
+
+You can now open up your computer and disconnect it from the power and remove the CMOS battery then hold down the power button for a max of 30 seconds. You may see an amber light. This is done to drain all the power from the system. 
+
+Connect the programmer up to the clip. I'll update this section to include some photos but it is not hard. You can also download [this](http://keeyees.com/uploads/soft/190925/CH341AProgrammer.zip) that came with my programmer I got on Amazon. Inside is a .pdf file explaining it. Just a matter of lining all the pin 1's up.
+
+Now comes the fiddly part, attach the clip to one of the two BIOS chips and run flashrom. It will scan for chips and show whats detected.
+
+**I'll finish this section once I get back in my Live Linux cuz I forgot the exact chipset names**
+
+But essentially you let it scan the bus and if it detects a chip it will show it. It is very finnicky and it took me a bunch fo tries before it detected the chip. 
+
+Once it's detected pay attention to the name as it indicates the size. If it has ```32``` in the name is the 4mb chip. If it has ```64``` it is the 8mb chip. Depending on which one you managed to read first you will flash the matching file to it. I tried a few times on eac hchip as not to get too bored trying to get a connection. 
+
+Now that the chip is visable you can write the new image with ```flashrom -c bla bla -w /mnt/Xmb.bin```. Repeat for the other chip and you're back in business and can write a letter of complaint to Dell for not having decent BIOS recovery till the 7040.
+
+You now gained the skills and equipment to read/write many (not all) BIOS chips. Though remember if you're going to buy that $25 laptop on eBay that failed a BIOS update be sure you have a properly dumped image for it that the BIOS chip is compatible with the programmer.
+
+## Unlocking
+Some BIOS areas can be unlocked which means you don't have to short the service pins to write to those areas. Use with caution.
+```
+0x47FC7 		One Of: SMI Lock, VarStoreInfo (VarOffset/VarName): 0x74, VarStore: 0x2, QuestionId: 0x7B, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BA 01 BB 01 7B 00 02 00 74 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x47FED 			Default: DefaultId: 0x0, Value (8 bit): 0x1 {5B 0D 00 00 00 01 00 00 00 00 00 00 00}
+0x47FFA 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x48008 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x48016 		End One Of {29 02}
+```
+
+```
+0x48018 		One Of: BIOS Lock, VarStoreInfo (VarOffset/VarName): 0x75, VarStore: 0x2, QuestionId: 0x7C, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 C0 01 C1 01 7C 00 02 00 75 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4803E 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x4804C 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x4805A 		End One Of {29 02}
+```
+
+```
+0x4805C 		One Of: GPIO Lock, VarStoreInfo (VarOffset/VarName): 0x76, VarStore: 0x2, QuestionId: 0x7D, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BE 01 BF 01 7D 00 02 00 76 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48082 			Default: DefaultId: 0x0, Value (8 bit): 0x0 {5B 0D 00 00 00 00 00 00 00 00 00 00 00}
+0x4808F 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x4809D 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x480AB 		End One Of {29 02}
+```
+
+```
+0x480AD 		One Of: BIOS Interface Lock, VarStoreInfo (VarOffset/VarName): 0x77, VarStore: 0x2, QuestionId: 0x7E, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 BC 01 BD 01 7E 00 02 00 77 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x480D3 			Default: DefaultId: 0x0, Value (8 bit): 0x1 {5B 0D 00 00 00 01 00 00 00 00 00 00 00}
+0x480E0 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x480EE 			One Of Option: Enabled, Value (8 bit): 0x1 (default MFG) {09 0E C2 03 20 00 01 00 00 00 00 00 00 00}
+0x480FC 		End One Of {29 02}
+```
+
+```
+0x480FE 		One Of: RTC RAM Lock, VarStoreInfo (VarOffset/VarName): 0x78, VarStore: 0x2, QuestionId: 0x7F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 C2 01 C3 01 7F 00 02 00 78 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x48124 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x48132 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x48140 		End One Of {29 02}
+```
+
+# Other interesting stuff in the BIOS
+https://software.intel.com/en-us/articles/intel-trusted-execution-technology-a-primer/
+```
+0x47834 		One Of: Intel TXT(LT) Support, VarStoreInfo (VarOffset/VarName): 0x44, VarStore: 0x2, QuestionId: 0x5F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 ED 00 EE 00 5F 00 02 00 44 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4785A 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
+0x47868 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
+0x47876 		End One Of {29 02}
+```
+
+Disabled: ACPI thermal management uses EC reported temperature values.
+Enabled: ACPI thermal management uses DTS SMM mechanism to obtain CPU temperature values.
+```
+0x478BC 		One Of: CPU DTS, VarStoreInfo (VarOffset/VarName): 0x45, VarStore: 0x2, QuestionId: 0x61, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 EF 00 F0 00 61 00 02 00 45 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x478E2 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
+0x478F0 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
+0x478FE 		End One Of {29 02}
+```
+
+WOL.
+```
+0x47A95 		One Of: Wake on LAN Enable, VarStoreInfo (VarOffset/VarName): 0x67, VarStore: 0x2, QuestionId: 0x68, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 7D 02 7E 02 68 00 02 00 67 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x47ABB 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x47AC9 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x47AD7 		End One Of {29 02}
+```
+
+PCI hot swapping. Untested by me haha.
+```
+0x4A202 		One Of: Hot Plug, VarStoreInfo (VarOffset/VarName): 0xE9, VarStore: 0x2, QuestionId: 0xF5, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 D9 02 DA 02 F5 00 02 00 E9 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4A228 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
+0x4A236 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
+0x4A244 		End One Of {29 02}
+```
+
+RAM timings.
+```
+0x51634 		One Of: DIMM profile, VarStoreInfo (VarOffset/VarName): 0x28C, VarStore: 0x2, QuestionId: 0x423, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 06 05 07 05 23 04 02 00 8C 02 14 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x5165A 			One Of Option: Default DIMM profile, Value (8 bit): 0x0 (default) {09 0E 08 05 30 00 00 00 00 00 00 00 00 00}
+0x51668 			One Of Option: Custom profile, Value (8 bit): 0x1 {09 0E 0B 05 00 00 01 00 00 00 00 00 00 00}
+0x51676 			One Of Option: XMP profile 1, Value (8 bit): 0x2 {09 0E 09 05 00 00 02 00 00 00 00 00 00 00}
+0x51684 			One Of Option: XMP profile 2, Value (8 bit): 0x3 {09 0E 0A 05 00 00 03 00 00 00 00 00 00 00}
+0x51692 		End One Of {29 02}
+```
+
+Set voltage (DDR3 = 1.5v / DDR3L = 1.35v)
+```
+0x51694 		One Of: DDR Selection, VarStoreInfo (VarOffset/VarName): 0x287, VarStore: 0x2, QuestionId: 0x285, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 12 05 13 05 85 02 02 00 87 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x516BA 			One Of Option: DDR3, Value (8 bit): 0x0 (default) {09 0E 14 05 30 00 00 00 00 00 00 00 00 00}
+0x516C8 			One Of Option: DDR3L, Value (8 bit): 0x1 {09 0E 15 05 00 00 01 00 00 00 00 00 00 00}
+0x516D6 			One Of Option: Auto, Value (8 bit): 0x2 {09 0E C0 03 00 00 02 00 00 00 00 00 00 00}
+0x516E4 		End One Of {29 02}
+```
+
+Freqencies, one block for each pair of DIMM slots.
+```
+0x51729 		One Of: Memory Frequency, VarStoreInfo (VarOffset/VarName): 0x284, VarStore: 0x2, QuestionId: 0x287, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 18 05 19 05 87 02 02 00 84 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x5174F 			One Of Option: Auto, Value (8 bit): 0x0 (default) {09 0E C0 03 30 00 00 00 00 00 00 00 00 00}
+0x5175D 			One Of Option: 1067, Value (8 bit): 0x3 {09 0E 1A 05 00 00 03 00 00 00 00 00 00 00}
+0x5176B 			One Of Option: 1333, Value (8 bit): 0x5 {09 0E 1B 05 00 00 05 00 00 00 00 00 00 00}
+0x51779 			One Of Option: 1600, Value (8 bit): 0x7 {09 0E 1C 05 00 00 07 00 00 00 00 00 00 00}
+0x51787 			One Of Option: 1867, Value (8 bit): 0x9 {09 0E 1D 05 00 00 09 00 00 00 00 00 00 00}
+0x51795 			One Of Option: 2133, Value (8 bit): 0xB {09 0E 1E 05 00 00 0B 00 00 00 00 00 00 00}
+0x517A3 			One Of Option: 2400, Value (8 bit): 0xD {09 0E 1F 05 00 00 0D 00 00 00 00 00 00 00}
+0x517B1 			One Of Option: 2667, Value (8 bit): 0xF {09 0E 20 05 00 00 0F 00 00 00 00 00 00 00}
+0x517BF 		End One Of {29 02}
+```
+
+```
+0x517C1 		One Of: Memory Frequency, VarStoreInfo (VarOffset/VarName): 0x285, VarStore: 0x2, QuestionId: 0x288, Size: 2, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 18 05 19 05 88 02 02 00 85 02 10 11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x517E7 			One Of Option: 1067, Value (16 bit): 0x42B {09 0E 1A 05 00 01 2B 04 00 00 00 00 00 00}
+0x517F5 			One Of Option: 1333, Value (16 bit): 0x535 (default) {09 0E 1B 05 30 01 35 05 00 00 00 00 00 00}
+0x51803 			One Of Option: 1600, Value (16 bit): 0x640 {09 0E 1C 05 00 01 40 06 00 00 00 00 00 00}
+0x51811 			One Of Option: 1867, Value (16 bit): 0x74B {09 0E 1D 05 00 01 4B 07 00 00 00 00 00 00}
+0x5181F 			One Of Option: 2133, Value (16 bit): 0x855 {09 0E 1E 05 00 01 55 08 00 00 00 00 00 00}
+0x5182D 			One Of Option: 2400, Value (16 bit): 0x960 {09 0E 1F 05 00 01 60 09 00 00 00 00 00 00}
+0x5183B 			One Of Option: 2667, Value (16 bit): 0xA75 {09 0E 20 05 00 01 75 0A 00 00 00 00 00 00}
+0x51849 		End One Of {29 02}
+```
+
+I don't think ECC memory works without also fitting the board with a Xeon or something. Server memory is cheap though. Too bad I have no ECC sticks to try.
+```
+0x5184B 		One Of: ECC Support, VarStoreInfo (VarOffset/VarName): 0x27D, VarStore: 0x2, QuestionId: 0x289, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 32 05 33 05 89 02 02 00 7D 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x51871 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
+0x5187F 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
+0x5188D 		End One Of {29 02}
+```
+
+Could it be?
+```
+0x4C9FE 		One Of: SATA RAID ROM, VarStoreInfo (VarOffset/VarName): 0x174, VarStore: 0x2, QuestionId: 0x183, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 23 02 24 02 83 01 02 00 74 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4CA24 			One Of Option: Legacy ROM, Value (8 bit): 0x0 (default) {09 0E 25 02 30 00 00 00 00 00 00 00 00 00}
+0x4CA32 			One Of Option: UEFI Driver, Value (8 bit): 0x1 {09 0E 26 02 00 00 01 00 00 00 00 00 00 00}
+0x4CA40 			One Of Option: Both, Value (8 bit): 0x2 {09 0E 27 02 00 00 02 00 00 00 00 00 00 00}
+0x4CA4E 		End One Of {29 02}
+```
+
+# Misc
+https://ami.com/en/products/firmware-tools-and-utilities/bios-uefi-utilities/
+
+https://raw.githubusercontent.com/syscl/ASUS-H67-series/master/BIOS_Utilities/AMIBCP4.55.0070.exe
