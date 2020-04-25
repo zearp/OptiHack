@@ -40,8 +40,8 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
 * [SIP](#sip)
 * [Security](#security)
-* [Toolbox](#toolbox)
 * [Issues](#issues)
+* [Toolbox](#toolbox)
 * [Misc](#misc)
 * [Credits](#credits)
 * [Notes](#notes)
@@ -85,7 +85,7 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 > Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
-To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here.
+To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
 Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
@@ -101,7 +101,7 @@ We're done. Exit the shell by running the ```reboot``` command.
 
 <sub>Credit for DVMT/CFG Lock BIOS research goes to @JimLee1996 and his nice [write up](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) on this subject. Thanks to his work I was able to figure out how to enable EHCI hand-off. More might still come, there's a lot of interesting things that Dell is not exposing in the BIOS. Another big thanks goes to @datasone for providing [the modified Grub shell](https://github.com/datasone/grub-mod-setup_var/).</sub>
 
-> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. The motherboard reset jumper may clear them, I have yet to test that. Make *sure* to double check you're entering the right values and nothing can go wrong.
+> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. Reflashing the BIOS with a chip programmer seems to be the only way to clear *all* settings.
 
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
@@ -274,6 +274,42 @@ I personally suggest to also install an app that keeps track of apps connecting 
 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
+### Issues
+## Sleep
+Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
+
+When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
+
+If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
+
+If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
+
+When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
+
+The ```pmset``` settings after install are:
+```
+ Sleep On Power Button 1
+ womp                 0
+ hibernatefile        /var/vm/sleepimage
+ powernap             0
+ networkoversleep     0
+ disksleep            10
+ standbydelayhigh     86400
+ sleep                25 (sleep prevented by softwareupdated, softwareupdated)
+ autopoweroffdelay    28800
+ hibernatemode        0
+ autopoweroff         1
+ ttyskeepawake        1
+ displaysleep         25
+ highstandbythreshold 50
+ standbydelaylow      86400
+```
+
+##Logs
+* Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
+* Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
+* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
+
 ### Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
 * [AppCleaner](https://freemacsoft.net/appcleaner/) - Easy way to remove apps including all their crud. Be sure to enable the *SmartDelete* function.
@@ -298,21 +334,6 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 
 * [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
-
-### Issues
-* Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
-
-When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
-
-If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
-If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
-When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
-
-* Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
-* Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
-* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
 
 ### Misc
 Geekbench 4.
