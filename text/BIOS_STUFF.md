@@ -336,7 +336,49 @@ Create the disk with WinToUSB and boot from it, run Windows Update until there a
 > Tip: To see file extentions and hidde nfiels and such the easy way, search for "developer" i nthe search or start menu and open thsoe settings. Scroll down to the File Explorer section and click apply.
 
 ## Recovery
-It is possible to recover from a bad flash. I will detail the process here in the future.
+It is possible to recover from a bad flash. You will need:
+
+**SECTION NOT FINSIHED YET!**
+
+* A dump of the BIOS (like we made previously with ```fptw64```)
+* Another computer
+* 2 usb sticks
+* A $10 ($15 with Amazon Prime) [usb programmer](http://keeyees.com/a/Products/ej/36.html)
+* Not being afraid of command line and Linux (it soudns more difficult than it is)
+* Patience
+* And mayeb a usb extention cable)
+
+> Note: You can *not* use a bios update extracted from an update to recover without going trought a lot of hassle. If the *flashing* of your modified BIOS failed you can use the modified BIOS instead of the backup. If the BIOS flashed correctly but doesn't work you have to use the backup file.
+
+The programmer linked is sold on eBay and the usual sites under many brand names. I linked to the page to show you want you need. Buy it anywhere you wish.
+
+Getting ready, the recovery process seems complex but it's fairly straigh forward. First lets boot into Windows again where our bios_backup.bin dump we made in the first step should still reside in the ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64``` folder. Go there in Windows Explorer. In another Windows Explorer window we go to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32```. If there is a ```Build``` folder there delete it, we need a fresh start. Now double click ```fitc.exe``` and as before and drag your backup in there. It will unpack the BIOS.
+
+Also as before in the build menu disable ```Generate intermediate build files``` and then build the new image. Say yes when asked about bootguard. A new ```Build``` folder should have been created. Inside it are 3 .bin files. Note their sizes. Copy the 4MB and 8MB files to the desktop and rename them to 4mb.bin and 8mb.bin.
+
+Now we are ready to create a Liux Live usb stick. This very easy to do with Balana Etcher, download it [here](https://www.balena.io/etcher/). We're also going to need a Linux distro. Use something Debian/Ubuntu based. As I liek to stay close to macOS my go to Live distro is [elementary OS](https://elementary.io). On their page select $0 and download the ISO directly or use the magnet link to do it via torrent. When the download is complete insert the first usb stick and write the ISO file to it with Balana Etcher. When it's done writing Windows may complain about it, just eject it. That usb stick is now done.
+
+Format the second usb stick to FAT32 (right click and select format in My Computer) and copy the 4mb and 8mb .bin files to it. Make sure to safely eject it from the systray or by right clicking on the drive in My Computer.
+
+Now we're finally ready to get started. Boot up elementary OS and choose ```try``` when asked if you want to install or try it. You can also install it, but thats not needed. You will end up on a desktop, in the top left corner open the app list and in there scroll to the the next page and open up the Terminal app. I think you can also press Windows Key + T. 
+
+In there type ```sudo su``` and then ```apt install flashrom```. I assume you have an ethernet connection. If not you can setup wifi in the top right of the screen or in the terminal with ```nmtui```. If you get an error that the files are in use just wait a little while and try again (the system itself checks for updates after booting up). Also insert the usb stick with the 2 backup files. We need to manually mount it. Enter ```lsblk``` to see a block devices. Check the sizes to determine which one it is then mount it like so ```mount /dev/sdX /mnt```.
+
+You can now open up your computer and disconnect it from the power and remove the CMOS battery then hold down the power button for a max of 30 seconds. You may see an amber light. This is done to drain all the power from the system. 
+
+Connect the programmer up to the clip. I'll update this section to include some photos but it is not hard. You can also download [this](http://keeyees.com/uploads/soft/190925/CH341AProgrammer.zip) that came with my programmer I got on Amazon. Inside is a .pdf file explaining it. Just a matter of lining all the pin 1's up.
+
+Now comes the fiddly part, attach the clip to one of the two BIOS chips and run flashrom. It will scan for chips and show whats detected.
+
+**I'll finish this section once I get back in my Live Linux cuz I forgot the exact chipset names**
+
+But essentially you let it scan the bus and if it detects a chip it will show it. It is very finnicky and it took me a bunch fo tries before it detected the chip. 
+
+Once it's detected pay attention to the name as it indicates the size. If it has ```32``` in the name is the 4mb chip. If it has ```64``` it is the 8mb chip. Depending on which one you managed to read first you will flash the matching file to it. I tried a few times on eac hchip as not to get too bored trying to get a connection. 
+
+Now that the chip is visable you can write the new image with ```flashrom -c bla bla -w /mnt/Xmb.bin```. Repeat for the other chip and you're back in business and can write a letter of complaint to Dell for not having decent BIOS recovery till the 7040.
+
+You now gained the skills and equipment to read/write many (not all) BIOS chips. Though remember if you're going to buy that $25 laptop on eBay that failed a BIOS update be sure you have a properly dumped image for it that the BIOS chip is compatible with the programmer.
 
 ## Unlocking
 Some BIOS areas can be unlocked which means you don't have to short the service pins to write to those areas. Use with caution.
