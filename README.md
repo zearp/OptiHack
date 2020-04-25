@@ -288,14 +288,15 @@ When I was testing native hibernation with [HibernationFixup](https://github.com
 
 The ```pmset``` settings after install are:
 ```
+ standby              1
  Sleep On Power Button 1
- womp                 0
+ womp                 1
  hibernatefile        /var/vm/sleepimage
- powernap             0
+ powernap             1
  networkoversleep     0
  disksleep            10
  standbydelayhigh     86400
- sleep                25 (sleep prevented by softwareupdated, softwareupdated)
+ sleep                25
  autopoweroffdelay    28800
  hibernatemode        0
  autopoweroff         1
@@ -303,6 +304,7 @@ The ```pmset``` settings after install are:
  displaysleep         25
  highstandbythreshold 50
  standbydelaylow      86400
+
 ```
 
 ### Logs
