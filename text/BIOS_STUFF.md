@@ -19,7 +19,6 @@ What can we do?
 * UBU
 * Intel ME Platform Tools 9.1
 * Intel firmware files
-* Intel BMP
 * MMTool
 
 All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up.
@@ -27,11 +26,8 @@ The things you need to download from the Mega repo are:
 * UBU_v1_xxxxx.rar
 * Tools -> mmt.rar
 * Files_xxxxx -> Intel GOP/RST/VBIOS .7z files
-* BMPv2_xxPV_External.zip
 
-We also need Intel ME System Tools 9.1, a download link can be found [here](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html), search for ```9.1 r7```.
-
-Install Intel BMP and unpack the ME System Tools to C:\.
+We also need Intel ME System Tools 9.1, a download link can be found [here](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html), search for ```9.1 r7```. Download and unpack the ME System Tools to C:\.
 
 ## Extracting
 
