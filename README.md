@@ -149,14 +149,6 @@ Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it act
 
 Verify the settings with ```pmset -g```.
 
-Apple documents the hibernation modes as such;
-
-* hibernatemode = 0 by default on desktops. The system will not back memory up to persistent storage. The system must wake from the contents of memory; the system will lose context on power loss. This is, historically, plain old sleep.
-* hibernatemode = 3 by default on portables. The system will store a copy of memory to persistent storage (the disk), and will power memory during sleep. The system will wake from memory, unless a power loss forces it to restore from hibernate image.
-* hibernatemode = 25 is only settable via pmset. The system will store a copy of memory to persistent storage (the disk), and will remove power to memory. The system will restore from disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you should use this setting.
-
-You can experiment with these.
-
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
