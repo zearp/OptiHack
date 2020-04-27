@@ -47,7 +47,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Notes](#notes)
 
 ## BIOS settings
-My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults.
+My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ## Download and create the installer
 We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or virtual machine) with a working macOS and download it in the App Store. Alternative methods;
@@ -148,14 +148,6 @@ sudo mkdir /var/vm/sleepimage
 Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it actually works though (doing Time Machine backups while sleeping, etc). Don't want Power Nap? Disable it while you're here; ```sudo pmset -a powernap 0```
 
 Verify the settings with ```pmset -g```.
-
-Apple documents the hibernation modes as such;
-
-* hibernatemode = 0 by default on desktops. The system will not back memory up to persistent storage. The system must wake from the contents of memory; the system will lose context on power loss. This is, historically, plain old sleep.
-* hibernatemode = 3 by default on portables. The system will store a copy of memory to persistent storage (the disk), and will power memory during sleep. The system will wake from memory, unless a power loss forces it to restore from hibernate image.
-* hibernatemode = 25 is only settable via pmset. The system will store a copy of memory to persistent storage (the disk), and will remove power to memory. The system will restore from disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you should use this setting.
-
-You can experiment with these.
 
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
@@ -284,6 +276,8 @@ If you have any issues where the machine wakes up right after falling asleep run
 
 If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reason(s). If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
 
+If your logs show something like ```DarkWake from Normal Sleep [CDNPB] : due to RTC/Maintenance``` it means Power Nap is enabled. These are scheduled wake-ups to make a backup or check mail. Disable Power Nap to get rid of them.
+
 When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
 
 The ```pmset``` settings after install are:
@@ -362,12 +356,22 @@ A deep bow to all of you!
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
 TODO:
-* FileVault2 testing, the config is ready for it.
+* FileVault2 works. Need to add entry to the guide for it.
 * Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
 * Wifi, I haven't received my Broadcom wifi/BT combo card yet.
 * Bluetooth, currently using a [$2 BT 4.0 dongle](https://www.ebay.co.uk/itm/1PCS-Mini-USB-Bluetooth-V4-0-3Mbps-20M-Dongle-Dual-Mode-Wireless-Adapter-Device/324106977844) that surprisingly works out of the box. No handoff or other fancy features are supported but audio and mouse/keyboard work fine.
 * More sensors.
-* List of all my fav tools and apps
+* Add an if statement block to all ACPI patches that makes them not apply when booting Windows, there are no issues but it seems good practise to do this and prevent any issues at all. Some patches already have it.
+
+```
+If (_OSI ("Darwin"))
+                    {
+                        Return (0x0F)
+                    }
+                    Else
+                    {
+                        Return (Zero)
+```
 
 CAN'T DO:
 * Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.
