@@ -364,12 +364,22 @@ A deep bow to all of you!
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
 TODO:
-* FileVault2 testing, the config is ready for it.
+* FileVault2 works. Need to add entry to the guide for it.
 * Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
 * Wifi, I haven't received my Broadcom wifi/BT combo card yet.
 * Bluetooth, currently using a [$2 BT 4.0 dongle](https://www.ebay.co.uk/itm/1PCS-Mini-USB-Bluetooth-V4-0-3Mbps-20M-Dongle-Dual-Mode-Wireless-Adapter-Device/324106977844) that surprisingly works out of the box. No handoff or other fancy features are supported but audio and mouse/keyboard work fine.
 * More sensors.
-* List of all my fav tools and apps
+* Add an if statement block to all ACPI patches that makes them not apply when booting Windows, there are no issues but it seems good practise to do this and prevent any issues at all. Some patches already have it.
+
+```
+If (_OSI ("Darwin"))
+                    {
+                        Return (0x0F)
+                    }
+                    Else
+                    {
+                        Return (Zero)
+```
 
 CAN'T DO:
 * Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.
