@@ -272,7 +272,9 @@ Turn the machine off and short the service jumper and turn it back on. You'll ge
 
 Once back in Windows it is time to flash the modified BIOS file. Copy ```mod_bios.bin``` to the ```\Intel ME System Tools v9.1 r7\Flash Programming Tool\WIN64```.
 
-Navigate to the same folder in a PowerShell running as admin, and execute ```.\fptw64.exe -bios -f mod_bios.bin```. It will start the process right away. Once it's finished execute ``` .\fptw64.exe -greset```. The machine will now reboot and it is recommended to enter the BIOS and load the factor defaults. Make sure you set things up correctly for your hackingtosh config too. Like legacy roms etc. Save and exit the BIOS.
+Navigate to the same folder in a PowerShell running as admin, and execute ```.\fptw64.exe -f mod_bios.bin```. It will start the process right away. Once it's finished execute ``` .\fptw64.exe -greset```. The machine will now reboot and it is recommended to enter the BIOS and load the factor defaults. Make sure you set things up correctly for your hackingtosh config too. Like legacy roms etc. Save and exit the BIOS.
+
+> Note: If you only modified the BIOS and didn't update/add AMT/KVM you can use ```.\fptw64.exe -bios -f mod_bios.bin``` instead to only flash the BIOS region. IF you only added AMT/KVM you can use ```.\fptw64.exe -me -f mod_bios.bin``` to only flash the ME region.
 
 Enjoy your newly modified and updated BIOS. Feels good right?
 
@@ -501,15 +503,6 @@ I don't think ECC memory works without also fitting the board with a Xeon or som
 0x51871 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
 0x5187F 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
 0x5188D 		End One Of {29 02}
-```
-
-Could it be?
-```
-0x4C9FE 		One Of: SATA RAID ROM, VarStoreInfo (VarOffset/VarName): 0x174, VarStore: 0x2, QuestionId: 0x183, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 23 02 24 02 83 01 02 00 74 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4CA24 			One Of Option: Legacy ROM, Value (8 bit): 0x0 (default) {09 0E 25 02 30 00 00 00 00 00 00 00 00 00}
-0x4CA32 			One Of Option: UEFI Driver, Value (8 bit): 0x1 {09 0E 26 02 00 00 01 00 00 00 00 00 00 00}
-0x4CA40 			One Of Option: Both, Value (8 bit): 0x2 {09 0E 27 02 00 00 02 00 00 00 00 00 00 00}
-0x4CA4E 		End One Of {29 02}
 ```
 
 # Misc
