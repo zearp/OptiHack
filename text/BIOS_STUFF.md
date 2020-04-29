@@ -259,6 +259,17 @@ If you get an error that there is not enough space you can download a smaller ve
 ```
 You can delete all of those if you're not planning on using IPv6 networking in UEFI/boot. You migt need the space if you want to add more modules or replace exisintg ones with newer (larger) versions.
 
+In order to be able to boot from it you may also have to change this setting:
+```
+0x4C9FE 		One Of: SATA RAID ROM, VarStoreInfo (VarOffset/VarName): 0x174, VarStore: 0x2, QuestionId: 0x183, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 23 02 24 02 83 01 02 00 74 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
+0x4CA24 			One Of Option: Legacy ROM, Value (8 bit): 0x0 (default) {09 0E 25 02 30 00 00 00 00 00 00 00 00 00}
+0x4CA32 			One Of Option: UEFI Driver, Value (8 bit): 0x1 {09 0E 26 02 00 00 01 00 00 00 00 00 00 00}
+0x4CA40 			One Of Option: Both, Value (8 bit): 0x2 {09 0E 27 02 00 00 02 00 00 00 00 00 00 00}
+0x4CA4E 		End One Of {29 02}
+```
+
+Change it to 0x2.
+
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
 
