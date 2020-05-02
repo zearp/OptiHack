@@ -342,7 +342,7 @@ Geekbench 4.
 My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Compute score around ~15775.
 
 ## Credits
-* The [acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
+* The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
 * [Dortania](https://desktop.dortania.ml) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
 * [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
 * [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
