@@ -267,6 +267,9 @@ I personally suggest to also install an app that keeps track of apps connecting 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
 ## Issues
+### Resetting UEFI changes
+You have to remove the CMOS battery, short the ```RTCRST``` jumper, remove the password reset jumper. Also remove the powerchord and then hold the power button for 10-20 seconds (this drains all left over electricity, called a ```flea power```). Now reconenct the pwoerchord and pwoer up the machine. Everything should now be reset to stock values. Turn the machine off and put the CMOS battery back in boot back up and load BIOS defaults for good measure.
+
 ### Sleep
 Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
