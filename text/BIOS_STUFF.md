@@ -430,6 +430,8 @@ Some BIOS areas can be unlocked which means you don't have to short the service 
 ```
 
 # Other interesting stuff in the BIOS
+This requires extra modules in the BIOS for it to work.
+
 https://software.intel.com/en-us/articles/intel-trusted-execution-technology-a-primer/
 ```
 0x47834 		One Of: Intel TXT(LT) Support, VarStoreInfo (VarOffset/VarName): 0x44, VarStore: 0x2, QuestionId: 0x5F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 ED 00 EE 00 5F 00 02 00 44 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
@@ -445,14 +447,6 @@ Enabled: ACPI thermal management uses DTS SMM mechanism to obtain CPU temperatur
 0x478E2 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
 0x478F0 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
 0x478FE 		End One Of {29 02}
-```
-
-WOL.
-```
-0x47A95 		One Of: Wake on LAN Enable, VarStoreInfo (VarOffset/VarName): 0x67, VarStore: 0x2, QuestionId: 0x68, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 7D 02 7E 02 68 00 02 00 67 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x47ABB 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
-0x47AC9 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
-0x47AD7 		End One Of {29 02}
 ```
 
 PCI hot swapping. Untested by me haha.
