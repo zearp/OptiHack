@@ -650,6 +650,21 @@
 		<true/>
 		<key>UpdateSMBIOSMode</key>
 		<string>Create</string>
+		<key>SMBIOS</key>
+		<dict>
+			<key>BIOSReleaseDate</key>
+			<string>19/07/2019</string>
+			<key>BIOSVendor</key>
+			<string>Dell</string>
+			<key>BIOSVersion</key>
+			<string>A18</string>
+			<key>BoardManufacturer</key>
+			<string>Dell</string>
+			<key>ChassisManufacturer</key>
+			<string>Dell</string>
+			<key>SystemManufacturer</key>
+			<string>Dell</string>
+		</dict>
 	</dict>
 	<key>UEFI</key>
 	<dict>
