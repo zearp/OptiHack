@@ -70,7 +70,7 @@ You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnew
 
 Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
-For more information on setting up OpenCore please refer to [this](https://desktop.dortania.ml/config.plist/haswell.html) very well written guide that has helped realise this very setup.
+For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Desktop-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. 
@@ -85,7 +85,7 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 > Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
-To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
+To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
 Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
@@ -112,7 +112,7 @@ You're now ready to install macOS. Boot from the installer again and select the 
 
 > Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
 
-If you run into any boot issues, check the [troubleshooting sections](https://desktop.dortania.ml/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
+If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
 (It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
 
@@ -348,7 +348,7 @@ My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Co
 
 ## Credits
 * The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
-* [Dortania](https://desktop.dortania.ml) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
+* [Dortania](https://dortania.github.io/OpenCore-Desktop-Guide/) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
 * [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
 * [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
 * And many, many more I forgot.
