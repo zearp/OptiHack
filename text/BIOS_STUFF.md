@@ -19,6 +19,7 @@ What can we do?
 * UBU
 * Intel ME Platform Tools 9.1
 * Intel firmware files
+* Intel BMP
 * MMTool
 
 All those we need can be found the first post of [this](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) thread. Search for ```SoniX's MEGA link``` in there and open it up.
@@ -28,6 +29,8 @@ The things you need to download from the Mega repo are:
 * Files_xxxxx -> Intel GOP/RST/VBIOS .7z files
 
 We also need Intel ME System Tools 9.1, a download link can be found [here](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html), search for ```9.1 r7```. Download and unpack the ME System Tools to C:\.
+
+Install Intel BMP and unpack the ME System Tools to C:\.
 
 ## Extracting
 
@@ -267,7 +270,6 @@ In order to be able to boot from it you may also have to change this setting:
 0x4CA40 			One Of Option: Both, Value (8 bit): 0x2 {09 0E 27 02 00 00 02 00 00 00 00 00 00 00}
 0x4CA4E 		End One Of {29 02}
 ```
-
 Change it to 0x2.
 
 ## Flashing

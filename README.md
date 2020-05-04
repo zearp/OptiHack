@@ -40,14 +40,14 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
 * [SIP](#sip)
 * [Security](#security)
-* [Toolbox](#toolbox)
 * [Issues](#issues)
+* [Toolbox](#toolbox)
 * [Misc](#misc)
 * [Credits](#credits)
 * [Notes](#notes)
 
 ## BIOS settings
-My BIOS settings are simple: load factory defaults and enable legacy rom loading.
+My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ## Download and create the installer
 We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or virtual machine) with a working macOS and download it in the App Store. Alternative methods;
@@ -70,7 +70,7 @@ You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnew
 
 Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
-For more information on setting up OpenCore please refer to [this](https://desktop.dortania.ml/config.plist/haswell.html) very well written guide that has helped realise this very setup.
+For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Desktop-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. 
@@ -85,31 +85,39 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 > Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
-To disable CFG Lock you can either use a [quirk](https://desktop.dortania.ml/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Executing ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here.
+To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
-Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Execute ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
+Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
 
 > Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot.
 
 ## Enable EHCI hand-off
-For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by executing the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it. Lastly we enable routing of the EHCx ports to XHCI ones. Execute ```setup_var 0x15A 0x2```. You can find these values [here](https://github.com/zearp/OptiHack/blob/master/text/XHCI_EHCI.md).
+For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by entering the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it.
 
-We're done. Exit the shell by executing the ```reboot``` command. 
+Lastly we enable routing of the EHCx ports to XHCI ones and disable EHCx all together. Only legacy OS would need it and it also removes the need for the [EHCx_OFF patch](https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/AcpiSamples/SSDT-EHCx_OFF.dsl). Enter ```setup_var 0x15A 0x2``` to enable the routing then enter ```setup_var 0x146 0x0``` and ```setup_var 0x147 0x0``` to disable the EHCx ports. You can find these values [here](https://github.com/zearp/OptiHack/blob/master/text/XHCI_EHCI.md).
+
+We're done. Exit the shell by running the ```reboot``` command. 
 
 <sub>Credit for DVMT/CFG Lock BIOS research goes to @JimLee1996 and his nice [write up](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) on this subject. Thanks to his work I was able to figure out how to enable EHCI hand-off. More might still come, there's a lot of interesting things that Dell is not exposing in the BIOS. Another big thanks goes to @datasone for providing [the modified Grub shell](https://github.com/datasone/grub-mod-setup_var/).</sub>
 
-> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. The motherboard reset jumper may clear them, I have yet to test that. Make *sure* to double check you're entering the right values and nothing can go wrong.
+> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. Reflashing the BIOS with a chip programmer seems to be the only way to clear *all* settings.
 
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
 
-If you run into any boot issues, check the [troubleshooting sections](https://desktop.dortania.ml/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
+1. Boot from installer, select ```Install macOS Catalina (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
+2. Back in the OpenCore menu, boot from ```Install macOS Catalina (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
+3. Back again in the OpenCore menu your internal disk should now be selected automatically. It will be named whatever you named your internal disk. Press enter to boot into your macOS and move on to the next section.
+
+> Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
+
+If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
 (It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
 
 ## Post install
-Once macOS is installed, we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
+Once macOS is installed and made it trought the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
 
 Yes, we're nearly done now.
 
@@ -120,6 +128,8 @@ We need to check if TRIM is enabled, it should be as we applied a patch in the c
 If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
 
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
+
+> Tip: Make a [clone](https://github.com/zearp/OptiHack/blob/master/text/CLONE_IT.md) once you're happy with your setup and everything works as it should. It doesn't take much time and I'd say it's essential to have one.
 
 ### Sleep
 Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off.
@@ -139,14 +149,6 @@ Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it act
 
 Verify the settings with ```pmset -g```.
 
-Apple documents the hibernation modes as such;
-
-* hibernatemode = 0 by default on desktops. The system will not back memory up to persistent storage. The system must wake from the contents of memory; the system will lose context on power loss. This is, historically, plain old sleep.
-* hibernatemode = 3 by default on portables. The system will store a copy of memory to persistent storage (the disk), and will power memory during sleep. The system will wake from memory, unless a power loss forces it to restore from hibernate image.
-* hibernatemode = 25 is only settable via pmset. The system will store a copy of memory to persistent storage (the disk), and will remove power to memory. The system will restore from disk image. If you want "hibernation" - slower sleeps, slower wakes, and better battery life, you should use this setting.
-
-You can experiment with these.
-
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
@@ -163,7 +165,7 @@ Been running these settings for more than a week, so far so good. If you feel br
 Once this config has proven itself stable I will update this section with a little guide on how to get it going.
 
 ### Keybinding/mapping
-Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future.
+Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
 
 ### Mapping the internal usb header for MT models
 The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
@@ -173,16 +175,16 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 
 (If you're mapping the internal usb port make sure there is something connected to it before you start.)
 
-1. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *disabled* and *enable* ```Kernel -> Quirks -> XhciPortLimit```
-2. Reboot
-3. Open Hackintool and go to the usb tab, select all ports listed and remove them, then click the refresh button
-4. Plug a usb 2 device in every usb port
-5. Plug a usb 3 device in every usb port
-6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port)
-7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3 (if you're mapping the internal port (HS13) make sure it's set to internal)
-8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one)
-9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```
-10. Reboot
+1. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *disabled* and *enable* ```Kernel -> Quirks -> XhciPortLimit```.
+2. Reboot.
+3. Open Hackintool and go to the usb tab, select all ports listed and remove them, then click the refresh button.
+4. Plug a usb 2 device in every usb port.
+5. Plug a usb 3 device in every usb port.
+6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port).
+7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3 (if you're mapping the internal port make sure it's set to internal).
+8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one).
+9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```.
+10. Reboot.
 
 Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
 
@@ -244,13 +246,17 @@ Refer to [this list](https://github.com/zearp/OptiHack/blob/master/text/FANS.md)
 
 Thats it! Your silent OptiPlex will now be even more silent.
 
+> Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifcations are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slwoer but its not audible.
+
 ### SIP
 Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in OpenCore config, which does the same as running ```csrutil enable --without kext --without fs``` from recovery/installer. If you don't plan on undervolting you can set the ```csr-active-config``` value to ```00000000```. That is the most secure option. Verify the current SIP settings by running ```csrutil status```.
 
 > Note: If changing the config alone doesn't seem to change the SIP settings, reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
 
 ### Security
-* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your likes. If AMT/KVM is missing you will need to update that. More on that later. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equiped with fully fledged vPro options.
+* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equiped with fully fledged vPro options.
+
+To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md) page. It also deals with updating [microcodes](https://en.wikipedia.org/wiki/Microcode). Which can enhance security as well.
 
 * If you're not going to undervolt please refer to the SIP section on how to set that back to its more secure default.
 
@@ -260,7 +266,52 @@ I personally suggest to also install an app that keeps track of apps connecting 
 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
-### Toolbox
+## Issues
+### Resetting UEFI changes
+You have to remove the CMOS battery, short the ```RTCRST``` jumper and remove the ```PSWD``` jumper. Also remove the powerchord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the powerchord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults for good measure.
+
+> Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
+
+### Sleep
+Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
+
+When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
+
+If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
+
+If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reason(s). If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
+
+If your logs show something like ```DarkWake from Normal Sleep [CDNPB] : due to RTC/Maintenance``` it means Power Nap is enabled. These are scheduled wake-ups to make a backup or check mail. Disable Power Nap to get rid of them.
+
+When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
+
+The ```pmset``` settings after install are:
+```
+ standby              1
+ Sleep On Power Button 1
+ womp                 1
+ hibernatefile        /var/vm/sleepimage
+ powernap             1
+ networkoversleep     0
+ disksleep            10
+ standbydelayhigh     86400
+ sleep                25
+ autopoweroffdelay    28800
+ hibernatemode        0
+ autopoweroff         1
+ ttyskeepawake        1
+ displaysleep         25
+ highstandbythreshold 50
+ standbydelaylow      86400
+
+```
+
+### Logs
+* Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
+* Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
+* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
+
+## Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
 * [AppCleaner](https://freemacsoft.net/appcleaner/) - Easy way to remove apps including all their crud. Be sure to enable the *SmartDelete* function.
 * [Cog](https://github.com/kode54/Cog) - A lovely minimalist music player that has been around for a very long time.
@@ -273,6 +324,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [IOJones](https://github.com/acidanthera/IOJones) - Because IORegistryExplorer doesn't have dark mode.
 * [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements) - Make remapping keys and buttons a breeze.
 * [MaciASL](https://github.com/acidanthera/MaciASL) - Dark mode enabled MaciASL? Yes please!
+* [Meld](https://github.com/yousseb/meld) - Compare (and merge) everything! Sweet little diff tool.
 * [Monolingual](https://ingmarstein.github.io/Monolingual/) - Remove unused languages and architectures from apps. Yes I like it tidy!
 * [Onyx](https://titanium-software.fr/en/onyx.html) - Always seem to come in handy at some point or another.
 * [ProperTree](https://github.com/corpnewt/ProperTree) - OpenCore config editor and very useful for other plist editing too.
@@ -284,21 +336,7 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 * [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 
-### Issues
-* Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
-
-When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled.
-
-If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
-If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the *WakeReason*. If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
-When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
-
-* Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
-* Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
-
-### Misc
+## Misc
 Geekbench 4.
 [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) whilst running Geekbench 4 and Geekbench 4 Compute:
 
@@ -309,8 +347,8 @@ Geekbench 4.
 My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Compute score around ~15775.
 
 ## Credits
-* The [acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
-* [Dortania](https://desktop.dortania.ml) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
+* The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
+* [Dortania](https://dortania.github.io/OpenCore-Desktop-Guide/) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
 * [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
 * [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
 * And many, many more I forgot.
@@ -323,14 +361,22 @@ A deep bow to all of you!
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
 TODO:
-* Make graphical picker default once it's more polished by setting *PickerMode* to External. All resources are in place. The upcoming release of OpenCore 0.5.8 will improve the rendering.
-* Add disabling of MEBx and also [howto add KVM to MEBx](https://www.win-.com/t5079f39-Dell-is-there-a-chance-to-activate-AMT-for-KVM-remote-control.html). It's cool to have.
-* FileVault2 testing, the config is ready for it.
+* FileVault2 works. Need to add entry to the guide for it.
 * Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
 * Wifi, I haven't received my Broadcom wifi/BT combo card yet.
 * Bluetooth, currently using a [$2 BT 4.0 dongle](https://www.ebay.co.uk/itm/1PCS-Mini-USB-Bluetooth-V4-0-3Mbps-20M-Dongle-Dual-Mode-Wireless-Adapter-Device/324106977844) that surprisingly works out of the box. No handoff or other fancy features are supported but audio and mouse/keyboard work fine.
 * More sensors.
-* List of all my fav tools and apps
+* Add an if statement block to all ACPI patches that makes them not apply when booting Windows, there are no issues but it seems good practise to do this and prevent any issues at all. Some patches already have it.
+
+```
+If (_OSI ("Darwin"))
+                    {
+                        Return (0x0F)
+                    }
+                    Else
+                    {
+                        Return (Zero)
+```
 
 CAN'T DO:
 * Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.

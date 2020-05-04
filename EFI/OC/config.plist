@@ -38,14 +38,6 @@
 				<key>Path</key>
 				<string>SSDT-SBUS-MCHC.aml</string>
 			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>Remove any EHCx leftovers</string>
-				<key>Path</key>
-				<string>SSDT-EHCx_OFF.aml</string>
-				<key>Enabled</key>
-				<true/>
-			</dict>
 		</array>
 		<key>Block</key>
 		<array>
@@ -321,20 +313,20 @@
 				<string>Contents/Info.plist</string>
 			</dict>
 			<dict>
+				<key>BundlePath</key>
+				<string>USBPorts.kext</string>
 				<key>Comment</key>
 				<string>USB portmap</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string></string>
 				<key>MaxKernel</key>
+				<string></string>
+				<key>MinKernel</key>
 				<string></string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
-				<key>Enabled</key>
-				<true/>
-				<key>MinKernel</key>
-				<string></string>
-				<key>ExecutablePath</key>
-				<string></string>
-				<key>BundlePath</key>
-				<string>USBPorts.kext</string>
 			</dict>
 		</array>
 		<key>Block</key>
@@ -388,6 +380,8 @@
 			<false/>
 			<key>DisableIoMapper</key>
 			<true/>
+			<key>DisableRtcChecksum</key>
+			<false/>
 			<key>DummyPowerManagement</key>
 			<false/>
 			<key>ExternalDiskIcons</key>
@@ -434,7 +428,7 @@
 			<key>TakeoffDelay</key>
 			<integer>0</integer>
 			<key>Timeout</key>
-			<integer>5</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Debug</key>
 		<dict>
@@ -482,9 +476,25 @@
 			<integer>0</integer>
 			<key>Vault</key>
 			<string>Optional</string>
+			<key>BootProtect</key>
+			<string>None</string>
 		</dict>
 		<key>Tools</key>
 		<array>
+			<dict>
+				<key>Comment</key>
+				<string>HdaCodecDump.efi</string>
+				<key>Name</key>
+				<string>HdaCodecDump.efi</string>
+				<key>Enabled</key>
+				<false/>
+				<key>Arguments</key>
+				<string></string>
+				<key>Path</key>
+				<string>HdaCodecDump.efi</string>
+				<key>Auxiliary</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>Comment</key>
 				<string>modGRUBShell.efi</string>
@@ -496,6 +506,48 @@
 				<string></string>
 				<key>Path</key>
 				<string>modGRUBShell.efi</string>
+				<key>Auxiliary</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>OpenShell.efi</string>
+				<key>Name</key>
+				<string>OpenShell.efi</string>
+				<key>Enabled</key>
+				<false/>
+				<key>Arguments</key>
+				<string></string>
+				<key>Path</key>
+				<string>OpenShell.efi</string>
+				<key>Auxiliary</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>ResetSystem.efi</string>
+				<key>Name</key>
+				<string>ResetSystem.efi</string>
+				<key>Enabled</key>
+				<false/>
+				<key>Arguments</key>
+				<string></string>
+				<key>Path</key>
+				<string>ResetSystem.efi</string>
+				<key>Auxiliary</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>VerifyMsrE2.efi</string>
+				<key>Name</key>
+				<string>VerifyMsrE2.efi</string>
+				<key>Enabled</key>
+				<false/>
+				<key>Arguments</key>
+				<string></string>
+				<key>Path</key>
+				<string>VerifyMsrE2.efi</string>
 				<key>Auxiliary</key>
 				<false/>
 			</dict>
@@ -517,7 +569,7 @@
 				<key>SystemAudioVolume</key>
 				<data>UA==</data>
 				<key>boot-args</key>
-				<string>-v -cdfon -wegnoegpu -igfxnohdmi igfxonln=1 keepsyms=1 debug=0x100 alcid=16</string>
+				<string>-v -cdfon -wegnoegpu -igfxnohdmi keepsyms=1 debug=0x100 alcid=16</string>
 				<key>csr-active-config</key>
 				<data>AwAAAA==</data>
 				<key>prev-lang:kbd</key>
@@ -598,9 +650,37 @@
 		<true/>
 		<key>UpdateSMBIOSMode</key>
 		<string>Create</string>
+		<key>SMBIOS</key>
+		<dict>
+			<key>BIOSReleaseDate</key>
+			<string>19/07/2019</string>
+			<key>BIOSVendor</key>
+			<string>Dell</string>
+			<key>BIOSVersion</key>
+			<string>A18</string>
+			<key>BoardManufacturer</key>
+			<string>Dell</string>
+			<key>ChassisManufacturer</key>
+			<string>Dell</string>
+			<key>SystemManufacturer</key>
+			<string>Dell</string>
+		</dict>
 	</dict>
 	<key>UEFI</key>
 	<dict>
+		<key>APFS</key>
+		<dict>
+			<key>EnableJumpstart</key>
+			<true/>
+			<key>HideVerbose</key>
+			<true/>
+			<key>JumpstartHotPlug</key>
+			<false/>
+			<key>MinDate</key>
+			<integer>0</integer>
+			<key>MinVersion</key>
+			<integer>0</integer>
+		</dict>
 		<key>Audio</key>
 		<dict>
 			<key>AudioCodec</key>
@@ -623,9 +703,9 @@
 		<key>Drivers</key>
 		<array>
 			<string>HFSPlus.efi</string>
-			<string>ApfsDriverLoader.efi</string>
 			<string>OpenRuntime.efi</string>
 			<string>OpenCanopy.efi</string>
+			<string>AudioDxe.efi</string>
 		</array>
 		<key>Input</key>
 		<dict>
@@ -673,7 +753,7 @@
 			<key>TextRenderer</key>
 			<string>BuiltinGraphics</string>
 		</dict>
-		<key>Protocols</key>
+		<key>ProtocolOverrides</key>
 		<dict>
 			<key>AppleAudio</key>
 			<false/>
@@ -686,6 +766,8 @@
 			<key>AppleImageConversion</key>
 			<false/>
 			<key>AppleKeyMap</key>
+			<false/>
+			<key>AppleRtcRam</key>
 			<false/>
 			<key>AppleSmcIo</key>
 			<true/>
