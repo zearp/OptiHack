@@ -309,7 +309,9 @@ The ```pmset``` settings after install are:
 ### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
-* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
+
+### OpenCore doesn't remember the last booted volume!
+Press ```control + enter``` to set a new default. Wiping NVRAM can also help to cure this.
 
 ## Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
