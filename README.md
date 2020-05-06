@@ -50,7 +50,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ## Download and create the installer
-We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or virtual machine) with a working macOS and download it in the App Store. Alternative methods;
+We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or [virtual machine](https://github.com/kholia/OSX-KVM)) with a working macOS and download it in the App Store. Alternative methods;
 * [gibMacOS](https://github.com/corpnewt/gibMacOS) - Can also create the installer on Windows.
 * [Catalina Patcher](http://dosdude1.com/catalina/) - Can also create the installer but for now only use it for downloading.
 Once downloaded we can [create the install media](https://support.apple.com/sl-si/HT201372). If you don't have a working macOS system yet you can still create an installer by running gibMacOS's Makeinstall.bat as administrator on Windows but YMMV.
