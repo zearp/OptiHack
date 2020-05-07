@@ -182,7 +182,7 @@ After pressing any key we're back in the menu with the table on top. You will no
 ## RST
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
-I have tried [a few versions](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
+I have tried [a few versions](https://www.win-raid.com/t7f13-AHCI-amp-RAID-ROM-Modules.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
 
 ## iGPU/LAN
 What I did update were the ethernet firmware and iGPU VBIOS. Remember those Intel GOP/VBIOS/RST files we grabber earlier? We're going to extract the GOP one. Copy the 2 files found in ```\Intel_GOP_VBT_r2\HSW\189``` to ```C:\UBU\Files\Intel\VBIOS```.
