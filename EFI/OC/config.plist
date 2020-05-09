@@ -466,10 +466,6 @@
 			<true/>
 			<key>AuthRestart</key>
 			<false/>
-			<key>BlacklistAppleUpdate</key>
-			<false/>
-			<key>BootProtect</key>
-			<string>None</string>
 			<key>ExposeSensitiveData</key>
 			<integer>6</integer>
 			<key>HaltLevel</key>
@@ -478,78 +474,82 @@
 			<integer>0</integer>
 			<key>Vault</key>
 			<string>Optional</string>
+			<key>BootProtect</key>
+			<string>None</string>
+			<key>BlacklistAppleUpdate</key>
+			<false/>
 		</dict>
 		<key>Tools</key>
 		<array>
 			<dict>
-				<key>Arguments</key>
-				<string></string>
-				<key>Auxiliary</key>
-				<false/>
 				<key>Comment</key>
 				<string>HdaCodecDump.efi</string>
-				<key>Enabled</key>
-				<true/>
 				<key>Name</key>
 				<string>HdaCodecDump.efi</string>
-				<key>Path</key>
-				<string>HdaCodecDump.efi</string>
-			</dict>
-			<dict>
+				<key>Enabled</key>
+				<false/>
 				<key>Arguments</key>
 				<string></string>
+				<key>Path</key>
+				<string>HdaCodecDump.efi</string>
 				<key>Auxiliary</key>
 				<false/>
+			</dict>
+			<dict>
 				<key>Comment</key>
+				<string>modGRUBShell.efi</string>
+				<key>Name</key>
 				<string>modGRUBShell.efi</string>
 				<key>Enabled</key>
 				<true/>
-				<key>Name</key>
+				<key>Arguments</key>
+				<string></string>
+				<key>Path</key>
 				<string>modGRUBShell.efi</string>
-				<key>Path</key>
-				<string>modGRUBShell.efi</string>
-			</dict>
-			<dict>
-				<key>Arguments</key>
-				<string></string>
 				<key>Auxiliary</key>
 				<false/>
-				<key>Comment</key>
-				<string>OpenShell.efi</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Name</key>
-				<string>OpenShell.efi</string>
-				<key>Path</key>
-				<string>OpenShell.efi</string>
 			</dict>
 			<dict>
+				<key>Comment</key>
+				<string>OpenShell.efi</string>
+				<key>Name</key>
+				<string>OpenShell.efi</string>
+				<key>Enabled</key>
+				<false/>
 				<key>Arguments</key>
 				<string></string>
+				<key>Path</key>
+				<string>OpenShell.efi</string>
 				<key>Auxiliary</key>
 				<false/>
-				<key>Comment</key>
-				<string>ResetSystem.efi</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Name</key>
-				<string>ResetSystem.efi</string>
-				<key>Path</key>
-				<string>ResetSystem.efi</string>
 			</dict>
 			<dict>
+				<key>Comment</key>
+				<string>ResetSystem.efi</string>
+				<key>Name</key>
+				<string>ResetSystem.efi</string>
+				<key>Enabled</key>
+				<false/>
 				<key>Arguments</key>
 				<string></string>
+				<key>Path</key>
+				<string>ResetSystem.efi</string>
 				<key>Auxiliary</key>
 				<false/>
+			</dict>
+			<dict>
 				<key>Comment</key>
 				<string>VerifyMsrE2.efi</string>
-				<key>Enabled</key>
-				<true/>
 				<key>Name</key>
 				<string>VerifyMsrE2.efi</string>
+				<key>Enabled</key>
+				<false/>
+				<key>Arguments</key>
+				<string></string>
 				<key>Path</key>
 				<string>VerifyMsrE2.efi</string>
+				<key>Auxiliary</key>
+				<false/>
 			</dict>
 		</array>
 	</dict>
@@ -642,6 +642,14 @@
 			<key>SystemUUID</key>
 			<string></string>
 		</dict>
+		<key>UpdateDataHub</key>
+		<true/>
+		<key>UpdateNVRAM</key>
+		<true/>
+		<key>UpdateSMBIOS</key>
+		<true/>
+		<key>UpdateSMBIOSMode</key>
+		<string>Create</string>
 		<key>SMBIOS</key>
 		<dict>
 			<key>BIOSReleaseDate</key>
@@ -657,14 +665,6 @@
 			<key>SystemManufacturer</key>
 			<string>Dell</string>
 		</dict>
-		<key>UpdateDataHub</key>
-		<true/>
-		<key>UpdateNVRAM</key>
-		<true/>
-		<key>UpdateSMBIOS</key>
-		<true/>
-		<key>UpdateSMBIOSMode</key>
-		<string>Create</string>
 	</dict>
 	<key>UEFI</key>
 	<dict>
