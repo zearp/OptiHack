@@ -440,6 +440,8 @@
 			<integer>2147483650</integer>
 			<key>Target</key>
 			<integer>3</integer>
+			<key>ApplePanic</key>
+			<false/>
 		</dict>
 		<key>Entries</key>
 		<array>
