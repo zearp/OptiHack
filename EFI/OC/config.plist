@@ -798,6 +798,8 @@
 			<true/>
 			<key>UnblockFsConnect</key>
 			<false/>
+			<key>DeduplicateBootOrder</key>
+			<false/>
 		</dict>
 		<key>ReservedMemory</key>
 		<array>
