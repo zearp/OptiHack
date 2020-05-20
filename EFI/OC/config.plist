@@ -39,7 +39,7 @@
 				<string>SSDT-SBUS-MCHC.aml</string>
 			</dict>
 		</array>
-		<key>Block</key>
+		<key>Delete</key>
 		<array>
 		</array>
 		<key>Patch</key>
@@ -209,7 +209,7 @@
 				<string>onboard-1</string>
 			</dict>
 		</dict>
-		<key>Block</key>
+		<key>Delete</key>
 		<dict/>
 	</dict>
 	<key>Kernel</key>
@@ -441,7 +441,7 @@
 			<key>Target</key>
 			<integer>3</integer>
 			<key>ApplePanic</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Entries</key>
 		<array>
@@ -578,7 +578,7 @@
 				<string>en-US:0</string>
 			</dict>
 		</dict>
-		<key>Block</key>
+		<key>Delete</key>
 		<dict>
 			<key>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</key>
 			<array>
