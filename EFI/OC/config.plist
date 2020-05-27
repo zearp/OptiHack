@@ -799,7 +799,7 @@
 			<key>UnblockFsConnect</key>
 			<false/>
 			<key>DeduplicateBootOrder</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>ReservedMemory</key>
 		<array>
