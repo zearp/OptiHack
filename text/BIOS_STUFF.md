@@ -185,7 +185,7 @@ After pressing any key we're back in the menu with the table on top. You will no
 ## RST
 Now there are more things we can update here, one could be very useful but not really required; we can update the SATA/RAID (RST) drivers, though unfortunately it doesn't magically add a RAID controller to 7020 boards. If only!
 
-I have tried [a few versions](https://www.win-raid.com/t596f39-Intel-Management-Engine-Drivers-Firmware-amp-System-Tools.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
+I have tried [a few versions](https://www.win-raid.com/t7f13-AHCI-amp-RAID-ROM-Modules.html) and didn't notice any differences, but if you do have a RAID controller there could be benefits. For example using a modified version that allows for RAID0 booting and TRIM from the BIOS itself. You can find a lot more detailed information on the Win-Raid forums. Also note that the latest versions don't always mean best performance.
 
 ## iGPU/LAN
 What I did update were the ethernet firmware and iGPU VBIOS. Remember those Intel GOP/VBIOS/RST files we grabber earlier? We're going to extract the GOP one. Copy the 2 files found in ```\Intel_GOP_VBT_r2\HSW\189``` to ```C:\UBU\Files\Intel\VBIOS```.
@@ -432,6 +432,8 @@ Some BIOS areas can be unlocked which means you don't have to short the service 
 ```
 
 # Other interesting stuff in the BIOS
+This requires extra modules in the BIOS for it to work.
+
 https://software.intel.com/en-us/articles/intel-trusted-execution-technology-a-primer/
 ```
 0x47834 		One Of: Intel TXT(LT) Support, VarStoreInfo (VarOffset/VarName): 0x44, VarStore: 0x2, QuestionId: 0x5F, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 ED 00 EE 00 5F 00 02 00 44 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
@@ -447,14 +449,6 @@ Enabled: ACPI thermal management uses DTS SMM mechanism to obtain CPU temperatur
 0x478E2 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E F6 00 30 00 00 00 00 00 00 00 00 00}
 0x478F0 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E F5 00 00 00 01 00 00 00 00 00 00 00}
 0x478FE 		End One Of {29 02}
-```
-
-WOL.
-```
-0x47A95 		One Of: Wake on LAN Enable, VarStoreInfo (VarOffset/VarName): 0x67, VarStore: 0x2, QuestionId: 0x68, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 7D 02 7E 02 68 00 02 00 67 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x47ABB 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
-0x47AC9 			One Of Option: Disabled, Value (8 bit): 0x0 (default) {09 0E C3 03 30 00 00 00 00 00 00 00 00 00}
-0x47AD7 		End One Of {29 02}
 ```
 
 PCI hot swapping. Untested by me haha.
