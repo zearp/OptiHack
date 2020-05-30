@@ -203,8 +203,10 @@
 				<data>AQAAAA==</data>
 				<key>framebuffer-patch-enable</key>
 				<data>AQAAAA==</data>
-				<key>framebuffer-unifiedmem</key>
-				<data>AAAAgA==</data>
+				<key>enable-hdmi20</key>
+				<data>AQAAAA==</data>
+				<key>disable-external-gpu</key>
+				<data>AQAAAA==</data>
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
 			</dict>
@@ -571,7 +573,7 @@
 				<key>SystemAudioVolume</key>
 				<data>UA==</data>
 				<key>boot-args</key>
-				<string>-v -cdfon -wegnoegpu -igfxnohdmi keepsyms=1 debug=0x100 alcid=16</string>
+				<string>-v keepsyms=1 debug=0x100 alcid=16</string>
 				<key>csr-active-config</key>
 				<data>AwAAAA==</data>
 				<key>prev-lang:kbd</key>
@@ -800,6 +802,8 @@
 			<false/>
 			<key>DeduplicateBootOrder</key>
 			<true/>
+			<key>TscSyncTimeout</key>
+			<integer>0</integer>
 		</dict>
 		<key>ReservedMemory</key>
 		<array>
