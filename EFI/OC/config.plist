@@ -193,6 +193,10 @@
 				<data>AwAiDQ==</data>
 				<key>device-id</key>
 				<data>EgQAAA==</data>
+				<key>disable-external-gpu</key>
+				<data>AQAAAA==</data>
+				<key>enable-hdmi20</key>
+				<data>AQAAAA==</data>
 				<key>framebuffer-con0-alldata</key>
 				<data>/wAJAAAAAACHAAAA</data>
 				<key>framebuffer-con0-enable</key>
@@ -202,10 +206,6 @@
 				<key>framebuffer-con3-enable</key>
 				<data>AQAAAA==</data>
 				<key>framebuffer-patch-enable</key>
-				<data>AQAAAA==</data>
-				<key>enable-hdmi20</key>
-				<data>AQAAAA==</data>
-				<key>disable-external-gpu</key>
 				<data>AQAAAA==</data>
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
@@ -434,16 +434,18 @@
 		<dict>
 			<key>AppleDebug</key>
 			<true/>
+			<key>ApplePanic</key>
+			<true/>
 			<key>DisableWatchDog</key>
 			<true/>
 			<key>DisplayDelay</key>
 			<integer>0</integer>
 			<key>DisplayLevel</key>
 			<integer>2147483650</integer>
+			<key>SysReport</key>
+			<false/>
 			<key>Target</key>
 			<integer>3</integer>
-			<key>ApplePanic</key>
-			<true/>
 		</dict>
 		<key>Entries</key>
 		<array>
@@ -470,6 +472,10 @@
 			<true/>
 			<key>AuthRestart</key>
 			<false/>
+			<key>BlacklistAppleUpdate</key>
+			<false/>
+			<key>BootProtect</key>
+			<string>None</string>
 			<key>ExposeSensitiveData</key>
 			<integer>6</integer>
 			<key>HaltLevel</key>
@@ -478,82 +484,78 @@
 			<integer>0</integer>
 			<key>Vault</key>
 			<string>Optional</string>
-			<key>BootProtect</key>
-			<string>None</string>
-			<key>BlacklistAppleUpdate</key>
-			<false/>
 		</dict>
 		<key>Tools</key>
 		<array>
 			<dict>
+				<key>Arguments</key>
+				<string></string>
+				<key>Auxiliary</key>
+				<false/>
 				<key>Comment</key>
-				<string>HdaCodecDump.efi</string>
-				<key>Name</key>
 				<string>HdaCodecDump.efi</string>
 				<key>Enabled</key>
 				<false/>
-				<key>Arguments</key>
-				<string></string>
+				<key>Name</key>
+				<string>HdaCodecDump.efi</string>
 				<key>Path</key>
 				<string>HdaCodecDump.efi</string>
-				<key>Auxiliary</key>
-				<false/>
 			</dict>
 			<dict>
+				<key>Arguments</key>
+				<string></string>
+				<key>Auxiliary</key>
+				<false/>
 				<key>Comment</key>
-				<string>modGRUBShell.efi</string>
-				<key>Name</key>
 				<string>modGRUBShell.efi</string>
 				<key>Enabled</key>
 				<true/>
-				<key>Arguments</key>
-				<string></string>
+				<key>Name</key>
+				<string>modGRUBShell.efi</string>
 				<key>Path</key>
 				<string>modGRUBShell.efi</string>
-				<key>Auxiliary</key>
-				<false/>
 			</dict>
 			<dict>
+				<key>Arguments</key>
+				<string></string>
+				<key>Auxiliary</key>
+				<false/>
 				<key>Comment</key>
-				<string>OpenShell.efi</string>
-				<key>Name</key>
 				<string>OpenShell.efi</string>
 				<key>Enabled</key>
 				<false/>
-				<key>Arguments</key>
-				<string></string>
+				<key>Name</key>
+				<string>OpenShell.efi</string>
 				<key>Path</key>
 				<string>OpenShell.efi</string>
-				<key>Auxiliary</key>
-				<false/>
 			</dict>
 			<dict>
+				<key>Arguments</key>
+				<string></string>
+				<key>Auxiliary</key>
+				<false/>
 				<key>Comment</key>
-				<string>ResetSystem.efi</string>
-				<key>Name</key>
 				<string>ResetSystem.efi</string>
 				<key>Enabled</key>
 				<false/>
-				<key>Arguments</key>
-				<string></string>
+				<key>Name</key>
+				<string>ResetSystem.efi</string>
 				<key>Path</key>
 				<string>ResetSystem.efi</string>
-				<key>Auxiliary</key>
-				<false/>
 			</dict>
 			<dict>
+				<key>Arguments</key>
+				<string></string>
+				<key>Auxiliary</key>
+				<false/>
 				<key>Comment</key>
-				<string>VerifyMsrE2.efi</string>
-				<key>Name</key>
 				<string>VerifyMsrE2.efi</string>
 				<key>Enabled</key>
 				<false/>
-				<key>Arguments</key>
-				<string></string>
+				<key>Name</key>
+				<string>VerifyMsrE2.efi</string>
 				<key>Path</key>
 				<string>VerifyMsrE2.efi</string>
-				<key>Auxiliary</key>
-				<false/>
 			</dict>
 		</array>
 	</dict>
@@ -646,14 +648,6 @@
 			<key>SystemUUID</key>
 			<string></string>
 		</dict>
-		<key>UpdateDataHub</key>
-		<true/>
-		<key>UpdateNVRAM</key>
-		<true/>
-		<key>UpdateSMBIOS</key>
-		<true/>
-		<key>UpdateSMBIOSMode</key>
-		<string>Create</string>
 		<key>SMBIOS</key>
 		<dict>
 			<key>BIOSReleaseDate</key>
@@ -669,6 +663,14 @@
 			<key>SystemManufacturer</key>
 			<string>Dell</string>
 		</dict>
+		<key>UpdateDataHub</key>
+		<true/>
+		<key>UpdateNVRAM</key>
+		<true/>
+		<key>UpdateSMBIOS</key>
+		<true/>
+		<key>UpdateSMBIOSMode</key>
+		<string>Create</string>
 	</dict>
 	<key>UEFI</key>
 	<dict>
@@ -790,6 +792,8 @@
 		</dict>
 		<key>Quirks</key>
 		<dict>
+			<key>DeduplicateBootOrder</key>
+			<true/>
 			<key>ExitBootServicesDelay</key>
 			<integer>0</integer>
 			<key>IgnoreInvalidFlexRatio</key>
@@ -798,12 +802,10 @@
 			<true/>
 			<key>RequestBootVarRouting</key>
 			<true/>
-			<key>UnblockFsConnect</key>
-			<false/>
-			<key>DeduplicateBootOrder</key>
-			<true/>
 			<key>TscSyncTimeout</key>
 			<integer>0</integer>
+			<key>UnblockFsConnect</key>
+			<false/>
 		</dict>
 		<key>ReservedMemory</key>
 		<array>
