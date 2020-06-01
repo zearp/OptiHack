@@ -50,7 +50,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ## Download and create the installer
-We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or [virtual machine](https://github.com/kholia/OSX-KVM)) with a working macOS and download it in the App Store. Alternative methods;
+We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or virtual machine) with a working macOS and download it in the App Store. Alternative methods;
 * [gibMacOS](https://github.com/corpnewt/gibMacOS) - Can also create the installer on Windows.
 * [Catalina Patcher](http://dosdude1.com/catalina/) - Can also create the installer but for now only use it for downloading.
 Once downloaded we can [create the install media](https://support.apple.com/sl-si/HT201372). If you don't have a working macOS system yet you can still create an installer by running gibMacOS's Makeinstall.bat as administrator on Windows but YMMV.
@@ -101,7 +101,7 @@ We're done. Exit the shell by running the ```reboot``` command.
 
 <sub>Credit for DVMT/CFG Lock BIOS research goes to @JimLee1996 and his nice [write up](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) on this subject. Thanks to his work I was able to figure out how to enable EHCI hand-off. More might still come, there's a lot of interesting things that Dell is not exposing in the BIOS. Another big thanks goes to @datasone for providing [the modified Grub shell](https://github.com/datasone/grub-mod-setup_var/).</sub>
 
-> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make sure to double check you're entering the right values and nothing can go wrong. In case it gets messed up you can clear *all the things* by following [these](#resetting-uefi-changes) steps.
+> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. Reflashing the BIOS with a chip programmer seems to be the only way to clear *all* settings.
 
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
@@ -114,7 +114,7 @@ You're now ready to install macOS. Boot from the installer again and select the 
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right.
+(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
 
 ## Post install
 Once macOS is installed and made it trought the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
@@ -123,9 +123,11 @@ Yes, we're nearly done now.
 
 If you don't have an ssd you can skip the next step, which is hopefully nobody.
 
-We need to check if TRIM is enabled, it should be as we applied a patch in the config for this. But it is always good to verify and make sure. Open the *System Information* app and under SATA/SATA Express highlight your internal disk on the right and verify it says ```TRIM Support: Yes``` there.
+We need to check if TRIM is enabled, open the *System Information* app and under SATA/SATA Express highlight your internal disk on the right and verify it says ```TRIM Support: Yes``` there.
 
-If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
+If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Repeat the previous steps to make sure it's enabled now.
+
+Also don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
 
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
@@ -309,9 +311,7 @@ The ```pmset``` settings after install are:
 ### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
-
-### OpenCore doesn't remember the last booted volume!
-Press ```control + enter``` to set a new default. Wiping NVRAM can also help to cure this.
+* OpenCore doesn't remember the last booted volume! Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
 
 ## Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
