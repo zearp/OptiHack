@@ -123,9 +123,11 @@ Yes, we're nearly done now.
 
 If you don't have an ssd you can skip the next step, which is hopefully nobody.
 
-We need to check if TRIM is enabled, it should be as we applied a patch in the config for this. But it is always good to verify and make sure. Open the *System Information* app and under SATA/SATA Express highlight your internal disk on the right and verify it says ```TRIM Support: Yes``` there.
+We need to check if TRIM is enabled, open the *System Information* app and under SATA/SATA Express highlight your internal disk on the right and verify it says ```TRIM Support: Yes``` there.
 
-If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
+If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Repeat the previous steps to make sure it's enabled now.
+
+Also don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
 
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
