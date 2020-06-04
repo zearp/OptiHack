@@ -38,6 +38,14 @@
 				<key>Path</key>
 				<string>SSDT-SBUS-MCHC.aml</string>
 			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Prevents ghostly wake-ups from EHCx</string>
+				<key>Path</key>
+				<string>SSDT-EHCx_OFF.aml</string>
+				<key>Enabled</key>
+				<true/>
+			</dict>
 		</array>
 		<key>Delete</key>
 		<array>
