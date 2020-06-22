@@ -184,6 +184,8 @@
 			<false/>
 			<key>SyncRuntimePermissions</key>
 			<false/>
+			<key>ProvideMaxSlide</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>DeviceProperties</key>
@@ -458,8 +460,6 @@
 			<true/>
 			<key>AuthRestart</key>
 			<false/>
-			<key>BlacklistAppleUpdate</key>
-			<false/>
 			<key>BootProtect</key>
 			<string>None</string>
 			<key>ExposeSensitiveData</key>
@@ -616,6 +616,8 @@
 			<integer>0</integer>
 			<key>MinVersion</key>
 			<integer>0</integer>
+			<key>GlobalConnect</key>
+			<false/>
 		</dict>
 		<key>Audio</key>
 		<dict>
