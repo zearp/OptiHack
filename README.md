@@ -68,7 +68,7 @@ PlatformInfo -> Generic -> SystemUUID
 ```
 You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac14,3* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials and UUID.
 
-> NOTE: For macOS Big Sur you need to use iMac14,4 or iMac15,1 and make a new usb portmap post install. Booting the Big Sur installer will appear to stall for a few minutes, but it will continue just fine. This is a very early beta and not officaly supported in OpenCore and friends yet, so best to stick with Catalina for now.
+> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. Big Sur will require 14,4 or 15,1. Funny how Apple dropped Big Sur support for the more powerful 2013 (14,3) model but does support the slower 2014 (14,4) model. Seems actual h/w performance is not a criteria Apple used but this could still change.
 
 Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
