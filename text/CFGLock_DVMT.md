@@ -51,13 +51,3 @@ Other iGPU related stuff of interest:
 0x4F2CB 			One Of Option: 512MB, Value (8 bit): 0x3 {09 0E C6 04 00 00 03 00 00 00 00 00 00 00}
 0x4F2D9 		End One Of {29 02}
 ```
-
-**Warning!** The next one might disable the iGPU when set to disabled, without a dGPU you would need to reset these values to the default and in my testing I found that resetting the bios or NVRAM does *not* reset them back to defaults. The reset/clear jumper on the motherboard might but I have not tested that. Best not to mess with this one haha. I put it here for documentation only.
-
-```
-0x4F1F3 		One Of: Internal Graphics, VarStoreInfo (VarOffset/VarName): 0x278, VarStore: 0x2, QuestionId: 0x215, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 CB 03 CC 03 15 02 02 00 78 02 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x4F219 			One Of Option: Auto, Value (8 bit): 0x2 (default) {09 0E C0 03 30 00 02 00 00 00 00 00 00 00}
-0x4F227 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
-0x4F235 			One Of Option: Enabled, Value (8 bit): 0x1 {09 0E C2 03 00 00 01 00 00 00 00 00 00 00}
-0x4F243 		End One Of {29 02}
-```
