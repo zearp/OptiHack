@@ -270,6 +270,9 @@ I personally suggest to also install an app that keeps track of apps connecting 
 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
+**FileVault2**:
+This works out of the box. You can enable it in the System Preferences app.
+
 ## Issues
 ### Resetting UEFI changes
 You have to remove the CMOS battery, short the ```RTCRST``` jumper and remove the ```PSWD``` jumper. Also remove the powerchord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the powerchord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults for good measure.
@@ -365,7 +368,6 @@ A deep bow to all of you!
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
 TODO:
-* FileVault2 works. Need to add entry to the guide for it.
 * Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
 * Wifi, I haven't received my Broadcom wifi/BT combo card yet.
 * Bluetooth, currently using a [$2 BT 4.0 dongle](https://www.ebay.co.uk/itm/1PCS-Mini-USB-Bluetooth-V4-0-3Mbps-20M-Dongle-Dual-Mode-Wireless-Adapter-Device/324106977844) that surprisingly works out of the box. No handoff or other fancy features are supported but audio and mouse/keyboard work fine.
