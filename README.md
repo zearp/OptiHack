@@ -271,7 +271,7 @@ I personally suggest to also install an app that keeps track of apps connecting 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
 **FileVault2**:
-This works out of the box. You can enable it in the System Preferences app.
+This works out of the box. You can enable it in the System Preferences app. If you're having any issues please double check the settings using [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault) guide.
 
 ## Issues
 ### Resetting UEFI changes
