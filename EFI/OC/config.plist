@@ -505,9 +505,9 @@
 				<key>SystemAudioVolume</key>
 				<data>Jg==</data>
 				<key>boot-args</key>
-				<string>-v keepsyms=1 debug=0x100 alcid=16</string>
+				<string>-lilubetaall vsmcgen=1 -v keepsyms=1 debug=0x100 alcid=16</string>
 				<key>csr-active-config</key>
-				<data>AwAAAA==</data>
+				<data>/w8AAA==</data>
 				<key>prev-lang:kbd</key>
 				<string>en-US:0</string>
 			</dict>
@@ -572,7 +572,7 @@
 			<key>SpoofVendor</key>
 			<true/>
 			<key>SystemProductName</key>
-			<string>iMac14,3</string>
+			<string>iMac15,1</string>
 			<key>SystemSerialNumber</key>
 			<string></string>
 			<key>SystemUUID</key>
