@@ -66,7 +66,7 @@ PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
 ```
-You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac14,3* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials and UUID.
+You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials and UUID.
 
 > NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. Big Sur will require 14,4 or 15,1. Funny how Apple dropped Big Sur support for the more powerful 2013 (14,3) model but does support the slower 2014 (14,4) model. Seems actual h/w performance is not a criteria Apple used but this could still change.
 
@@ -156,7 +156,7 @@ Verify the settings with ```pmset -g```.
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
-> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model so I'm not sure if CPUFriend is needed when you have an exact match. But you can still use it to tweak things. I'm not using it when the cpu matches and existing model. Less kexts feels good too and it doesn't surprise me Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
+> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) so I'm not sure if CPUFriend is needed, also with Big Sur. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
