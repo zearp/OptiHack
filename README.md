@@ -197,13 +197,11 @@ Please don't use hubs to map the ports, they've produced some bad portmaps in my
 > Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
 ### SMBIOS
-Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was *14,3*. When in doubt use *14,1* with only iGPU, *14,2* when used with dGPU and *15,1* for Haswell Refresh.
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in too high base clocks for the HD4600.
 
-If you change this you will have to create a new USBPorts.kext as the kext is linked to product name. While things may appear to work fine after you changed the product name and keep using the kext for 14,3 it can lead to weird usb issues. To create a new portmap refer to the section above this one.
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
-You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist).
-
-> Note: If everything is working fine for you then there is *no need* to change the iMac 14,3 default.
+> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
 ### RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
