@@ -90,9 +90,9 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
-Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
+Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here; if you change it to anything else than 64MB you will need to change the ```framebuffer-stolenmem``` in the config.plist file as it needs to match. For example changing it to 92MB you'll have to set ```framebuffer-stolenmem``` to ```00000006```. I've tested larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. Setting it to 64MB should be fine for pretty much everyone though.
 
-> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot.
+> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot it may also mean using dual screen or high resoltions won't work.
 
 ## Enable EHCI hand-off
 For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by entering the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it.
@@ -360,6 +360,7 @@ A deep bow to all of you!
 
 ## Notes
 * Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing the ```-igfxnohdmi``` boot flag and trying the DP -> HDMI and other HDMI related patches in Hackintool which can export/merge the patches into your config.
+* For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
 * The VRAM size is currently set to 2GB in the config, unlike the screenshot suggests. If you want to go to back to 1.5GB just remove the ```framebuffer-unifiedmem``` key from the config.
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
@@ -381,7 +382,6 @@ If (_OSI ("Darwin"))
 ```
 
 CAN'T DO:
-* Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
 * DRM for stuff like Netflix and Amazon Prime [require a dGPU](https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.Chart.md). Bummer, but not a deal breaker for me personally. I do wonder why on my old MacBook I can play Prime Video in 1080p in Safari on a HD4000. Somehow DRM works fine there.
 
