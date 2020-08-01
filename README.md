@@ -3,7 +3,7 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 <sub>Should also work on 9020 SFF and MT models without additional modifications. For the 9020 USFF you need to create a usb portmap post-install. The 9020 micro needs the same and possibly more modifications, I have no experience with that model. The 7020 was only available in SFF and MT form-factor.</sub>
 
-![Screenshot](https://github.com/zearp/optihack/blob/master/images/mmk.png)
+![Screenshot](/images/Big%20Sur%20Beta.jpg?raw=true)
 
 ### Intro
 
@@ -15,7 +15,7 @@ I suck at writing documentation but I need to keep track of things I do for myse
 
 Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
 
-> Note: If you've used a version prior to the 26th of June 2020 it is best to double check your settings and/or start from scratch as a lot has changed.
+> Note: If you've used a version prior to the 15th of July 2020 it is best to double check your settings and/or start from scratch as a lot has changed.
 
 ## Index
 * [BIOS settings](#bios-settings)
@@ -66,9 +66,9 @@ PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
 ```
-You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac14,3* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials and UUID.
+You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
 
-> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. Big Sur will require 14,4 or 15,1. Funny how Apple dropped Big Sur support for the more powerful 2013 (14,3) model but does support the slower 2014 (14,4) model. Seems actual h/w performance is not a criteria Apple used but this could still change.
+> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you don't plan to upgrade you can use 14,3 for Catalina installs.
 
 Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
@@ -90,9 +90,9 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
-Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
+Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here; if you change it to anything else than 64MB you will need to change the ```framebuffer-stolenmem``` in the config.plist file as it needs to match. For example changing it to 92MB you'll have to set ```framebuffer-stolenmem``` to ```00000006```. I've tested larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. Setting it to 64MB should be fine for pretty much everyone though.
 
-> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot.
+> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot it may also mean using dual screen or high resoltions won't work.
 
 ## Enable EHCI hand-off
 For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by entering the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it.
@@ -106,7 +106,7 @@ We're done. Exit the shell by running the ```reboot``` command.
 > Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. To clear all the settings follow [these](#resetting-uefi-changes) steps.
 
 ## Installing macOS
-You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
+You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore. Sometimes the installer can seem to have stalled (no updates in verbose boot). This happened a lot in the Big Sur installers. Sometimes up to 5 minutes. But it would always boot into the installer. Once installed this delay went away.
 
 1. Boot from installer, select ```Install macOS Catalina (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
 2. Back in the OpenCore menu, boot from ```Install macOS Catalina (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
@@ -116,7 +116,7 @@ You're now ready to install macOS. Boot from the installer again and select the 
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
+(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention.)
 
 ## Post install
 Once macOS is installed and made it trought the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
@@ -156,7 +156,7 @@ Verify the settings with ```pmset -g```.
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
-> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model so I'm not sure if CPUFriend is needed when you have an exact match. But you can still use it to tweak things. I'm not using it when the cpu matches and existing model. Less kexts feels good too and it doesn't surprise me Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
+> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
@@ -197,13 +197,11 @@ Please don't use hubs to map the ports, they've produced some bad portmaps in my
 > Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
 ### SMBIOS
-Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was *14,3*. When in doubt use *14,1* with only iGPU, *14,2* when used with dGPU and *15,1* for Haswell Refresh.
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
 
-If you change this you will have to create a new USBPorts.kext as the kext is linked to product name. While things may appear to work fine after you changed the product name and keep using the kext for 14,3 it can lead to weird usb issues. To create a new portmap refer to the section above this one.
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
-You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist).
-
-> Note: If everything is working fine for you then there is *no need* to change the iMac 14,3 default.
+> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
 ### RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
@@ -286,8 +284,6 @@ When dealing with sleep issues make sure to test things with no usb devices conn
 
 If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
 
-If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reason(s). If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
 If your logs show something like ```DarkWake from Normal Sleep [CDNPB] : due to RTC/Maintenance``` it means Power Nap is enabled. These are scheduled wake-ups to make a backup or check mail. Disable Power Nap to get rid of them.
 
 When I was testing native hibernation with [HibernationFixup](https://github.com/acidanthera/HibernationFixup) the sleep logs were very helpful. They changed from ```Wake from Normal Sleep``` to ```Wake from Hibernate``` which would imply hibernation is working. Which is good because when set to mode ```25``` it writes the contents of the memory to disk instead of leaving it in there. Which means in case of a power outage you don't lose the contents of the memory. Waking up may become a bit slower though.
@@ -364,6 +360,7 @@ A deep bow to all of you!
 
 ## Notes
 * Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing the ```-igfxnohdmi``` boot flag and trying the DP -> HDMI and other HDMI related patches in Hackintool which can export/merge the patches into your config.
+* For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
 * The VRAM size is currently set to 2GB in the config, unlike the screenshot suggests. If you want to go to back to 1.5GB just remove the ```framebuffer-unifiedmem``` key from the config.
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
@@ -385,7 +382,6 @@ If (_OSI ("Darwin"))
 ```
 
 CAN'T DO:
-* Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
 * DRM for stuff like Netflix and Amazon Prime [require a dGPU](https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.Chart.md). Bummer, but not a deal breaker for me personally. I do wonder why on my old MacBook I can play Prime Video in 1080p in Safari on a HD4000. Somehow DRM works fine there.
 
