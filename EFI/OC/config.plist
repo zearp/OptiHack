@@ -221,6 +221,12 @@
 				<data>AQAAAA==</data>
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
+				<key>framebuffer-unifiedmem</key>
+				<data>AAAAgA==</data>
+				<key>framebuffer-stolenmem</key>
+				<data>AAAABA==</data>
+				<key>framebuffer-fbmem</key>
+				<data>AAAAAw==</data>
 			</dict>
 		</dict>
 		<key>Delete</key>
