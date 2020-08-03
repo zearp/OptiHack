@@ -204,7 +204,7 @@ Once you found the perfect values you can make them apply on start-up automatica
 
 If you run a system that is passively cooled or low-rpm fans you might benefit from disabling turbo and reducing the P1/P2 values a bit. This will decrease performance a bit but also prevent thigns from heating up too fast. Combine this with custom multiplier/clocks with CPUFriend and you can run a pretty cool system without much fan noise.
 
-> Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with ```[stripcodesig](https://github.com/tvi/stripcodesig)```. Either download it or build it and remove the code signature from the ```voltageshift``` binary.
+> Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with [stripcodesig](https://github.com/tvi/stripcodesig). Either download it or build it and remove the code signature from the ```voltageshift``` binary.
 
 ### Keybinding/mapping
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
