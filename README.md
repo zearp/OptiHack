@@ -173,7 +173,7 @@ You can build it form source or easier, download the precompiled binary [here](h
 * Put your compiled or downloaded ```VoltageShift.kext``` and the ```voltageshift``` binary in that folder.
 * Open a Terminal and go to the folder; cd ~/VoltageShift
 * Set correct permission of the kext by running; ```sudo chown -R root:wheel VoltageShift.kext```
-* Test if it works by running; sudo ./voltageshift info, if it works you'll see something like this:
+* Test if it works by running; ```sudo ./voltageshift info```, if it works you'll see something like this:
 ```
    VoltageShift Info Tool
 ------------------------------------------------------
