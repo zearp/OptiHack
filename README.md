@@ -162,11 +162,49 @@ This should be enabled and setup properly. You can run the [Intel Power Gadget](
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
 
 ### Undervolting
-Currently testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift). Not anything too much (-75mv CPU and -25mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
+Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -25mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
-Been running these settings for more than a week, so far so good. If you feel brave you can try it out. If you're going to use the [binary release](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and not compile from source you'll need to fix them as explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
+You can build it form source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
 
-Once this config has proven itself stable I will update this section with a little guide on how to get it going.
+***Make a backup of your system before doing anything, crashes will happen when trying to find the optimal values.***
+
+* Make sure you allow loading of unsigned kexts, either with the ```kext-dev-mode=1``` boot flag or by changing the SIPS/csr config. I suggest adding the bootflag.
+* Create a new folder called VoltageShift or something like that, I suggest making in your home directory.
+* Put your compiled or downloaded ```VoltageShift.kext``` and the ```voltageshift``` binary in that folder.
+* Open a Terminal and go to the folder; cd ~/VoltageShift
+* Set correct permission of the kext by running; ```sudo chown -R root:wheel VoltageShift.kext```
+* Test if it works by running; sudo ./voltageshift info, if it works you'll see something like this:
+```
+   VoltageShift Info Tool
+------------------------------------------------------
+WRMSR 150 with value 0x8000001000000000
+RDMSR 150 returns value 0xf6a00000
+CPU voltage offset: -75mv
+WRMSR 150 with value 0x8000011000000000
+RDMSR 150 returns value 0x100f9c00000
+GPU voltage offset: -50mv
+WRMSR 150 with value 0x8000021000000000
+RDMSR 150 returns value 0x200f6a00000
+CPU Cache voltage offset: -75mv
+WRMSR 150 with value 0x8000031000000000
+RDMSR 150 returns value 0x30000000000
+System Agency offset: 0mv
+WRMSR 150 with value 0x8000041000000000
+RDMSR 150 returns value 0x40000000000
+Analogy I/O: 0mv
+WRMSR 150 with value 0x8000051000000000
+RDMSR 150 returns value 0x50000000000
+Digital I/O: 0mv
+CPU BaseFreq: 2900, CPU MaxFreq(1/2/4): 3600/3500/3200 (mhz)  PL1: 65W PL2: 81W 
+CPU Freq: 3.2ghz, Voltage: 0.8932v, Power:pkg 16.09w /core 8.31w,Temp: 36 c
+```
+In my output you can see an undervoltage is already applied. To try out undervolting the CPU and iGPU you can run; ```sudo ./voltageshift offset -50 -25 -50```. This will apply a small amount only. You can then run some stress tests and see if the system crashes or not. The values are CPU / GPU / CPU cache. There are more values but don't touch those unless you know what you're doing.
+
+Once you found the perfect values you can make them apply on start-up automatically by running; ```sudo ./voltageshift buildlaunchd -50 -25 -50 0 0 0 1 65 81 120```. The last 3 values are P1 and P2 values that will be listed when you ran the ```info``` command earlier. Just use the defaults unless you need to change those. The final value is the time it checks/re-applies the settings. Waking up from sleep can sometimes reset them so we're checking every 2 hours. Which would lave a maximum of 2 horus withotu the settings appleid after waking up. Feel free to tweak and for more information about the options please read [this](https://github.com/sicreative/VoltageShift/blob/master/README.md). To remove the launch deamon simply run; ```sudo ./voltageshift removelaunchd```
+
+If you run a system that is passively cooled or low-rpm fans you might benefit from disabling turbo and reducing the P1/P2 values a bit. This will decrease performance a bit but also prevent thigns from heating up too fast. Combine this with custom multiplier/clocks with CPUFriend and you can run a pretty cool system without much fan noise.
+
+> Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with ```[stripcodesig](https://github.com/tvi/stripcodesig)```. Either download it or build it and remove the code signature from the ```voltageshift``` binary.
 
 ### Keybinding/mapping
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
