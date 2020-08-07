@@ -1,7 +1,9 @@
 # OptiHack
 My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
-<sub>Should also work on 9020 SFF and MT models without additional modifications. You will most likely need to create a usb portmap post-install on most models though. Luckily doing so this is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layoutid of 27 and SMBIOS iMac 14,1.</sub>
+<sub>Should also work on 9020 SFF and MT models without additional modifications other than changing RAID to AHCI in the BIOS. You will most likely need to create a usb portmap post-install on most models though. Luckily doing so this is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layout-id of 27 and SMBIOS iMac 14,1.</sub>
+
+> Important: While the BIOS of the 7020 and 9020 models are very similar it is always a good idea to double check the UEFI setup vars before changing them. It is not too difficult [to extract the needed tables](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) from the BIOS and find out the exact valeus for your BIOS (version).
 
 ![Screenshot](/images/Big%20Sur%20Beta.jpg?raw=true)
 
