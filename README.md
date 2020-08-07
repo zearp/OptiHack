@@ -1,7 +1,7 @@
 # OptiHack
 My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
-<sub>Should also work on 9020 SFF and MT models without additional modifications. For the 9020 USFF you need to create a usb portmap post-install. The 9020 micro needs the same and possibly more modifications, I have no experience with that model. The 7020 was only available in SFF and MT form-factor.</sub>
+<sub>Should also work on 9020 SFF and MT models without additional modifications. You will most likely need to create a usb portmap post-install on most models though. Luckily doing so this is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layoutid of 27 and SMBIOS iMac 14,1.</sub>
 
 ![Screenshot](/images/Big%20Sur%20Beta.jpg?raw=true)
 
