@@ -211,14 +211,14 @@
 				<data>AQAAAA==</data>
 				<key>framebuffer-patch-enable</key>
 				<data>AQAAAA==</data>
+				<key>hda-gfx</key>
+				<string>onboard-1</string>
 				<key>framebuffer-unifiedmem</key>
 				<data>AAAAgA==</data>
 				<key>framebuffer-stolenmem</key>
 				<data>AAAABA==</data>
 				<key>framebuffer-fbmem</key>
 				<data>AAAAAw==</data>
-				<key>hda-gfx 1</key>
-				<string>onboard-1</string>
 			</dict>
 		</dict>
 		<key>Delete</key>
@@ -470,6 +470,8 @@
 			<integer>0</integer>
 			<key>Vault</key>
 			<string>Optional</string>
+			<key>DmgLoading</key>
+			<string>Signed</string>
 		</dict>
 		<key>Tools</key>
 		<array>
