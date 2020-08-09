@@ -1,13 +1,13 @@
 # OptiHack
 My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
-<sub>Should also work on 9020 SFF and MT models without additional modifications. For the 9020 USFF you need to create a usb portmap post-install. The 9020 micro needs the same and possibly more modifications, I have no experience with that model. The 7020 was only available in SFF and MT form-factor.</sub>
+<sub>Should also work on 9020 SFF and MT models without additional modifications other than changing RAID to AHCI in the BIOS. You will most likely need to create a usb portmap post-install on most models though. Luckily doing so is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layout-id of 27 and SMBIOS iMac 14,1.</sub>
 
-![Screenshot](https://github.com/zearp/optihack/blob/master/images/mmk.png)
+![Screenshot](/images/Big%20Sur%20Beta.jpg?raw=true)
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina and Big Sur.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina and Big Sur but should work older version too. For the time being please stick with Catalina as Big Sur is still in beta testing. Your build will be much more stable and reliable.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
@@ -15,7 +15,7 @@ I suck at writing documentation but I need to keep track of things I do for myse
 
 Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
 
-> Note: If you've used a version prior to the 26th of June 2020 it is best to double check your settings and/or start from scratch as a lot has changed.
+> Note: If you've used a version prior to the 1st of August 2020 it is best to double check your settings and/or start your EFI from scratch as a lot has changed.
 
 ## Index
 * [BIOS settings](#bios-settings)
@@ -66,9 +66,9 @@ PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
 ```
-You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac14,3* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials and UUID.
+You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
 
-> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. Big Sur will require 14,4 or 15,1. Funny how Apple dropped Big Sur support for the more powerful 2013 (14,3) model but does support the slower 2014 (14,4) model. Seems actual h/w performance is not a criteria Apple used but this could still change.
+> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you don't plan to upgrade you can use 14,3 for Catalina installs.
 
 Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
@@ -84,15 +84,15 @@ Boot from the installer and clear the NVRAM this is important as Clover and Open
 
 Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press enter. You'll end up in a shell where you can execute commands.
 
-> Note: It is always a good idea to verify these offsets yourself by extracting the BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
+> Note: It is always a good idea to verify these offsets yourself by extracting your current BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
 To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
-Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. If you're planning to run dual (4k) screens you can set the pre-alloc higher than 64MB. Changing it to 0x3 (96MB) or 0x4 (128MB) could help. I've tested these larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here but 64MB should be fine for pretty much everyone.
+Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here; if you change it to anything else than 64MB you will need to change the ```framebuffer-stolenmem``` in the config.plist file as it needs to match. For example changing it to 92MB you'll have to set ```framebuffer-stolenmem``` to ```00000006```. I've tested larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. Setting it to 64MB should be fine for pretty much everyone though.
 
-> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot.
+> Please note: Changing the pre-alloc size is not really needed but highly recommended, if you don't want to do this you ***must*** apply the DMVT pre-alloc 32MB patch found in Hackintool to the config or else you will get a panic on boot it may also mean using dual screen or high resolutions won't work.
 
 ## Enable EHCI hand-off
 For usb to function as good as possible we need to enable handing off EHCx ports to the XHCI controller. We accomplish that by entering the following commands; ```setup_var 0x2 0x1``` and ```setup_var 0x144 0x1``` the first enables EHCI hand-off itself and the second one sets XHCI in normal enabled mode. It's needed because the default value called *Smart Auto* isn't so smart after all. So we simply enable it.
@@ -106,7 +106,7 @@ We're done. Exit the shell by running the ```reboot``` command.
 > Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. To clear all the settings follow [these](#resetting-uefi-changes) steps.
 
 ## Installing macOS
-You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore.
+You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore. Sometimes the installer can seem to have stalled (no updates in verbose boot). This happened a lot in the Big Sur installers. Sometimes up to 5 minutes. But it would always boot into the installer. Once installed this delay went away.
 
 1. Boot from installer, select ```Install macOS Catalina (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
 2. Back in the OpenCore menu, boot from ```Install macOS Catalina (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
@@ -116,10 +116,10 @@ You're now ready to install macOS. Boot from the installer again and select the 
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The santity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which santiy check warnings you can ignore and which ones need attention. You can also ignore the warning about the *iMac14,3* not being right. Plus there is a bug in the santity checker where it complains about *ShrinkMemoryMap* not being there. It was replaced by *ProtectMemoryRegions* in 0.5.7.)
+(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The sanity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which sanity check warnings you can ignore and which ones need attention.)
 
 ## Post install
-Once macOS is installed and made it trought the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
+Once macOS is installed and made it trough the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
 
 Yes, we're nearly done now.
 
@@ -156,17 +156,55 @@ Verify the settings with ```pmset -g```.
 ### Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
-> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model so I'm not sure if CPUFriend is needed when you have an exact match. But you can still use it to tweak things. I'm not using it when the cpu matches and existing model. Less kexts feels good too and it doesn't surprise me Apple drives these cpu's at lower frequencies, it keeps the temps and noise down. Until you really start hammering it.
+> Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
 
 ### Undervolting
-Currently testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift). Not anything too much (-75mv CPU and -25mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
+Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
-Been running these settings for more than a week, so far so good. If you feel brave you can try it out. If you're going to use the [binary release](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and not compile from source you'll need to fix them as explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
+You can build it from source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
 
-Once this config has proven itself stable I will update this section with a little guide on how to get it going.
+***Make a backup of your system before doing anything, crashes will happen when trying to find the optimal values.***
+
+* Make sure you allow loading of unsigned kexts, either with the ```kext-dev-mode=1``` boot flag or by changing the SIPS/csr config. I suggest adding the bootflag.
+* Create a new folder called VoltageShift or something like that, I suggest making in your home directory.
+* Put your compiled or downloaded ```VoltageShift.kext``` and the ```voltageshift``` binary in that folder.
+* Open a Terminal and go to the folder; cd ~/VoltageShift
+* Set correct permission of the kext by running; ```sudo chown -R root:wheel VoltageShift.kext```
+* Test if it works by running; ```sudo ./voltageshift info```, if it works you'll see something like this:
+```
+   VoltageShift Info Tool
+------------------------------------------------------
+WRMSR 150 with value 0x8000001000000000
+RDMSR 150 returns value 0xf6a00000
+CPU voltage offset: -75mv
+WRMSR 150 with value 0x8000011000000000
+RDMSR 150 returns value 0x100f9c00000
+GPU voltage offset: -50mv
+WRMSR 150 with value 0x8000021000000000
+RDMSR 150 returns value 0x200f6a00000
+CPU Cache voltage offset: -75mv
+WRMSR 150 with value 0x8000031000000000
+RDMSR 150 returns value 0x30000000000
+System Agency offset: 0mv
+WRMSR 150 with value 0x8000041000000000
+RDMSR 150 returns value 0x40000000000
+Analogy I/O: 0mv
+WRMSR 150 with value 0x8000051000000000
+RDMSR 150 returns value 0x50000000000
+Digital I/O: 0mv
+CPU BaseFreq: 2900, CPU MaxFreq(1/2/4): 3600/3500/3200 (mhz)  PL1: 65W PL2: 81W 
+CPU Freq: 3.2ghz, Voltage: 0.8932v, Power:pkg 16.09w /core 8.31w,Temp: 36 c
+```
+In my output you can see an undervoltage is already applied. To try out undervolting the CPU and iGPU you can run; ```sudo ./voltageshift offset -50 -25 -50```. This will apply a small amount only. You can then run some stress tests and see if the system crashes or not. The values are CPU / GPU / CPU cache. There are more values but don't touch those unless you know what you're doing.
+
+Once you found the perfect values you can make them apply on start-up automatically by running; ```sudo ./voltageshift buildlaunchd -50 -25 -50 0 0 0 1 65 81 120```. The last 3 values are P1 and P2 values that will be listed when you ran the ```info``` command earlier. Just use the defaults unless you need to change those. The final value is the time it checks/re-applies the settings. Waking up from sleep can sometimes reset them so we're checking every 2 hours. Which would lave a maximum of 2 hours without the settings applied after waking up. Feel free to tweak and for more information about the options please read [this](https://github.com/sicreative/VoltageShift/blob/master/README.md). To remove the launch deamon simply run; ```sudo ./voltageshift removelaunchd```
+
+If you run a system that is passively cooled or low-rpm fans you might benefit from disabling turbo and reducing the P1/P2 values a bit. This will decrease performance a bit but also prevent things from heating up too fast. Combine this with custom multiplier/clocks with CPUFriend and you can run a pretty cool system without much fan noise.
+
+> Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with [stripcodesig](https://github.com/tvi/stripcodesig). Either download it or build it and remove the code signature from the ```voltageshift``` binary.
 
 ### Keybinding/mapping
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
@@ -197,13 +235,11 @@ Please don't use hubs to map the ports, they've produced some bad portmaps in my
 > Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
 ### SMBIOS
-Unless you also have an Intel i5 4570S or similar it is recommended to change the ```NVRAM -> PlatformInfo -> Generic -> SystemProductName``` field in the config file. Find one that matches your CPU as close as possible. In my case that was *14,3*. When in doubt use *14,1* with only iGPU, *14,2* when used with dGPU and *15,1* for Haswell Refresh.
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
 
-If you change this you will have to create a new USBPorts.kext as the kext is linked to product name. While things may appear to work fine after you changed the product name and keep using the kext for 14,3 it can lead to weird usb issues. To create a new portmap refer to the section above this one.
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
-You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist).
-
-> Note: If everything is working fine for you then there is *no need* to change the iMac 14,3 default.
+> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
 ### RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
@@ -250,7 +286,7 @@ Refer to [this list](https://github.com/zearp/OptiHack/blob/master/text/FANS.md)
 
 Thats it! Your silent OptiPlex will now be even more silent.
 
-> Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifcations are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slwoer but its not audible.
+> Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifications are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slower but its not audible.
 
 ### SIP
 Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in OpenCore config, which does the same as running ```csrutil enable --without kext --without fs``` from recovery/installer. If you don't plan on undervolting you can set the ```csr-active-config``` value to ```00000000```. That is the most secure option. Verify the current SIP settings by running ```csrutil status```.
@@ -258,7 +294,7 @@ Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in 
 > Note: If changing the config alone doesn't seem to change the SIP settings, reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
 
 ### Security
-* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equiped with fully fledged vPro options.
+* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
 
 To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md) page. It also deals with updating [microcodes](https://en.wikipedia.org/wiki/Microcode). Which can enhance security as well.
 
@@ -285,8 +321,6 @@ Sleep will not work properly with usb hubs, this includes some sata -> usb 3 don
 When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
 
 If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
-
-If you have any issues where the machine wakes up after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reason(s). If it says something about EHCx/XHCx then there's a usb hub or disk that acts as hub. If it says something about HID it means it got woken up by mouse or keyboard event. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
 
 If your logs show something like ```DarkWake from Normal Sleep [CDNPB] : due to RTC/Maintenance``` it means Power Nap is enabled. These are scheduled wake-ups to make a backup or check mail. Disable Power Nap to get rid of them.
 
@@ -364,6 +398,7 @@ A deep bow to all of you!
 
 ## Notes
 * Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing the ```-igfxnohdmi``` boot flag and trying the DP -> HDMI and other HDMI related patches in Hackintool which can export/merge the patches into your config.
+* For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
 * The VRAM size is currently set to 2GB in the config, unlike the screenshot suggests. If you want to go to back to 1.5GB just remove the ```framebuffer-unifiedmem``` key from the config.
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
 
@@ -385,7 +420,6 @@ If (_OSI ("Darwin"))
 ```
 
 CAN'T DO:
-* Audio over DisplayPort is only working on one port. The port closest to the PS/2 ports on 7020 SSF machines. This seems to be by design.
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
 * DRM for stuff like Netflix and Amazon Prime [require a dGPU](https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.Chart.md). Bummer, but not a deal breaker for me personally. I do wonder why on my old MacBook I can play Prime Video in 1080p in Safari on a HD4000. Somehow DRM works fine there.
 
