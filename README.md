@@ -372,10 +372,11 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [Transmission](https://transmissionbt.com/) - To download those Linux iso's. The "[nightly](https://build.transmissionbt.com/job/trunk-mac/)" builds have dark mode support.
 * [VLC](https://www.videolan.org) - Plays any media Cog can't.
 
-Then there's Homebrew and less known, but useful as you don't need the full Homebrew installed, Rudix.
+Then there's Homebrew and less known, but useful as you don't need the full Homebrew installed, Rudix. Not to forget MacPorts, which has some packages not found on the previous two.
 
 * [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
+* [MacPorts](https://www.macports.org) - Mostly packages needed to build stuff from source like cctools.
 
 ## Misc
 Geekbench 4.
