@@ -1,3 +1,7 @@
++ Codec dumps graphs
+  - Hex: https://raw.githubusercontent.com/zearp/OptiHack/master/images/codec_dump_hex.svg
+  - Decimal: https://raw.githubusercontent.com/zearp/OptiHack/master/images/codec_dump_dec.svg
+
 Sanitised verbs:
 ```
 Codec: Realtek ALC3220   Address: 0   DevID: 283902592 (0x10EC0280)
