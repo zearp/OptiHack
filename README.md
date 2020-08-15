@@ -77,6 +77,17 @@ For more information on setting up OpenCore please refer to [this](https://dorta
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. 
 
+## Audio port selection
+You can select which audio ports you want to use by setting the property `DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id` to an appropriate value.
+| Value | Ports |
+| ----- | ----- |
+| 15 | The rear and front panel output ports are enabled, the rear port is the default unless you plug in headphones in teh front then that is automatically selected |
+| 16 | The internal speaker and front panel output ports are enabled, the internal speaker is the default unless you plug in headphones in teh front then that is automatically selected |
+
+The default value in `config.plist` is currently 16.
+
+Again, use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
+
 ## First boot!
 Before we can boot into the macOS installer itself there are some things we have to disable and enable that Dell has hidden in the BIOS itself. Why Dell does this is unclear to me, this is a business desktop not a consumer desktop or laptop. There is no need to hide more advanced options. Luckily we can still change them.
 
