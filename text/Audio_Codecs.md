@@ -29,7 +29,6 @@ NID       PinDefault     Device             Connector           Port            
 26 (0x1A) 92A09030   In  Mic In             Unknown             Fixed           Internal Front              Pink      3  0  -     01A71C30 01A71D90 01A71EA0 01A71F92
 24 (0x18) 01803040   In  Line In            Unknown             Jack            External Rear               Blue      4  0  -     01871C40 01871D30 01871E80 01871F01
 ------------------------------------------------------------------------------------------------------------------------------------------------
-
 ```
 
 On-board:
