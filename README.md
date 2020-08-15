@@ -81,10 +81,12 @@ For more information on setting up OpenCore please refer to [this](https://dorta
 You can select which audio ports you want to use by setting the property `DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id` to an appropriate value.
 | Value | Ports |
 | ----- | ----- |
+| 13 | Rear and Front ports are available and you can manually select which one is the output |
 | 15 | The rear and front panel output ports are enabled, the rear port is the default unless you plug in headphones in teh front then that is automatically selected |
 | 16 | The internal speaker and front panel output ports are enabled, the internal speaker is the default unless you plug in headphones in teh front then that is automatically selected |
+| 21 | The front and rear ports are enabled and the front is selected unless something is plugged in the rear port, this one seems odd! |
 
-The default value in `config.plist` is currently 16.
+The default value in `config.plist` is currently `16`, internal speaker default unless headphones plugged in the front port.
 
 Again, use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 
