@@ -22,6 +22,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Download and create the installer](#download-and-create-the-installer)
 * [Copy EFI folder](#copy-efi-folder)
 * [Editing config.plist](#editing-configplist)
+* [Audio port selection](#audio-port-selection)
 * [First boot!](#first-boot)
 * [Disable CFG Lock](#disable-cfg-lock)
 * [Set DVMT pre-alloc to 64MB](#set-dvmt-pre-alloc-to-64mb)
