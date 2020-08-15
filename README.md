@@ -59,23 +59,23 @@ Once downloaded we can [create the install media](https://support.apple.com/sl-s
 Download [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) and use it to easily mount the EFI partition on the installer and copy the EFI folder found in this repository to it. I have no idea how to do this on Windows but a quick search led me [here](https://www.insanelymac.com/forum/topic/311820-guide-mount-and-access-efi-partition-on-windows-10/).
 
 ## Editing config.plist
-Inside the EFI/OC folder on your installer open config.plist and populate the following fields:
+Inside the EFI/OC folder on your installer open config.plist and edit/populate the following fields:
 ```
+DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id
 PlatformInfo -> Generic -> MLB
 PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
-DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id
 ```
-You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
-
 The ```layout-id``` is for audio. The default of 16 has no working rear line-out but working internal speaker (yay!). Change this to 15 to disable the internal speaker and enable the rear line out.
 
-> NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you don't plan to upgrade you can use 14,3 for Catalina installs.
+You can generate the MLB/Serial/UUID serials with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
 
-Put your ethernet mac address in the ROM field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
+Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
 For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Desktop-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
+
+**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. 
