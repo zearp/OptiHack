@@ -71,9 +71,9 @@ The ```layout-id``` is for audio. The default of 16 has no working rear line-out
 
 You can generate the MLB/Serial/UUID serials with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
 
-Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
+Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
-For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Desktop-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
+For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
 
 **NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
 
@@ -90,7 +90,7 @@ Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press 
 > Note: It is always a good idea to verify these offsets yourself by extracting your current BIOS, check how to do it with [this](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) guide. The default values can be found in files in the [text](https://github.com/zearp/OptiHack/tree/master/text) folder. The old and new values will also be printed when you change them. These patches have no influence on other operating systems. If anything it will make them better.
 
 ## Disable CFG Lock
-To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Desktop-Guide/extras/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
+To disable CFG Lock you can either use a [quirk](https://dortania.github.io/OpenCore-Post-Install/misc/msr-lock.html) in OpenCore or disable it properly. We will disable it. Entering ```setup_var 0xDA2 0x0``` will disable CFG Lock. To revert simply execute the command again but replace 0x0 with 0x1. This also applies to the other changes we need to make here. In the files with values I link to you can also find the default setting of each in case you want to revert to stock.
 
 ## Set DVMT pre-alloc to 64MB
 Next up we need to set the DVMT pre-alloc to 64MB, which macOS likes. Enter ```setup_var 0x263 0x2``` to change it. By default it's set to 0x1 which is 32MB. There are [more sizes](https://github.com/zearp/optihack/blob/master/text/CFGLock_DVMT.md) to set here; if you change it to anything else than 64MB you will need to change the ```framebuffer-stolenmem``` in the config.plist file as it needs to match. For example changing it to 92MB you'll have to set ```framebuffer-stolenmem``` to ```00000006```. I've tested larger pre-alloc sizes in a non-4k dual screen setup and while they work I did not notice any differences. Setting it to 64MB should be fine for pretty much everyone though.
@@ -117,9 +117,9 @@ You're now ready to install macOS. Boot from the installer again and select the 
 
 > Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
 
-If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Desktop-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
+If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The sanity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault). Check the page to know which sanity check warnings you can ignore and which ones need attention.)
+(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The sanity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Post-Install/universal/security.html#filevault). Check the page to know which sanity check warnings you can ignore and which ones need attention.)
 
 ## Post install
 Once macOS is installed and made it trough the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
@@ -132,7 +132,7 @@ We need to check if TRIM is enabled, open the *System Information* app and under
 
 If it says *NO*; close all open apps, open a terminal and execute ```sudo trimforce enable``` enter yes for both questions and once rebooted TRIM should be enabled. Repeat the previous steps to make sure it's enabled now.
 
-Also don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-services/iservices.md#fixing-en0) will, well, guide you.
+Also don't forget to set your ethernet mac address correctly. This [guide](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#fixing-en0) will, well, guide you.
 
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
@@ -157,7 +157,7 @@ Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it act
 Verify the settings with ```pmset -g```.
 
 ### Power Management
-This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
+This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Post-Install/universal/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
 > Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
@@ -310,7 +310,7 @@ I personally suggest to also install an app that keeps track of apps connecting 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
 
 **FileVault2**:
-This works out of the box. You can enable it in the System Preferences app. If you're having any issues please double check the settings using [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/security.html#filevault) guide.
+This works out of the box. You can enable it in the System Preferences app. If you're having any issues please double check the settings using [this](https://dortania.github.io/OpenCore-Post-Install/universal/security.html) guide.
 
 ## Issues
 ### Resetting UEFI changes
@@ -395,7 +395,7 @@ My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Co
 
 ## Credits
 * The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
-* [Dortania](https://dortania.github.io/OpenCore-Desktop-Guide/) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
+* [Dortania](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
 * [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
 * [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
 * And many, many more I forgot.
