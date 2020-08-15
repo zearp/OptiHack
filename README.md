@@ -65,8 +65,11 @@ PlatformInfo -> Generic -> MLB
 PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
+DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id
 ```
 You can generate the MLB/Serial/UUID with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
+
+The ```layout-id``` is for audio. The default of 16 has no working rear line-out but working internal speaker (yay!). Change this to 15 to disable the internal speaker and enable the rear line out.
 
 > NOTE: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you don't plan to upgrade you can use 14,3 for Catalina installs.
 
