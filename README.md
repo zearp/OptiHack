@@ -162,7 +162,7 @@ This should be enabled and setup properly. You can run the [Intel Power Gadget](
 > Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
-The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```-wegnoegpu``` and if the dGPU uses HDMI also the ```-igfxnohdmi``` boot flags.
+The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instaed of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (PciRoot(0x0)/Pci(0x2,0x0)) in the config. If you don't plan on using the iGPU at all you can delete the whole section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such.
 
 ### Undervolting
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
