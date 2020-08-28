@@ -162,7 +162,7 @@ This should be enabled and setup properly. You can run the [Intel Power Gadget](
 > Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
 ### dGPU
-The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instaed of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (```PciRoot(0x0)/Pci(0x2,0x0)```) in the config.
+The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instead of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (```PciRoot(0x0)/Pci(0x2,0x0)```) in the config.
 
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
@@ -405,27 +405,10 @@ My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Co
 A deep bow to all of you!
 
 ## Notes
-* Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing the ```-igfxnohdmi``` boot flag and trying the DP -> HDMI and other HDMI related patches in Hackintool which can export/merge the patches into your config.
+* Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing ```disable-external-gpu``` and ```disable-hdmi-patches``` entries in the iGPU device info in the config.
 * For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
 * The VRAM size is currently set to 2GB in the config, unlike the screenshot suggests. If you want to go to back to 1.5GB just remove the ```framebuffer-unifiedmem``` key from the config.
 * I don't know why Dell would lie about the specs if not for up-selling other products but some stuff in their documentation is plain wrong. But the 7020 SFF/MT computer supports 32GB RAM, not 16GB. The on-board sata ports are *all* 6gbit/s. Dell claims one is 3gbit/s max. Bad Dell!
-
-TODO:
-* Test all audio in and outputs. Front audio works and back audio doesn't seem to fully work on this Optiplex 9020 layout.
-* Wifi, I haven't received my Broadcom wifi/BT combo card yet.
-* Bluetooth, currently using a [$2 BT 4.0 dongle](https://www.ebay.co.uk/itm/1PCS-Mini-USB-Bluetooth-V4-0-3Mbps-20M-Dongle-Dual-Mode-Wireless-Adapter-Device/324106977844) that surprisingly works out of the box. No handoff or other fancy features are supported but audio and mouse/keyboard work fine.
-* More sensors.
-* Add an if statement block to all ACPI patches that makes them not apply when booting Windows, there are no issues but it seems good practise to do this and prevent any issues at all. Some patches already have it.
-
-```
-If (_OSI ("Darwin"))
-                    {
-                        Return (0x0F)
-                    }
-                    Else
-                    {
-                        Return (Zero)
-```
 
 CAN'T DO:
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
