@@ -61,14 +61,11 @@ Download [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) and use it 
 ## Editing config.plist
 Inside the EFI/OC folder on your installer open config.plist and edit/populate the following fields:
 ```
-DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1b,0x0) -> layout-id
 PlatformInfo -> Generic -> MLB
 PlatformInfo -> Generic -> ROM
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
 ```
-The ```layout-id``` is for audio. The default of 16 has no working rear line-out but working internal speaker (yay!). Change this to 15 to disable the internal speaker and enable the rear line out.
-
 You can generate the MLB/Serial/UUID serials with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
 
 Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
@@ -358,6 +355,7 @@ The ```pmset``` settings after install are:
 
 ## Misc.
 * OpenCore doesn't remember the last booted volume? Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
+* The AppleALC id of 17 gives you access to all audio ports with manual selection, this should be best for most people. Layout id 13, 15 or 16 are alternates if 17 isn't right for you.
 
 ## Toolbox
 These are the apps I use and have used in my journey so far. Some more essential than the others but all must have's on my installs.
