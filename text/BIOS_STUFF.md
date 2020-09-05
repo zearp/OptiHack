@@ -194,7 +194,7 @@ UBU should still be open and if you enter ```2``` in the menu now and new menu w
 
 At the time of writing version ```5.5.1034``` was the newest and probably will be forever. Somehow despite the folder the updates were in being called ```189``` the RAW GOP VBT is left at version ```184```. It appears the files only update the GOP driver.
 
-Press any key to return to the main menu and now press ```3``` another current and available menu will appear. Here I could update my ethernet firmware from ```0.0.17``` to ```0.0.27```. PRess ```1``` to update the drivers inside the BIOS.
+Press any key to return to the main menu and now press ```3``` another current and available menu will appear. Here I could update my ethernet firmware from ```0.0.17``` to ```0.0.27```. Press ```1``` to update the drivers inside the BIOS.
 
 If you wish you can also try RST drivers, but for now I left those alone until I know a bit more about the impact they may or may not have on performance. I left mine at the default. Only apply updates you want. But at least apply the microcode updates for security sake.
 
@@ -209,9 +209,9 @@ Most Dell OptiPlex system have an Intel feature called vPro, this allows for rem
 
 Being able to login remotely when the machine is turned off and to be able to turn it on, change BIOS settings or install a new OS is pretty cool and if you need manage lots of computers at work much easier on the legs.
 
-We will also need to download the latest MEBx compatible with our machine. You can update from the 9.0.x to 9.1.x so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
+We will also need to download the latest MEBx compatible with our machine. We can only update without in the major branch so we are stuck with 9.0.x MEBx and a 9.1.x firmware for it. It can sound a bit confusing, but look at it as MEBx being an operating system. The OS is running version 9.0.x and can only be upgraded within that branch. The firmware the OS uses is at 9.1.x and can only be upgraded within that branch. Maybe it is possible to upgrade but it would involve more risks than benefits. Reprogramming chips in specialised tools are not worth the gains.
 
-1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the file thats linked for 9.1.
+1. Go to [this](https://www.win-raid.com/t832f39-Intel-Engine-Firmware-Repositories.html) forum thread and look for the ```B. Intel (Converged Security) Management Engine Firmware Repository``` section, download the firmware file that's linked for 9.1.
 2. Open the ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32``` folder and double click ```fitc.exe```. Once open drag your extracted ```mod_bios.bin``` file in it. 
 3. From the build menu open build settings and disable ```Generate intermediate build files```. Leave the window open and navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\mod_bios\Decomp``` in the folder copy the new firmware downloaded (in my case this file was called *9.1.45.3000_5MB_PRD_RGN.bin*) in step 1 to this folder and rename it to ```ME Region.bin```. If such a file already exists, remove it.
 4. Go back to Flash Image Tool ( ```fitc.exe```) that should still be open. Press F5 to build a new image, press yes when asked about a boot profile. Navigate to ```\Intel ME System Tools v9.1 r7\Flash Image Tool\WIN32\Build``` and copy ```outimage.bin``` to your desktop and rename it back to ```mod_\bios.bin``` (this is optional but to keep this guide working it has to to be renamed to avoid confusion).
@@ -252,7 +252,7 @@ First we download *NvmExpressDxe_4* it is hidden in a spoiler in [this](https://
 
 Open ```mod_bios.bin``` in ```mmtool_a4.exe``` in C:\UBU and scroll down till you're in section 4:03-00. Highlight any entry in that section. Then on the insert tab above click on browse and select .ffs the file you just downloaded. The module will now be inserted. Save the new file as ```nvme.fd``` and quit the tool. Now rename it back to ```mod_bios.rom```.
 
-If you get an error that there is not enough space you can download a smaller version from the thread above and if that isn't enough or you don't want to you can delete some IPv6 modules. These moduels are only used while booting. I only had to delete ```Mtftp6Dxe``` to get enough space and since I'm not planning on using tftp over IPv6 in UEFI/boot it's not a problem. You can also export modules before you delete them and restore them later.
+If you get an error that there is not enough space you can download a smaller version from the thread above and if that isn't enough we can delete some IPv6 modules. These moduels are only used while booting. I only had to delete ```Mtftp6Dxe``` to get enough space and since I'm not planning on using tftp over IPv6 in UEFI/boot it's not a problem. You can also export modules before you delete them and restore them later.
 
 ```
 |160|Dhcp6Dxe       |8DD9176D-EE87-4F0E-8A84-3F998311F930|0043FB2A|00899D|DRVR|
@@ -275,11 +275,9 @@ Change it to 0x2.
 ## Flashing
 This is the "dangerous" part, it's not really though. But you do have to pay close attention if you want to prevent having to recover from a bad flash.
 
-Enabling service mode requires a jumper on the servcie pins on the motherboard. It disables the write protections to the flash regions. This not needed for extracting, only when flashing.
+Enabling service mode requires a jumper on the service pins on the motherboard. It disables the write protections to the flash regions. Short the service pins on the motherboard. They are clearly labeled. Use a jumper or some breadboard cables.
 
 I think it also possible to remove these restrictions in a modified Grub shell but I wouldn't leave this kind of protections disabled if I were you.
-
-Before you can write anything you have to short the service pins on the motherboard. They are clearly labeled. Use a jumper or some breadboard cables.
 
 Turn the machine off and short the service jumper and turn it back on. You'll get a notice about it and have to press F1 to resume booting.
 
@@ -291,9 +289,7 @@ Navigate to the same folder in a PowerShell running as admin, and execute ```.\f
 
 Enjoy your newly modified and updated BIOS. Feels good right?
 
-There is a lot more to update and modify here, but for now we're done here.
-
-> Note: None of these actions will clear the modifications we made in the modified Grub shell. Clearing those can probably only be done with a jumper on the motherboard or with the Intel tools we used earlier or the recovery methods that are there to recover from bad or corrupt updates.
+There is a lot more to update and modify but for now we're done here.
 
 # Verify
 Verify that your microcodes are up to date with [InSpectre](https://www.majorgeeks.com/files/details/inspectre.html).
@@ -338,9 +334,8 @@ All looks good, firmware has been updated and after I changed the password from 
 So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
 
 You'll need:
-* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks.
-* [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do.
-* Windows 10 media, you can grab a eval version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
+* [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks **OR** [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do fine.
+* Windows 10 media, you can grab an evaluation version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
 
 Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
 
@@ -383,13 +378,15 @@ Now comes the fiddly part, attach the clip to one of the two BIOS chips and run 
 
 **I'll finish this section once I get back in my Live Linux cuz I forgot the exact chipset names**
 
+(This still didn't happen as I don't remember the exact names anymore and rather not repeat flashing the BIOS thsi way just to get this part right lol...)
+
 But essentially you let it scan the bus and if it detects a chip it will show it. It is very finnicky and it took me a bunch fo tries before it detected the chip. 
 
 Once it's detected pay attention to the name as it indicates the size. If it has ```32``` in the name is the 4mb chip. If it has ```64``` it is the 8mb chip. Depending on which one you managed to read first you will flash the matching file to it. I tried a few times on eac hchip as not to get too bored trying to get a connection. 
 
 Now that the chip is visable you can write the new image with ```flashrom -c bla bla -w /mnt/Xmb.bin```. Repeat for the other chip and you're back in business and can write a letter of complaint to Dell for not having decent BIOS recovery till the 7040.
 
-You now gained the skills and equipment to read/write many (not all) BIOS chips. Though remember if you're going to buy that $25 laptop on eBay that failed a BIOS update be sure you have a properly dumped image for it that the BIOS chip is compatible with the programmer.
+You now gained the skills and equipment to read/write many (not all) BIOS chips. Though remember if you're going to buy that $25 laptop on eBay that failed a BIOS update be sure you have a properly dumped image for it and that the BIOS chip is compatible with the programmer.
 
 ## Unlocking
 Some BIOS areas can be unlocked which means you don't have to short the service pins to write to those areas. Use with caution.
