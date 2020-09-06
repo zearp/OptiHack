@@ -41,6 +41,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [SIP](#sip)
 * [Security](#security)
 * [Issues](#issues)
+* [Logs](#logs)
 * [Toolbox](#toolbox)
 * [Misc](#misc)
 * [Credits](#credits)
