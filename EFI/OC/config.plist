@@ -384,6 +384,8 @@
 			<false/>
 			<key>DisableIoMapper</key>
 			<true/>
+			<key>DisableLinkeditJettison</key>
+			<true/>
 			<key>DisableRtcChecksum</key>
 			<false/>
 			<key>DummyPowerManagement</key>
@@ -542,7 +544,7 @@
 				<key>SystemAudioVolume</key>
 				<data>Jg==</data>
 				<key>boot-args</key>
-				<string>-v keepsyms=1 debug=0x100</string>
+				<string>-v</string>
 				<key>csr-active-config</key>
 				<data>AwAAAA==</data>
 				<key>prev-lang:kbd</key>
