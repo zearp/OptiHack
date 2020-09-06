@@ -352,6 +352,7 @@ The ```pmset``` settings after install are:
 ### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
+* Debug logs and options are disabled where possible, this speeds up booting and helps performance. Debug logging anf versions of software with debug options shouldn't be used in production. If you have issues booting OpenCore please re-enable debug logging as outlined [here](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/debug.html).
 
 ## Misc.
 * OpenCore doesn't remember the last booted volume? Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
