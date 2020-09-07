@@ -48,8 +48,8 @@ Please only use this for clean installs, or updating an existing OpenCore instal
   * [Logs](#logs)
   * [Misc](#misc)
   * [Toolbox](#toolbox)
-  * [Credits](#credits)
   * [Notes](#notes)
+* [Credits](#credits)
 
 ## BIOS settings
 My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
@@ -389,15 +389,6 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 * [MacPorts](https://www.macports.org) - Mostly packages needed to build stuff from source like cctools.
 
-## Credits
-* The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
-* [Dortania](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
-* [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
-* [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
-* And many, many more I forgot.
-
-A deep bow to all of you!
-
 ## Notes
 * Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing ```disable-external-gpu``` and ```disable-hdmi-patches``` entries in the iGPU device info in the config.
 * For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
@@ -408,14 +399,11 @@ CAN'T DO:
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
 * DRM for stuff like Netflix and Amazon Prime [require a dGPU](https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.Chart.md). Bummer, but not a deal breaker for me personally. I do wonder why on my old MacBook I can play Prime Video in 1080p in Safari on a HD4000. Somehow DRM works fine there.
 
----
+## Credits
+* The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
+* [Dortania](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) -- Vanilla Desktop Guide, without this I wouldn't have gotten far.
+* [headkaze](https://github.com/headkaze) -- Hackintool (an essential) and EFI-Agent is pretty sweet too.
+* [corpnewt](https://github.com/corpnewt) -- Many essential tools, guides/documentation, simply great!
+* And many, many more I forgot.
 
-Average system cost around $99, for performance (almost) on par with the i3-9100 based 2018 Mac Mini ;-)
-
-$70 Optiplex 7020 with i5/i7 and 4-16GB RAM and a disk you shouldn't use due to wear.
-
-Don't overpay, there is a lot of supply. Don't use i3 models as the Intel Graphics is not properly supported and will give you issues, if you can get it cheap you can upgrade the CPU though.
-
-$29 for a decent brand new 120-250GB entry level SSD. Hunt for bargains on Amazon and the likes.
-
-> Don't forget to replace the thermal paste!
+A deep bow to all of you!
