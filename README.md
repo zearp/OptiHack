@@ -18,34 +18,38 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 > Note: If you've used a version prior to the 1st of August 2020 it is best to double check your settings and/or start your EFI from scratch as a lot has changed.
 
 ## Index
-* [BIOS settings](#bios-settings)
-* [Download and create the installer](#download-and-create-the-installer)
-* [Copy EFI folder](#copy-efi-folder)
-* [Editing config.plist](#editing-configplist)
-* [First boot!](#first-boot)
-* [Disable CFG Lock](#disable-cfg-lock)
-* [Set DVMT pre-alloc to 64MB](#set-dvmt-pre-alloc-to-64mb)
-* [Enable EHCI hand-off](#enable-ehci-hand-off)
-* [Installing macOS](#installing-macos)
-* [Post install](#post-install)
-* [Sleep](#sleep)
-* [Power Management](#power-management)
-* [dGPU](#dgpu)
-* [Undervolting](#undervolting)
-* [Keybinding/mapping](#keybindingmapping)
-* [Mapping the internal usb header for MT models](#mapping-the-internal-usb-header-for-mt-models)
-* [USB portmap](#usb-portmap)
-* [SMBIOS](#smbios)
-* [RAID0 install and booting APFS](#raid0-install-and-booting-apfs)
-* [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
-* [SIP](#sip)
-* [Security](#security)
-* [Issues](#issues)
-* [Logs](#logs)
-* [Misc](#misc)
-* [Toolbox](#toolbox)
-* [Credits](#credits)
-* [Notes](#notes)
+* Installation:
+  * [BIOS settings](#bios-settings)
+  * [Download and create the installer](#download-and-create-the-installer)
+  * [Copy EFI folder](#copy-efi-folder)
+  * [Editing config.plist](#editing-configplist)
+  * [First boot!](#first-boot)
+  * [Disable CFG Lock](#disable-cfg-lock)
+  * [Set DVMT pre-alloc to 64MB](#set-dvmt-pre-alloc-to-64mb)
+  * [Enable EHCI hand-off](#enable-ehci-hand-off)
+  * [Installing macOS](#installing-macos)
+  * [Post install](#post-install)
+* Sleep
+  * [Sleep](#sleep)
+  * [Power Management](#power-management)
+* USB
+  * [Mapping the internal usb header for MT models](#mapping-the-internal-usb-header-for-mt-models)
+  * [USB portmap](#usb-portmap)
+* Others
+  * [dGPU](#dgpu)
+  * [SMBIOS](#smbios)
+  * [Keybinding/mapping](#keybindingmapping)
+  * [RAID0 install and booting APFS](#raid0-install-and-booting-apfs)
+  * [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
+  * [Undervolting](#undervolting)
+  * [SIP](#sip)
+  * [Security](#security)
+  * [Issues](#issues)
+  * [Logs](#logs)
+  * [Misc](#misc)
+  * [Toolbox](#toolbox)
+  * [Credits](#credits)
+  * [Notes](#notes)
 
 ## BIOS settings
 My BIOS settings are simple: load factory defaults. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
@@ -159,10 +163,56 @@ This should be enabled and setup properly. You can run the [Intel Power Gadget](
 
 > Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
+### Mapping the internal usb header for MT models
+The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
+
+### USB portmap
+Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases).
+
+(If you're mapping the internal usb port make sure there is something connected to it before you start.)
+
+1. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *disabled* and *enable* ```Kernel -> Quirks -> XhciPortLimit```.
+2. Reboot.
+3. Open Hackintool and go to the usb tab, select all ports listed and remove them, then click the refresh button.
+4. Plug a usb 2 device in every usb port.
+5. Plug a usb 3 device in every usb port.
+6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port).
+7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3 (if you're mapping the internal port make sure it's set to internal).
+8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one).
+9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```.
+10. Reboot.
+
+Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
+
+Please don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Use simple usb 2 and usb 3 devices to be safe.
+
+> Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
+
 ### dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instead of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (```PciRoot(0x0)/Pci(0x2,0x0)```) in the config.
 
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
+
+### SMBIOS
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
+
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+
+> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
+
+### Keybinding/mapping
+Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
+
+### RAID0 install and booting APFS
+I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
+
+So now, if we want to we can boot from RAID0 in Catalina. I think on Reddit he mentioned FileVault2 works too, but I haven't had any luck with that (yet). But booting from RAID0 works fine. I use one of the two disks to put the OpenCore EFI folder on and in the OpenCore picker it doesn't matter which one of the two macOS entries I pick. The BIOS automatically boots from the disk with the EFI folder. Putting the EFI folder on both disks would get very confusing very fast. Inside macOS the disks are sometimes swapped (disk0 becomes disk1 and disk1 becomes disk0) but that isn't an issue at all.
+
+The article is easy to following along with and best to do a clean install with an installer made with the [Catalina Patcher](http://dosdude1.com/catalina/) as per his guide and afterwards import your old data *but* if you setup the array like he did you can clone your existing install to it. No need for a clean install. Just make sure to run ```sudo update_dyld_shared_cache -root /``` and ```diskutil apfs updatePreboot disk3s5``` after booting into your clone on the RAID array for the first time. And also run those two commands after updating macOS itself. Updates to macOS will claim they failed but they didn't. Just reboot, execute the previous commands and you'll be on your way.
+
+If you have errors relating to security vault or similar when updating the Preboot volumes you can easily fix those by booting into a working macOS recovery partition or installer, open a terminal and run ```resetFileVaultPassword```. 
+
+(This command can also fix the issue where FileVault2 can't be enabled.)
 
 ### Undervolting
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
@@ -208,52 +258,6 @@ Once you found the perfect values you can make them apply on start-up automatica
 If you run a system that is passively cooled or low-rpm fans you might benefit from disabling turbo and reducing the P1/P2 values a bit. This will decrease performance a bit but also prevent things from heating up too fast. Combine this with custom multiplier/clocks with CPUFriend and you can run a pretty cool system without much fan noise.
 
 > Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with [stripcodesig](https://github.com/tvi/stripcodesig). Either download it or build it and remove the code signature from the ```voltageshift``` binary.
-
-### Keybinding/mapping
-Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
-
-### Mapping the internal usb header for MT models
-The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
-
-### USB portmap
-Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases).
-
-(If you're mapping the internal usb port make sure there is something connected to it before you start.)
-
-1. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *disabled* and *enable* ```Kernel -> Quirks -> XhciPortLimit```.
-2. Reboot.
-3. Open Hackintool and go to the usb tab, select all ports listed and remove them, then click the refresh button.
-4. Plug a usb 2 device in every usb port.
-5. Plug a usb 3 device in every usb port.
-6. Remove anything not green, you should be left with 14 green ports (15 with internal usb port).
-7. Make sure all the HSxx ports are set to usb 2 and SSPx ports are to usb 3 (if you're mapping the internal port make sure it's set to internal).
-8. Click on the export button and place the resulting USBPorts.kext in the OpenCore kexts folder (overwriting the existing one).
-9. Open your OpenCore config and set ```Kernel -> Add -> 6 -> USBPorts.kext``` to *enabled* and *disable* ```Kernel -> Quirks -> XhciPortLimit```.
-10. Reboot.
-
-Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
-
-Please don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Use simple usb 2 and usb 3 devices to be safe.
-
-> Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
-
-### SMBIOS
-For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
-
-But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
-
-> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
-
-### RAID0 install and booting APFS
-I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
-
-So now, if we want to we can boot from RAID0 in Catalina. I think on Reddit he mentioned FileVault2 works too, but I haven't had any luck with that (yet). But booting from RAID0 works fine. I use one of the two disks to put the OpenCore EFI folder on and in the OpenCore picker it doesn't matter which one of the two macOS entries I pick. The BIOS automatically boots from the disk with the EFI folder. Putting the EFI folder on both disks would get very confusing very fast. Inside macOS the disks are sometimes swapped (disk0 becomes disk1 and disk1 becomes disk0) but that isn't an issue at all.
-
-The article is easy to following along with and best to do a clean install with an installer made with the [Catalina Patcher](http://dosdude1.com/catalina/) as per his guide and afterwards import your old data *but* if you setup the array like he did you can clone your existing install to it. No need for a clean install. Just make sure to run ```sudo update_dyld_shared_cache -root /``` and ```diskutil apfs updatePreboot disk3s5``` after booting into your clone on the RAID array for the first time. And also run those two commands after updating macOS itself. Updates to macOS will claim they failed but they didn't. Just reboot, execute the previous commands and you'll be on your way.
-
-If you have errors relating to security vault or similar when updating the Preboot volumes you can easily fix those by booting into a working macOS recovery partition or installer, open a terminal and run ```resetFileVaultPassword```. 
-
-(This command can also fix the issue where FileVault2 can't be enabled.)
 
 ### Fan curve more like a Mac
 These machines run pretty cool with the stock cooler and some new thermal paste. Idles around 30c and 35-40c under light loads. Even when running Geekbench 4 I didn't notice the fan ramp up at all. In the BIOS there's a fan curve defined. It regulates when and how fast the fan spins up. By default Dell has configured it like this;
