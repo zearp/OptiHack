@@ -186,7 +186,7 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 
 Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
 
-> Tip: If you plan on using hubs consider tweaking/removing some ports. For example you can set the usb 3 ports to only do usb 3, this will free up 4 ports. You can also remove ports you're not planning to use on the machine itself. If you go above the 15 ports devices *will* dissapear. Which is not what you want when you have some disks connected.
+> Tip: If you plan on using hubs consider tweaking/removing some ports. For example you can set the usb 3 ports to only do usb 3 by removing the HS03/HS04/HS11/HD12 entries. This will free up 4 ports. You can also remove ports you're not planning to use on [the machine](https://github.com/zearp/OptiHack/blob/master/images/usb-ports.png?raw=true) itself. If you go above the 15 ports devices *will* dissapear. Which is not what you want when you have some disks connected.
 
 Please don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Use simple (non data carrying) usb 2 and usb 3 devices like dongles/receivers/wifi/etc to be fast and safe.
 
