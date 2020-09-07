@@ -186,11 +186,11 @@ Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, U
 
 Verify the ports in Hackintool, go to the usb tab again, select all ports and delete them and click refresh again. It should now look like [this](https://github.com/zearp/OptiHack/blob/master/images/usb-portmap.png?raw=true), 14 or 15 ports showing all with the correct usb 2 or usb 3 labels. And HS13 showing as internal for those who have it.
 
-> Tip: If you plan on using hubs consider tweaking/removing some ports. For example you can set the usb 3 ports to only do usb 3 by removing the HS03/HS04/HS11/HD12 entries. This will free up 4 ports. You can also remove ports you're not planning to use on [the machine](https://github.com/zearp/OptiHack/blob/master/images/usb-ports.png?raw=true) itself. If you go above the 15 ports devices *will* dissapear. Which is not what you want when you have some disks connected.
+> Tip: If you plan on using hubs consider tweaking/removing some ports. For example you can set the usb 3 ports to only do usb 3 by removing the HS03/HS04/HS11/HS12 entries. This will free up 4 ports. You can also remove ports you're not planning to use on [the machine](https://github.com/zearp/OptiHack/blob/master/images/usb-ports.png?raw=true) itself. If you go above the 15 ports usb devices *will* disappear. Which is not what you want when you have some disks connected.
 
 Please don't use hubs to map the ports, they've produced some bad portmaps in my testing as they can take up multi ports at once. Use simple (non data carrying) usb 2 and usb 3 devices like dongles/receivers/wifi/etc to be fast and safe.
 
-> Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
+> Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap from a previous EFI be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
 ## dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instead of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (```PciRoot(0x0)/Pci(0x2,0x0)```) in the config.
@@ -278,11 +278,13 @@ Now this is pretty reasonable and the stock fans are not loud. But if you want i
 * From 71c till 87c it runs in 2nd gear.
 * From 87c till 95c it run in 3rd gear.
 
+(With fan control software it doesn't seem possible to trigger the "3rd gear" the [BIOS](https://github.com/zearp/OptiHack/blob/master/text/FANS.md) describes, maybe I misunderstand or it only happens when it nearly catches fire...)
+
 And again if it didn't manage to cool things down it will go towards the max until its cooler, if thats fails thermal throttling starts (TCASE) and if that also fails to cool things down the computer shuts itself down. The Intel ark lists the TCASE for most Haswell cpu's around 72c. I've read on a few forums where people tested this and their Haswell cpu's didn't throttle around that temp but around 85-95c. It depends on the processor, BIOS and motherboard too. You can test this in Windows with AIDA64 to find out where your cpu starts to throttle.
 
 What this Mac-like fan curve does in practise is that short bursts of heavy system load -- that could quickly increase the temps causing the fans to spin up -- not to spin the fans up as the temp will drop down once the burst is over. Resulting in a quieter machine. This is what Apple does and why their machines stay so silent up to around 85-90c when the plane takes off and thermal throttling sets in.
 
-On laptops this can really make a big difference where unpacking a big compressed file won't cause the fans to spin up at all where normally they will go on and then off again. Often repeating that cycle. Same happens when you watch watch some YouTube or something. It is perfectly fine to leave the fans at lower speeds when doing some intensive work for a while. When I have to pick between watching some videos in silence with the cpu at 65c vs watching it with the fan going on and off I choose the former. Most machines can keep themselves within safe temps with low fan speeds.
+On laptops this can really make a big difference where unpacking a big compressed file won't cause the fans to spin up at all where normally they will go on and then off again. Often repeating that cycle. Same happens when you watch some YouTube or something. It is perfectly fine to leave the fans at lower speeds when doing some intensive work for a while. When I have to pick between watching some videos in silence with the cpu at 65c vs watching it with the fan going on and off I choose the former. Most machines can keep themselves within safe temps with low fan speeds.
 
 All in all for this machine it is not really needed to adjust these but you *can*, and if you replace the stock fans with something else you might have to. If the fans work with how Dells PWM wants to drive them and thats after you converted their proprietary 5 pin fan connecter into a normal 4 pin one with a $0.99 eBay cable.
 
@@ -305,7 +307,7 @@ Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in 
 > Note: If changing the config alone doesn't seem to change the SIP settings, reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
 
 ## Security
-* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
+* One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have capitals and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
 
 To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md) page. It also deals with updating [microcodes](https://en.wikipedia.org/wiki/Microcode). Which can enhance security as well.
 
@@ -322,14 +324,14 @@ This works out of the box. You can enable it in the System Preferences app. If y
 
 ## Issues
 ### Resetting UEFI changes
-You have to remove the CMOS battery, short the ```RTCRST``` jumper and remove the ```PSWD``` jumper. Also remove the powerchord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the powerchord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults for good measure.
+You have to remove the CMOS battery, short the ```RTCRST``` jumper and remove the ```PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults for good measure.
 
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
 ### Sleep
 Sleep will not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
-When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ehternet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
+When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ethernet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
 
 If you have any issues where the machine wakes up right after falling asleep run ```log show --style syslog | fgrep "[powerd:sleepWake]"``` in a Terminal and find the wake reasons. If it says something about ```EHC1 EHC2/UserActivity Assertion``` or ```HID``` it means it was user input -- or a cat on the keyboard -- anything else with EHCx in it could point to some other usb device. There can also be another reason, find it in the log and try to fix it. It's part of the fun!
 
