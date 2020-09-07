@@ -45,8 +45,10 @@ Please only use this for clean installs, or updating an existing OpenCore instal
   * [SIP](#sip)
   * [Security](#security)
   * [Issues](#issues)
-  * [Logs](#logs)
-  * [Misc](#misc)
+    * [Resetting UEFI changes](#resetting-uefi-changes)
+    * [Sleep](#sleep-1)
+    * [Logs](#logs)
+    * [Misc](#misc)
   * [Toolbox](#toolbox)
   * [Notes](#notes)
 * [Credits](#credits)
@@ -140,7 +142,7 @@ We're pretty much done now, I suggest you do read all the following sections tho
 
 > Tip: Make a [clone](https://github.com/zearp/OptiHack/blob/master/text/CLONE_IT.md) once you're happy with your setup and everything works as it should. It doesn't take much time and I'd say it's essential to have one.
 
-### Sleep
+## Sleep
 Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off.
 
 ```
@@ -158,15 +160,15 @@ Power Nap is enabled and doesn't cause any issues with sleep. Not sure if it act
 
 Verify the settings with ```pmset -g```.
 
-### Power Management
+## Power Management
 This should be enabled and setup properly. You can run the [Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) to check the temperatures and power usage. There is some CPU specific fine tuning that still can be done, but you're on your own for that journey. Dortania wrote detailed instructions in their [guide](https://dortania.github.io/OpenCore-Post-Install/universal/pm.html) on this subject. I urge you do follow it and put the finishing touches on your install.
 
 > Note: I noticed without CPUFriend.kext my minimum cpu speed was 700mhz, in Windows it's set to 800mhz. My CPU is an exact match to the iMac 14,3 model (Catalina) and I'm not sure if CPUFriend is needed for anyone. But you can still use it to tweak things if you wish. It doesn't surprise me Apple drives these cpu's at lower frequencies for both the cpu and gpu parts, it keeps the temps and noise down. Until you really start hammering it.
 
-### Mapping the internal usb header for MT models
+## Mapping the internal usb header for MT models
 The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
 
-### USB portmap
+## USB portmap
 Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases).
 
 (If you're mapping the internal usb port make sure there is something connected to it before you start.)
@@ -188,22 +190,22 @@ Please don't use hubs to map the ports, they've produced some bad portmaps in my
 
 > Note: Due to the enabling of EHCI hand-off and others the naming of usb 3 ports changes from SS0x to SSPx. If you're re-using a portmap be sure the ports (and addresses) match up. When in doubt, create a new portmap.
 
-### dGPU
+## dGPU
 The current config disables any external graphics cards, this is to prevent issues. Once the iGPU is working properly you can start setting up external graphics. Don't forget to remove the ```disable-external-gpu``` and if the dGPU uses HDMI instead of DisplayPort also remove the ```disable-hdmi-patches``` bits from the iGPU device properties (```PciRoot(0x0)/Pci(0x2,0x0)```) in the config.
 
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
-### SMBIOS
+## SMBIOS
 For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
 
 But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 > Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
-### Keybinding/mapping
+## Keybinding/mapping
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
 
-### RAID0 install and booting APFS
+## RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
 
 So now, if we want to we can boot from RAID0 in Catalina. I think on Reddit he mentioned FileVault2 works too, but I haven't had any luck with that (yet). But booting from RAID0 works fine. I use one of the two disks to put the OpenCore EFI folder on and in the OpenCore picker it doesn't matter which one of the two macOS entries I pick. The BIOS automatically boots from the disk with the EFI folder. Putting the EFI folder on both disks would get very confusing very fast. Inside macOS the disks are sometimes swapped (disk0 becomes disk1 and disk1 becomes disk0) but that isn't an issue at all.
@@ -214,7 +216,7 @@ If you have errors relating to security vault or similar when updating the Prebo
 
 (This command can also fix the issue where FileVault2 can't be enabled.)
 
-### Undervolting
+## Undervolting
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
 You can build it from source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
@@ -259,7 +261,7 @@ If you run a system that is passively cooled or low-rpm fans you might benefit f
 
 > Note: If you downloaded the precompiled binary you need to remove code signing or else it won't run. You do this with [stripcodesig](https://github.com/tvi/stripcodesig). Either download it or build it and remove the code signature from the ```voltageshift``` binary.
 
-### Fan curve more like a Mac
+## Fan curve more like a Mac
 These machines run pretty cool with the stock cooler and some new thermal paste. Idles around 30c and 35-40c under light loads. Even when running Geekbench 4 I didn't notice the fan ramp up at all. In the BIOS there's a fan curve defined. It regulates when and how fast the fan spins up. By default Dell has configured it like this;
 
 * Normal idle fans, 1st gear till 55c.
@@ -295,12 +297,12 @@ Thats it! Your silent OptiPlex will now be even more silent.
 
 > Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifications are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slower but its not audible.
 
-### SIP
+## SIP
 Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in OpenCore config, which does the same as running ```csrutil enable --without kext --without fs``` from recovery/installer. If you don't plan on undervolting you can set the ```csr-active-config``` value to ```00000000```. That is the most secure option. Verify the current SIP settings by running ```csrutil status```.
 
 > Note: If changing the config alone doesn't seem to change the SIP settings, reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
 
-### Security
+## Security
 * One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have captials and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
 
 To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md) page. It also deals with updating [microcodes](https://en.wikipedia.org/wiki/Microcode). Which can enhance security as well.
@@ -359,7 +361,7 @@ The ```pmset``` settings after install are:
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
 * Debug logs and options are disabled where possible, this speeds up booting and helps performance. Debug logging and versions of software with debug symbols shouldn't be used in production. If you have issues booting OpenCore please re-enable debug logging as outlined [here](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/debug.html). This won't impact normal logging like boot logs or system logs. OF anything it makes them more readable as it won't have an overload of information.
 
-## Misc.
+### Misc.
 * OpenCore doesn't remember the last booted volume? Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
 * The AppleALC id of 17 gives you access to all audio ports with manual selection, this should be best for most people. Layout id 13, 15 or 16 are alternates if 17 isn't right for you.
 
