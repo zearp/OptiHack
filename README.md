@@ -42,8 +42,8 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Security](#security)
 * [Issues](#issues)
 * [Logs](#logs)
-* [Toolbox](#toolbox)
 * [Misc](#misc)
+* [Toolbox](#toolbox)
 * [Credits](#credits)
 * [Notes](#notes)
 
@@ -384,16 +384,6 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 * [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 * [MacPorts](https://www.macports.org) - Mostly packages needed to build stuff from source like cctools.
-
-## Misc
-Geekbench 4.
-[Intel Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget/) whilst running Geekbench 4 and Geekbench 4 Compute:
-
-![Load whilst running Geekbench 4](https://github.com/zearp/optihack/blob/master/images/gb.png)
-
-![Load whilst running Geekbench 4 Compute](https://github.com/zearp/optihack/blob/master/images/gbc.png)
-
-My i5-4570S scores an average around ~4100 single core and ~11750 multi core. Compute score around ~15775.
 
 ## Credits
 * The [Acidanthera](https://github.com/acidanthera/) team -- OpenCore(!), WhatEverGreen, Lilu, VirtualSMC, AppleALC, etc, etc. Amazing work.
