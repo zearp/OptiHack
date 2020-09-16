@@ -225,12 +225,14 @@ UEFI -> Audio -> VolumeAmplifier -> 100
 UEFI -> Drivers -> AudioDxe.efi
 UEFI -> Drivers -> OpenCanopy.efi
 ```
+Lastly remove the *-v* boot flag found at ```NVRAM -> Add -> 7C436110-AB2A-4BBB-A880-FE41995C9F82 -> boot-args```. That should be it. Reboot and test!
+
 Notes:
 - To save some space you can remove everything from the audio resources folder except *OCEFIAudio_VoiceOver_Boot.wav*, which provides the chime sound. All the other audio files are only needed if you use voice-over.
-- Set ShowPicker to True is you always want to see the picker
-- Hold down OPT or ESC while booting to show the picker (pressing escape will also refresh the drives so it might flash if you spam the escape key)
+- Set ShowPicker to True if you always want to see the picker
+- Hold down OPT or ESC while booting to show the picker menu (pressing escape will also refresh the drives so it might flash if you spam the escape key)
 - Other Mac key combo's should also work but haven't tested them, opt+control+p+r should reset NVRAM, command+v should boot in verbose mode, etc
-- TakeoffDelay sets the time in microseconds before actual boot begins, for a setting of 1000 worked well. Setting this to a higher number might be needed if you can't get the picker to show
+- TakeoffDelay sets the time in microseconds before actual boot begins, for my keyboard a setting of 1000 worked well. Setting this to a higher number might be needed if you can't get the picker to show
 - The boot chime will play over the internal speaker, to change this set ```UEFI -> Audio -> AudioOut``` to reflect the output you wish to use. It's not possible to play the chime over DP/HDMI. But it is possible to select another output if the internal speaker is not your cup of teas. I've not yet checked which outputs are available. When I do I will update this section. Until then please refer to [this](https://dortania.github.io/OpenCore-Post-Install/cosmetic/gui.html#setting-up-boot-chime-with-audiodxe) guide.
 
 ## Keybinding/mapping
