@@ -48,6 +48,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
     * [Resetting UEFI changes](#resetting-uefi-changes)
     * [Sleep](#sleep-1)
     * [Logs](#logs)
+    * [macOS + Windows on 1 disk](#windows--macos-sharing-a-disk)
     * [Misc](#misc)
   * [Toolbox](#toolbox)
   * [Notes](#notes)
