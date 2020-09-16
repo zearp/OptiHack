@@ -359,11 +359,13 @@ The ```pmset``` settings after install are:
  standbydelaylow      86400
 
 ```
-
 ### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
 * Debug logs and options are disabled where possible, this speeds up booting and helps performance. Debug logging and versions of software with debug symbols shouldn't be used in production. If you have issues booting OpenCore please re-enable debug logging as outlined [here](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/debug.html). This won't impact normal logging like boot logs or system logs. If anything it makes them more readable as it won't have an overload of information.
+
+### Windows + macOS sharing a disk
+Windows Updates can mess up your EFI partition by overwriting ```BOOTx64.efi```, this will only be a problem if you share 1 disk/EFI with both Windows and macOS. Ideally install each OS on its own disk, unless no other option. To prevent Windows Update form messing up your EFI you have to download the latest OpenCore release and copy the Bootstrap folder found in EFI/OC to your EFI/OC folder. Then change ```Misc -> Security -> BootProtect``` from None to Bootstrap. This should protect OpenCore in the event Windows Updates decides to remove files on your EFI partition. 
 
 ### Misc.
 * OpenCore doesn't remember the last booted volume? Press ```control + enter``` to set a new default. Wiping NVRAM can also help cure this.
