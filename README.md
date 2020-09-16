@@ -38,6 +38,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * Others
   * [dGPU](#dgpu)
   * [SMBIOS](#smbios)
+  * [Graphical boot](#graphical-boot)
   * [Keybinding/mapping](#keybindingmapping)
   * [RAID0 install and booting APFS](#raid0-install-and-booting-apfs)
   * [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
@@ -204,6 +205,33 @@ For Catalina its best to use a model that matches your processor as closely as p
 But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 > Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
+
+## Graphical boot
+1. Download needed drivers and resources and copy them
+2. Edit the config; disable verbose boot, enable boot chime, enable graphical picker, hide picker unless hotkey is held
+3. Reboot and test
+
+First we need to download [this](https://github.com/acidanthera/OcBinaryData/archive/master.zip) and also download the [latest OpenCore release](https://github.com/acidanthera/OpenCorePkg/releases). Extract the *Resources* folder from the *master.zip* file and place it in EFI/OC. From the OpenCore release archive we need to copy *AudioDxe.efi* and *OpenCanopy.efi* from EFI/OC/Drivers to our EFI/OC/Drivers.
+
+Secondly we need to edit the config, the last two entries need to be added.
+```
+Misc -> Boot -> HideAuxiliary -> True
+Misc -> Boot -> PickerMode -> External
+Misc -> Boot -> ShowPicker -> False
+Misc -> Boot -> TakeoffDelay -> 1000
+UEFI -> Audio -> AudioSupport -> True
+UEFI -> Audio -> PlayChime -> True
+UEFI -> Audio -> VolumeAmplifier -> 100
+UEFI -> Drivers -> AudioDxe.efi
+UEFI -> Drivers -> OpenCanopy.efi
+```
+Notes:
+- To save some space you can remove everything from the audio resources folder except *OCEFIAudio_VoiceOver_Boot.wav*, which provides the chime sound. All the other audio files are only needed if you use voice-over.
+- Set ShowPicker to True is you always want to see the picker
+- Hold down OPT or ESC while booting to show the picker (pressing escape will also refresh the drives so it might flash if you spam the escape key)
+- Other Mac key combo's should also work but haven't tested them, opt+control+p+r should reset NVRAM, command+v should boot in verbose mode, etc
+- TakeoffDelay sets the time in microseconds before actual boot begins, for a setting of 1000 worked well. Setting this to a higher number might be needed if you can't get the picker to show
+- The boot chime will play over the internal speaker, to change this set ```UEFI -> Audio -> AudioOut``` to reflect the output you wish to use. It's not possible to play the chime over DP/HDMI. But it is possible to select another output if the internal speaker is not your cup of teas. I've not yet checked which outputs are available. When I do I will update this section. Until then please refer to [this](https://dortania.github.io/OpenCore-Post-Install/cosmetic/gui.html#setting-up-boot-chime-with-audiodxe) guide.
 
 ## Keybinding/mapping
 Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. I'll add a how-to with some examples here in the future. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
