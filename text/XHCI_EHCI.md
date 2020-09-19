@@ -1,5 +1,5 @@
 There's a lot of interesting XHCI/EHCI related stuff in the BIOS that can be enabled/tweaked with a modified Grub shell. Here's some snippets.
-
+---
 ```
 0x53D06 		End One Of {29 02}
 0x53D08 		One Of: XHCI Hand-off, VarStoreInfo (VarOffset/VarName): 0x1A, VarStore: 0x11, QuestionId: 0x307, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 49 07 4A 07 07 03 11 00 1A 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
@@ -50,7 +50,7 @@ Another bad default. EHCx ports should all be routed to XHC.
 0x484B0 		End One Of {29 02}
 ```
 
-Disabling these two removes the need for the EHCx_OFF patch.
+~~Disabling these two removes the need for the EHCx_OFF patch.~~ Without the patch I still had the machine wake up sometimes, relating to EHCx stuff. With the patch it doesn't happen. I haven't checked in a while so maybe the patch is no longer needed.
 ```
 0x48A40 		One Of: EHCI1, VarStoreInfo (VarOffset/VarName): 0x146, VarStore: 0x2, QuestionId: 0xA0, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 3E 02 40 02 A0 00 02 00 46 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
 0x48A66 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
