@@ -1,13 +1,5 @@
 There's a lot of interesting XHCI/EHCI related stuff in the BIOS that can be enabled/tweaked with a modified Grub shell. Here's some snippets.
 ---
-```
-0x53D06 		End One Of {29 02}
-0x53D08 		One Of: XHCI Hand-off, VarStoreInfo (VarOffset/VarName): 0x1A, VarStore: 0x11, QuestionId: 0x307, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 49 07 4A 07 07 03 11 00 1A 00 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x53D2E 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E 41 07 30 00 01 00 00 00 00 00 00 00}
-0x53D3C 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E 42 07 00 00 00 00 00 00 00 00 00 00}
-0x53D4A 		End One Of {29 02}
-```
-
 This default is bad.
 
 ```
