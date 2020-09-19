@@ -388,8 +388,9 @@ The ```pmset``` settings after install are:
  displaysleep         25
  highstandbythreshold 50
  standbydelaylow      86400
-
 ```
+To see what's preventing sleep run ```pmset -g assertions```.
+
 ### Logs
 * Boot logs, to get (early) boot logs execute ```log show --predicate 'process == "kernel"' --style syslog --source --last boot``` right after a reboot to get them. A good way to find errors regarding kext loading and such.
 * Cleaning logs, often it is nice to clean the logs when testing, execute ```sudo log erase --all``` to wipe them.
