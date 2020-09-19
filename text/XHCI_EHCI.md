@@ -21,17 +21,6 @@ This default is also bad, should be set to enabled.
 0x4834E 		End One Of {29 02}
 ```
 
-```
-0x48394 		One Of: XHCI Pre-Boot Driver, VarStoreInfo (VarOffset/VarName): 0x158, VarStore: 0x2, QuestionId: 0x87, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 38 02 39 02 87 00 02 00 58 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x483BA 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
-0x483C8 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
-0x483D6 		End One Of {29 02}
-0x483D8 		One Of: XHCI Idle L1, VarStoreInfo (VarOffset/VarName): 0x159, VarStore: 0x2, QuestionId: 0x88, Size: 1, Min: 0x0, Max 0x0, Step: 0x0 {05 A6 3A 02 3B 02 88 00 02 00 59 01 10 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00}
-0x483FE 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 0E C2 03 30 00 01 00 00 00 00 00 00 00}
-0x4840C 			One Of Option: Disabled, Value (8 bit): 0x0 {09 0E C3 03 00 00 00 00 00 00 00 00 00 00}
-0x4841A 		End One Of {29 02}
-```
-
 Another bad default. EHCx ports should all be routed to XHC.
 
 ```
