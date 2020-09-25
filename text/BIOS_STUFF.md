@@ -4,7 +4,7 @@ What can we do?
 * [Update the microcodes, this is the most important modification to make](#modifying)
 * [Update RST firmware, this is responsible for SATA/RAID](#rst)
 * [Update iGPU VBIOS](#igpulan)
-* [Add KVM/AMT to the SPI region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi)
+* [Add KVM/AMT to the BIOS ME region, enables vPro stuff like remote desktop even if system is off](#kvmamtspi)
 * [Modify Dell boot logo, replace it with a fruity pineapple if you're so inclined](#bios-logo)
 * Modify DSDT tables, in theory we could add all our ACPI patches needed for macOS to the BIOS itself
 * [Add NVMe support to the BIOS](#nvme)
