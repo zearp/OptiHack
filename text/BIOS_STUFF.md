@@ -331,15 +331,15 @@ BIOS Config Lock:                       Enabled
 All looks good, firmware has been updated and after I changed the password from the ```admin``` default to ```uHhvd!sD^8``` the options to enable remote management could be enabled (KVM/AMT). Network by default is unconfigured, you'll need to turn that on too. You can configure the IP manually or using DHCP. I've had mixed resutls with DHCP. Manual setup is best. Pick an IP outside the range your router/DHCP server serves.
 
 ## Windows for those that don't want it
-So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk. Use an old ssd for best results.
+So you're like me and not spend any time in Windows and also don't want to install it on your machine. Well you're in luck! There is a way to create a Windows install that will work on pretty much any computer and runs from a usb drive. Don't use anything too slow or you will be in a serious world of lag and pain because the system keeps using 100% of the disk constantly. Use an old ssd for best results.
 
 You'll need:
 * [Rufus](https://rufus.ie) - Totally free but can not create Windows To Go installs on ssd's only usb sticks **OR** [WinToUSB](https://www.easyuefi.com/wintousb/) - To create the Windows To Go disk, the free version will do fine.
 * Windows 10 media, you can grab an evaluation version directly from Microsoft using [this](https://tb.rg-adguard.net/public.php) website.
 
-Create the disk with WinToUSB and boot from it, run Windows Update until there are no more updates.
+Create the Windows To Go disk or stick and boot from it, run Windows Update until there are no more updates.
 
-> Tip: To see file extentions and hidde nfiels and such the easy way, search for "developer" i nthe search or start menu and open thsoe settings. Scroll down to the File Explorer section and click apply.
+> Tip: To see file extentions and hidden files the easy way, search for "developer" in the search or start menu and open those settings. Scroll down to the File Explorer section and click apply.
 
 ## Recovery
 It is possible to recover from a bad flash. You will need:
