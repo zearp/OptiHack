@@ -84,7 +84,7 @@ For more information on setting up OpenCore please refer to [this](https://dorta
 **NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
-> Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. 
+> Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. ProperTree can be build with ```dark mode``` support, but it reuires a [few extra](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) steps.
 
 ## First boot!
 Before we can boot into the macOS installer itself there are some things we have to disable and enable that Dell has hidden in the BIOS itself. Why Dell does this is unclear to me, this is a business desktop not a consumer desktop or laptop. There is no need to hide more advanced options. Luckily we can still change them.
