@@ -355,7 +355,7 @@ This works out of the box. You can enable it in the System Preferences app. If y
 
 ## Issues
 ### Resetting UEFI changes
-You have to remove the CMOS battery, short the ```RTCRST``` jumper and remove the ```PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults for good measure.
+You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ``PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults again for good measure. Don't forget to re-do the [UEFI edits](#disable-cfg-lock).
 
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
