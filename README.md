@@ -419,7 +419,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [Meld](https://github.com/yousseb/meld) - Compare (and merge) everything! Sweet little diff tool.
 * [Monolingual](https://ingmarstein.github.io/Monolingual/) - Remove unused languages and architectures from apps. Yes I like it tidy!
 * [Onyx](https://titanium-software.fr/en/onyx.html) - Always seem to come in handy at some point or another.
-* [ProperTree](https://github.com/corpnewt/ProperTree) - OpenCore config editor and very useful for other plist editing too.
+* [ProperTree](https://github.com/corpnewt/ProperTree) - OpenCore config editor and very useful for other plist editing too ([darkmode](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) "howto").
 * [Transmission](https://transmissionbt.com/) - To download those Linux iso's. The "[nightly](https://build.transmissionbt.com/job/trunk-mac/)" builds have dark mode support.
 * [VLC](https://www.videolan.org) - Plays any media Cog can't.
 
