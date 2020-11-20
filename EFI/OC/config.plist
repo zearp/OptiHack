@@ -150,6 +150,8 @@
 		<array/>
 		<key>Quirks</key>
 		<dict>
+			<key>AllowRelocationBlock</key>
+			<false/>
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
 			<key>DevirtualiseMmio</key>
@@ -487,14 +489,14 @@
 			<string>Signed</string>
 			<key>EnablePassword</key>
 			<false/>
-			<key>ExposeSensitiveData</key>
-			<integer>6</integer>
 			<key>HaltLevel</key>
 			<integer>2147483648</integer>
 			<key>PasswordHash</key>
 			<data></data>
 			<key>PasswordSalt</key>
 			<data></data>
+			<key>ExposeSensitiveData</key>
+			<integer>6</integer>
 			<key>ScanPolicy</key>
 			<integer>0</integer>
 			<key>SecureBootModel</key>
