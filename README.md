@@ -81,7 +81,7 @@ Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing 
 
 For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
 
-**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you're not planning on using Big Sur, you can use 14,3 to stop receiving notifcations to upgrade to it.
+**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. ProperTree can be build with ```dark mode``` support, but it requires a [few extra](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) steps.
@@ -200,9 +200,9 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600. If you're not planning on using Big Sur, you can use 14,3 to stop receiving notifcations to upgrade to it.
 
-But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing just the [plist file inside the kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 > Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
