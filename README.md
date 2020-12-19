@@ -81,7 +81,7 @@ Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing 
 
 For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
 
-**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
+**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage. If you're not planning on using Big Sur you use 14,3 to stop receiving notifcations to upgrade to it.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. ProperTree can be build with ```dark mode``` support, but it requires a [few extra](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) steps.
