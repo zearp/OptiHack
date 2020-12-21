@@ -250,6 +250,9 @@ If you have errors relating to security vault or similar when updating the Prebo
 (This command can also fix the issue where FileVault2 can't be enabled.)
 
 ## Undervolting
+
+**Update**: A slightly simpler way to do undervolting can be found [here](https://github.com/zearp/Nucintosh#undervolting). The kext + configuration tool will work fine on Optiplex systems. A benefit of the above method is that you can load the kext from your EFI so there is no need to disable SIP and allow loading of unsigned kexts.
+
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
 You can build it from source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
