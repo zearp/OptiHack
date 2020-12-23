@@ -255,7 +255,7 @@ If you have errors relating to security vault or similar when updating the Prebo
 
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
-You can build it from source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
+You can build it from source or easier, download the precompiled binary [here](https://github.com/zearp/VoltageShift/blob/master/voltageshift_1.25.zip) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169). As of 23/12/2020 this fix may not be needed anymore. Untested by me as I moved to loading the kext from EFI which requires modifications to the source.
 
 ***Make a backup of your system before doing anything, crashes will happen when trying to find the optimal values.***
 
