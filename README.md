@@ -255,7 +255,7 @@ If you have errors relating to security vault or similar when updating the Prebo
 
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
-You can build it from source or easier, download the precompiled binary [here](https://github.com/zearp/VoltageShift/blob/master/voltageshift_1.25.zip) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169). As of 23/12/2020 this fix may not be needed anymore. Untested by me as I moved to loading the kext from EFI which requires modifications to the source.
+You can build it from source or easier, download the precompiled binary [here](https://github.com/sicreative/VoltageShift/blob/master/voltageshift_1.25.zip) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169). As of 23/12/2020 this fix may not be needed anymore. Untested by me as I moved to loading the kext from EFI which requires modifications to the source.
 
 ***Make a backup of your system before doing anything, crashes will happen when trying to find the optimal values.***
 
@@ -358,7 +358,7 @@ This works out of the box. You can enable it in the System Preferences app. If y
 
 ## Issues
 ### Resetting UEFI changes
-You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ``PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults again for good measure. Don't forget to re-do the [UEFI edits](#disable-cfg-lock).
+You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ```PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults again for good measure. Don't forget to re-do the [UEFI edits](#disable-cfg-lock).
 
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
