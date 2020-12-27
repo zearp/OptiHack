@@ -428,7 +428,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 
 Then there's Homebrew and less known, but useful as you don't need the full Homebrew installed, Rudix. Not to forget MacPorts, which has some packages not found on the previous two.
 
-* [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
+* [Homebrew](https://brew.sh) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 * [MacPorts](https://www.macports.org) - Mostly packages needed to build stuff from source like cctools.
 
