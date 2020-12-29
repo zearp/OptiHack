@@ -200,9 +200,9 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600.
+For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600. If you're not planning on using Big Sur, you can use 14,3 to stop receiving notifcations to upgrade to it.
 
-But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing jsut the plist file inside the kext. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing just the [plist file inside the kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 > Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
 
@@ -250,9 +250,12 @@ If you have errors relating to security vault or similar when updating the Prebo
 (This command can also fix the issue where FileVault2 can't be enabled.)
 
 ## Undervolting
+
+**Update**: A slightly simpler way to do undervolting can be found [here](https://github.com/zearp/Nucintosh#undervolting). The kext + configuration tool will work fine on Optiplex systems. A benefit of the above method is that you can load the kext from your EFI so there is no need to disable SIP and allow loading of unsigned kexts.
+
 Been testing an undervolted setup using [VoltageShift](https://github.com/sicreative/VoltageShift) for quite some time. Not anything too much (-75mv CPU and -50mv GPU). It doesn't really impact performance but does make things run cooler and it uses less energy.
 
-You can build it from source or easier, download the precompiled binary [here](https://sitechprog.blogspot.com/2017/06/voltageshift.html) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169).
+You can build it from source or easier, download the precompiled binary [here](https://github.com/sicreative/VoltageShift/blob/master/voltageshift_1.25.zip) and we apply a little fix explained [here](https://github.com/sicreative/VoltageShift/issues/34#issuecomment-576119169). As of 23/12/2020 this fix may not be needed anymore. Untested by me as I moved to loading the kext from EFI which requires modifications to the source.
 
 ***Make a backup of your system before doing anything, crashes will happen when trying to find the optimal values.***
 
@@ -355,7 +358,7 @@ This works out of the box. You can enable it in the System Preferences app. If y
 
 ## Issues
 ### Resetting UEFI changes
-You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ``PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults again for good measure. Don't forget to re-do the [UEFI edits](#disable-cfg-lock).
+You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ```PSWD``` jumper. Also remove the power chord and then hold the power button for 10-20 seconds (this drains all left over electricity so called ```flea power```). Now reconnect the power chord and wait for 30 seconds so the settings can be cleared. Now power up the machine. Everything should now be reset to stock values. Turn the machine off again and put the CMOS battery back in and set the jumpers back to how they were before. Now turn the machine back on and load BIOS defaults again for good measure. Don't forget to re-do the [UEFI edits](#disable-cfg-lock).
 
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
@@ -425,7 +428,7 @@ These are the apps I use and have used in my journey so far. Some more essential
 
 Then there's Homebrew and less known, but useful as you don't need the full Homebrew installed, Rudix. Not to forget MacPorts, which has some packages not found on the previous two.
 
-* [Homebrew](https://www.videolan.org) - The best known and most complete package manager for macOS.
+* [Homebrew](https://brew.sh) - The best known and most complete package manager for macOS.
 * [Rudix](https://rudix.org) - Less known, a lot less packages but they're all pre-compiled and don't require anything but the package themselves.
 * [MacPorts](https://www.macports.org) - Mostly packages needed to build stuff from source like cctools.
 
