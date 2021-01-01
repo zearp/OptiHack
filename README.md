@@ -424,7 +424,8 @@ These are the apps I use and have used in my journey so far. Some more essential
 * [Onyx](https://titanium-software.fr/en/onyx.html) - Always seem to come in handy at some point or another.
 * [ProperTree](https://github.com/corpnewt/ProperTree) - OpenCore config editor and very useful for other plist editing too ([darkmode](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) "howto").
 * [Transmission](https://transmissionbt.com/) - To download those Linux iso's. The "[nightly](https://build.transmissionbt.com/job/trunk-mac/)" builds have dark mode support.
-* [VLC](https://www.videolan.org) - Plays any media Cog can't.
+* [IINA](https://github.com/iina/iina) - Very smooth and open source video player for macOS.
+* [VLC](https://www.videolan.org) - Can play pretty much any media file.
 
 Then there's Homebrew and less known, but useful as you don't need the full Homebrew installed, Rudix. Not to forget MacPorts, which has some packages not found on the previous two.
 
