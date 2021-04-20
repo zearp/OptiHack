@@ -435,7 +435,7 @@ Then there's Homebrew and less known, but useful as you don't need the full Home
 
 ## Notes
 * Please use a DisplayPort to DisplayPort cable whenever possible. DP -> HDMI conversion often leads to issues. If you have to use such a converter or converting cable and run into issues you might benefit from removing ```disable-external-gpu``` and ```disable-hdmi-patches``` entries in the iGPU device info in the config.
-* For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875).
+* For 4k to work properly you may need to use the DisplayPort port closest to the VGA connector. Thanks to [mgrimace](https://github.com/zearp/OptiHack/pull/11#issuecomment-667554875). Please note 4k only works on DisplayPort to DisplayPort connections.
 
 CAN'T DO:
 * SideCar. Tried the patches to enable it and it works but it's not smooth and iPad display glitches when the image is moving. Good as photo frame only :p
