@@ -15,8 +15,6 @@ I suck at writing documentation but I need to keep track of things I do for myse
 
 Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
 
-> Note: If you've used a version prior to the 1st of August 2020 it is best to double check your settings and/or start your EFI from scratch as a lot has changed.
-
 ## Index
 * Installation:
   * [BIOS settings](#bios-settings)
@@ -124,8 +122,6 @@ You're now ready to install macOS. Boot from the installer again and select the 
 > Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
-
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The sanity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Post-Install/universal/security.html#filevault). Check the page to know which sanity check warnings you can ignore and which ones need attention.)
 
 ## Post install
 Once macOS is installed and made it trough the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
