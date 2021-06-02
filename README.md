@@ -15,8 +15,6 @@ I suck at writing documentation but I need to keep track of things I do for myse
 
 Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
 
-> Note: If you've used a version prior to the 1st of August 2020 it is best to double check your settings and/or start your EFI from scratch as a lot has changed.
-
 ## Index
 * Installation:
   * [BIOS settings](#bios-settings)
@@ -84,7 +82,7 @@ For more information on setting up OpenCore please refer to [this](https://dorta
 **NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
 
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
-> Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder. ProperTree can be build with ```dark mode``` support, but it requires a [few extra](https://gist.github.com/zearp/9e0ebcc028b05d84223ddb4c84c62748) steps.
+> Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder.
 
 ## First boot!
 Before we can boot into the macOS installer itself there are some things we have to disable and enable that Dell has hidden in the BIOS itself. Why Dell does this is unclear to me, this is a business desktop not a consumer desktop or laptop. There is no need to hide more advanced options. Luckily we can still change them.
@@ -124,8 +122,6 @@ You're now ready to install macOS. Boot from the installer again and select the 
 > Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
-
-(It is also a good idea to [sanity check](https://opencore.slowgeek.com) your config file if you made a lot of changes to the config file. Select Haswell from the dropdown and OpenCore version 0.5.7. The sanity checker will complain about certain things but those are needed for [FileVault2](https://dortania.github.io/OpenCore-Post-Install/universal/security.html#filevault). Check the page to know which sanity check warnings you can ignore and which ones need attention.)
 
 ## Post install
 Once macOS is installed and made it trough the post-install setup screens we'll install [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) again and mount the EFI partition of the internal disk and the EFI on your installer. Copy the EFI folder from the installer to the internal disk. 
