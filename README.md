@@ -332,9 +332,7 @@ Thats it! Your silent OptiPlex will now be even more silent.
 > Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifications are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slower but its not audible.
 
 ## SIP
-Current SIP setting ready for undervolting; ```csr-active-config 03000000``` in OpenCore config, which does the same as running ```csrutil enable --without kext --without fs``` from recovery/installer. If you don't plan on undervolting you can set the ```csr-active-config``` value to ```00000000```. That is the most secure option. Verify the current SIP settings by running ```csrutil status```.
-
-> Note: If changing the config alone doesn't seem to change the SIP settings, reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
+SIP is enabled by default, you can toggle it from the OpenCore picker menu when you need to toggle it. If changing SIP from the OpenCore picker or the config doesn't seem to change the SIP settings, please reset NVRAM and if thats not enough try entering setting them manually from recovery or the installer. Just run ```csrutil enable``` to turn it on.
 
 ## Security
 * One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have capitals and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
