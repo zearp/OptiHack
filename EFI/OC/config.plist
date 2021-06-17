@@ -270,14 +270,14 @@
 			<dict>
 				<key>AAPL,ig-platform-id</key>
 				<data>AwAiDQ==</data>
-				<key>device-id</key>
-				<data>EgQAAA==</data>
 				<key>disable-external-gpu</key>
 				<data>AQAAAA==</data>
 				<key>disable-hdmi-patches</key>
 				<data>AQAAAA==</data>
-				<key>enable-hdmi20</key>
+				<key>enable-max-pixel-clock-override</key>
 				<data>AQAAAA==</data>
+				<key>enable-hdmi20</key>
+				<data>AAAAAA==</data>
 				<key>force-online</key>
 				<data>AQAAAA==</data>
 				<key>framebuffer-fbmem</key>
@@ -290,10 +290,6 @@
 				<data>AAAAgA==</data>
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
-				<key>enable-max-pixel-clock-override</key>
-				<data>AQAAAA==</data>
-				<key>enable-hdmi-dividers-fix</key>
-				<data>AQAAAA==</data>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x3,0x0)</key>
 			<dict>
