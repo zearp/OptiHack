@@ -7,7 +7,7 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina and Big Sur but should work older version too.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older version too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
@@ -196,11 +196,11 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-We have several choices here, the default is iMac 15,1 which can install macOS up to Big Sur. There is also 14,3 which can install macOS up to Catalina. The is no difference between using these except for the fact you will not receive upgrade nags to update to Big Sur when using 14,3. 
+We have several choices here, the default is iMac 15,1 which can install macOS up to Big Sur. There is also 14,3 which can install macOS up to Catalina. There is no difference between using these except for the fact you will not receive upgrade nags to update to Big Sur when using 14,3. 
 
-Then there is the Mac mini 7,1 SMBIOS, this will allow installs up to Monterey. If you want to stay on Big Sur use 15,1 so you won't receive ny upgrade nags. The biggest difference between 14,3/15,1 and the Mac mini SMBIOS is that the iGPU runs at a higher idle speed. This may not matter at all but it's worth to mention it.
+Then there is the Mac mini 7,1 SMBIOS, this will allow installs up to Monterey. If you want to stay on Big Sur use 15,1 so you won't receive any upgrade nags. The biggest difference between 14,3/15,1 and the Mac mini SMBIOS is that the iGPU runs at a higher idle speed. This may not matter at all but it's worth to mention it.
 
-Bf you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+> Note: If you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 ## Graphical boot
 1. Download needed drivers and resources and copy them
