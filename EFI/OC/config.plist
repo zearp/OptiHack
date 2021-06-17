@@ -304,17 +304,6 @@
 				<key>model</key>
 				<string>Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller</string>
 			</dict>
-			<key>PciRoot(0x0)/Pci(0x1C,0x4)/Pci(0x0,0x0)</key>
-			<dict>
-				<key>AAPL,slot-name</key>
-				<string>Internal@0,28,4/0,0</string>
-				<key>device_type</key>
-				<string>Network controller</string>
-				<key>model</key>
-				<string>BCM43224 802.11a/b/g/n</string>
-				<key>brcmfx-country</key>
-				<string>#a</string>
-			</dict>
 		</dict>
 		<key>Delete</key>
 		<dict/>
@@ -504,38 +493,7 @@
 		<key>Force</key>
 		<array/>
 		<key>Patch</key>
-		<array>
-			<dict>
-				<key>Arch</key>
-				<string>Any</string>
-				<key>Base</key>
-				<string></string>
-				<key>Comment</key>
-				<string>Whitelist BCM943224PCIEBT2</string>
-				<key>Count</key>
-				<integer>0</integer>
-				<key>Enabled</key>
-				<false/>
-				<key>Find</key>
-				<data>TWFjLTJFNkZBQjk2NTY2RkU1OEM=</data>
-				<key>Identifier</key>
-				<string>com.apple.driver.AirPort.Brcm4360</string>
-				<key>Limit</key>
-				<integer>0</integer>
-				<key>Mask</key>
-				<data></data>
-				<key>MaxKernel</key>
-				<string></string>
-				<key>MinKernel</key>
-				<string></string>
-				<key>Replace</key>
-				<data>TWFjLTM1QzVFMDgxMjBDN0VFQUY=</data>
-				<key>ReplaceMask</key>
-				<data></data>
-				<key>Skip</key>
-				<integer>0</integer>
-			</dict>
-		</array>
+		<array/>
 		<key>Quirks</key>
 		<dict>
 			<key>AppleCpuPmCfgLock</key>
