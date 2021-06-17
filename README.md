@@ -196,11 +196,11 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-For Catalina its best to use a model that matches your processor as closely as possible. But with big Sur this is no longer an option. You have to use 15,1 or 14,4 the latter resulting in much higher base clock (750mhz) for the HD4600. If you're not planning on using Big Sur, you can use 14,3 to stop receiving notifcations to upgrade to it.
+We have several choices here, the default is iMac 15,1 which can install macOS up to Big Sur. There is also 14,3 which can install macOS up to Catalina. The is no difference between using these except for the fact you will not receive upgrade nags to update to Big Sur when using 14,3. 
 
-But if you change the model you will have to create a new USBPorts.kext as the kext is linked to product name. You could get away with editing just the [plist file inside the kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. But if usb starts acting up it's best to create a new map. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+Then there is the Mac mini 7,1 SMBIOS, this will allow installs up to Monterey. If you want to stay on Big Sur use 15,1 so you won't receive ny upgrade nags. The biggest difference between 14,3/15,1 and the Mac mini SMBIOS is that the iGPU runs at a higher idle speed. This may not matter at all but it's worth to mention it.
 
-> Note: If everything is working fine for you then there is *no need* to change the iMac 15,1 default.
+Bf you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
 ## Graphical boot
 1. Download needed drivers and resources and copy them
