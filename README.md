@@ -196,9 +196,15 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-We have several choices here, the default is iMac 15,1 which can install macOS up to Big Sur. There is also 14,3 which can install macOS up to Catalina. There is no difference between using these except for the fact you will not receive upgrade nags to update to Big Sur when using 14,3. 
+The best SMBIOS to use is the one that suits your macOS needs best:
+- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz
+- iMac15,1 - Allows up to Big Sur, iGPU runs at 350mhz
+- iMac14,3 - Allows up to Catalina, iGPU runs at 350mhz
+- iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
 
-Then there is the Mac mini 7,1 SMBIOS, this will allow installs up to Monterey. If you want to stay on Big Sur use 15,1 so you won't receive any upgrade nags. The biggest difference between 14,3/15,1 and the Mac mini SMBIOS is that the iGPU runs at a higher idle speed. This may not matter at all but it's worth to mention it.
+Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. The difference will be with update nags from Apple.
+
+On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing at that is Big Sur + Catalina and Mojave. Once Monterey is released it will provides them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
 > Note: If you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
