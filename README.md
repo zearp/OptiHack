@@ -198,13 +198,13 @@ If you don't plan on using the iGPU at all (i.e. no display connected) you can d
 ## SMBIOS
 The best SMBIOS to use is the one that suits your macOS needs best:
 - Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz
-- iMac15,1 - Allows up to Big Sur, iGPU runs at 350mhz
-- iMac14,3 - Allows up to Catalina, iGPU runs at 350mhz
+- iMac15,1 - Allows up to Big Sur, iGPU runs at 200mhz
+- iMac14,3 - Allows up to Catalina, iGPU runs at 200mhz
 - iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
 
-Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. The difference will be with update nags from Apple.
+Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. The difference will be with update nags from Apple. The Intel spec has the HD4600 at 350mhz base clock, I don't know why Apple has them higher on certain SMBIOS and lower on others. It might also be possible to change this.
 
-On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing at that is Big Sur + Catalina and Mojave. Once Monterey is released it will provides them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
+On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing that is Big Sur + Catalina and Mojave. Once Monterey is released Apple will provide them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
 > Note: If you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
@@ -363,7 +363,7 @@ You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ```P
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
 ### Sleep
-Sleep may not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
+Sleep may not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
 When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ethernet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
 
