@@ -7,7 +7,7 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older version too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
@@ -202,7 +202,7 @@ The best SMBIOS to use is the one that suits your macOS needs best:
 - iMac14,3 - Allows up to Catalina, iGPU runs at 200mhz
 - iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
 
-Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. The difference will be with update nags from Apple. The Intel spec has the HD4600 at 350mhz base clock, I don't know why Apple has them higher on certain SMBIOS and lower on others. It might also be possible to change this.
+Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. There is also no performance impact as once the iGPU is used it maxes out the clock speed very fast. The difference will be with update nags from Apple. The Intel spec has the HD4600 at 350mhz base clock, I don't know why Apple has them higher on certain SMBIOS and lower on others. It might also be possible to change this.
 
 On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing that is Big Sur + Catalina and Mojave. Once Monterey is released Apple will provide them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
