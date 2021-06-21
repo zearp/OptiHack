@@ -7,7 +7,7 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older version too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
@@ -196,9 +196,15 @@ The current config disables any external graphics cards, this is to prevent issu
 If you don't plan on using the iGPU at all (i.e. no display connected) you can delete the whole ```PciRoot(0x0)/Pci(0x2,0x0)``` section and WhateverGreen should automatically configure it as computing device. It can do video encoding/decoding and such. You will also need to change the BIOS and make the dGPU the primary video card for encoding/decoding to work.
 
 ## SMBIOS
-We have several choices here, the default is iMac 15,1 which can install macOS up to Big Sur. There is also 14,3 which can install macOS up to Catalina. There is no difference between using these except for the fact you will not receive upgrade nags to update to Big Sur when using 14,3. 
+The best SMBIOS to use is the one that suits your macOS needs best:
+- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz
+- iMac15,1 - Allows up to Big Sur, iGPU runs at 200mhz
+- iMac14,3 - Allows up to Catalina, iGPU runs at 200mhz
+- iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
 
-Then there is the Mac mini 7,1 SMBIOS, this will allow installs up to Monterey. If you want to stay on Big Sur use 15,1 so you won't receive any upgrade nags. The biggest difference between 14,3/15,1 and the Mac mini SMBIOS is that the iGPU runs at a higher idle speed. This may not matter at all but it's worth to mention it.
+Functionality wise there is no difference, everything works. The higher iGPU base clock doesn't seem to impact temps or power draw. There is also no performance impact as once the iGPU is used it maxes out the clock speed very fast. The difference will be with update nags from Apple. The Intel spec has the HD4600 at 350mhz base clock, I don't know why Apple has them higher on certain SMBIOS and lower on others. It might also be possible to change this.
+
+On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing that is Big Sur + Catalina and Mojave. Once Monterey is released Apple will provide them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
 > Note: If you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
 
@@ -357,7 +363,7 @@ You have to remove the CMOS battery, short the ```RTCRST``` jumper with the ```P
 > Note: This is a mix of CMOS and jumper reset methods for maximum effect as just following the desktop guide on the Dell site didn't clear everything in my testing. Read more about it [here](https://www.dell.com/support/article/de-ch/sln284985/how-to-perform-a-bios-or-cmos-reset-and-or-clear-the-nvram-on-your-dell-system).
 
 ### Sleep
-Sleep may not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usbb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
+Sleep may not work properly with usb hubs, this includes some sata -> usb 3 dongles. Anything that acts as usb-hub will cause the machine to sleep and wake right up. I have no issues with sleep with usb sticks and disks in normal usb 3 -> sata cases. They stay connected, even encrypted volumes and don't eject when the machine wakes up. Only devices that act as usb will cause issues.
 
 When dealing with sleep issues make sure to test things with no usb devices connected other than keyboard/mouse. Check if legacy rom loading is *enabled* in the BIOS. Disable; Power Nap and wake for ethernet access in ```System Preferences -> Energy Saver```. It is by [design](https://support.apple.com/en-gb/HT201960) macOS wakes your machine up periodically when ```Wake for Ethernet network access``` is enabled. If you still get wake-ups that could be related to WOL (Wake on LAN) try disabling WOL in the BIOS itself as well.
 
