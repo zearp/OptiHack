@@ -54,7 +54,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
 * [Credits](#credits)
 
 ## BIOS settings
-My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to UEFI. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it. Also check if you have the latest BIOS installed.
+My BIOS settings are simple: update to latest available BIOS (A18 for the 7020), load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to UEFI. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it. Also check if you have the latest BIOS installed.
 
 ## Download and create the installer
 We need a macOS installer image. There are several ways of obtaining it. The best way is to use a computer (or virtual machine) with a working macOS and download it in the App Store. Alternative methods;
