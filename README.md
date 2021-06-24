@@ -3,11 +3,15 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 <sub>Should also work on 9020 SFF and MT models without additional modifications other than changing RAID to AHCI in the BIOS. You will need to create a usb portmap post-install if you use any internal usb headers (SFF models don't have these) or run into any issues. Luckily doing so is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layout-id of 27 and SMBIOS iMac 14,1.</sub>
 
+## PSA: From the 24th of June the default SMBIOS has been changed. This means that when you update you will either have generate new serials and before doing so logout from the iMessage and Facetime apps as well as iCloud itself. Or you can of course change the SMBIOS back to iMac15,1 or iMac14,3, if you do so you'll also need edit the plist inside USBPorts.kext to match the new model. Please read the [SMBIOS](#smbios) section for more info. This change is done so we can install Monterey.
+
+(Which runs a lot better than Big Sur, not bad for beta 1 hah!)
+
 ![Screenshot](/images/Monterey.png?raw=true)
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too. Please read the [SMBIOS](#smbios) section if you plan to install Monterey.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
@@ -27,6 +31,7 @@ Please only use this for clean installs, or updating an existing OpenCore instal
   * [Enable EHCI hand-off](#enable-ehci-hand-off)
   * [Installing macOS](#installing-macos)
   * [Post install](#post-install)
+* Updating
 * Sleep
   * [Sleep](#sleep)
   * [Power Management](#power-management)
@@ -66,23 +71,25 @@ Once downloaded we can [create the install media](https://support.apple.com/sl-s
 Download [EFI Agent](https://github.com/headkaze/EFI-Agent/releases) and use it to easily mount the EFI partition on the installer and copy the EFI folder found in this repository to it. I have no idea how to do this on Windows but a quick search led me [here](https://www.insanelymac.com/forum/topic/311820-guide-mount-and-access-efi-partition-on-windows-10/).
 
 ## Editing config.plist
+
+Please note the default SMBIOS is for the Mac mini 7,1 -- please read the [SMBIOS](#smbios) section before changing ```SystemProductName``` as it will be needed to perform some extra steps.
+
 Inside the EFI/OC folder on your installer open config.plist and edit/populate the following fields:
 ```
 PlatformInfo -> Generic -> MLB
 PlatformInfo -> Generic -> ROM
+PlatformInfo -> Generic -> SystemProductName
 PlatformInfo -> Generic -> SystemSerialNumber
 PlatformInfo -> Generic -> SystemUUID
 ```
-You can generate the MLB/Serial/UUID serials with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *iMac15,1* when asked for the type of SMBIOS to create. If you need to change the model in the future you also need to re-generate a new set of serials, UUID and usb portmap.
+You can generate the MLB/Serial/UUID serials with [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS). Use option 3 and enter *Macmini7,1* when asked for the type of SMBIOS to create.
 
 Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing this [post-install](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html#fixing-en0) is also an option, but is important so don't skip it. You don't want it to stay at the current *00:11:22:33:44:55*.
 
-For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.
-
-**NOTE**: Certain models have different grfx base clocks. In my testing 14,3 and 15,1 have a 200mhz base clock and 14,4 and some others have a 750mhz base clock. According to the Intel spec this should be 350mhz. I didn't notice any performance difference between the base clock speeds. Personally I prefer them lower as it reduces heat and energy usage.
-
 > Please use [ProperTree](https://github.com/corpnewt/ProperTree) to edit the OpenCore config.
 > Tip: To make ProperTree into a little app, double click on the *buildapp.command* file inside the script folder. The resulting app will be put in the main ProperTree folder.
+
+(For more information on setting up OpenCore please refer to [this](https://dortania.github.io/OpenCore-Install-Guide/config.plist/haswell.html) very well written guide that has helped realise this very setup.)
 
 ## First boot!
 Before we can boot into the macOS installer itself there are some things we have to disable and enable that Dell has hidden in the BIOS itself. Why Dell does this is unclear to me, this is a business desktop not a consumer desktop or laptop. There is no need to hide more advanced options. Luckily we can still change them.
@@ -115,8 +122,8 @@ We're done. Exit the shell by running the ```reboot``` command.
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore. Sometimes the installer can seem to have stalled (no updates in verbose boot). This happened a lot in the Big Sur installers. Sometimes up to 5 minutes. But it would always boot into the installer. Once installed this delay went away.
 
-1. Boot from installer, select ```Install macOS Catalina (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
-2. Back in the OpenCore menu, boot from ```Install macOS Catalina (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
+1. Boot from installer, select ```Install macOS .... (external)``` and once in the installer use the ```Disk Utility``` to format the internal disk. Make sure it's formatted as APFS with a GUID partition scheme. Go back to install menu and start the install process. Select the internal disk as destination and wait till it is done. It is copying the full install image to the internal disk and then verify it. The time it takes depends on the read speed of your installer and the write speed of the destination. After this the installer will reboot.
+2. Back in the OpenCore menu, boot from ```Install macOS .... (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
 3. Back again in the OpenCore menu your internal disk should now be selected automatically. It will be named whatever you named your internal disk. Press enter to boot into your macOS and move on to the next section.
 
 > Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
@@ -139,6 +146,13 @@ Also don't forget to set your ethernet mac address correctly. This [guide](https
 We're pretty much done now, I suggest you do read all the following sections though, some may apply to you. Either way, have fun using macOS on your OptiHack!
 
 > Tip: Make a [clone](https://github.com/zearp/OptiHack/blob/master/text/CLONE_IT.md) once you're happy with your setup and everything works as it should. It doesn't take much time and I'd say it's essential to have one.
+
+## Updating
+Updating is easy, copy your MLB/ROM/etc values into a text file and unless you made any other changes rename your EFI folder to EFI.old and copy the EFI from folder from the repo to your EFI partition. Edit the config file and change the serials and such and that should be be all.
+
+If you changed SMBIOS you also need to copy your USBPorts.kext or edit the plist inside again so the models match to your SMBIOS. Reboot and in case anything goes wrong you can boot up a backup or Linux live distro, mount the EFI partition and delete the EFI folder and rename EFI.old to EFI and reboot again.
+
+> Note: Make sure you move over any changes you made, if they include kexts and such use the snapshot commands in ProperTree to add them back in the new config.
 
 ## Sleep
 Sleep is working as it should. It will fall asleep automatically after a while. Waking up the machine can be done with a bluetooth or usb keyboard/mouse. Apple has removed the slider to control this but it does go to sleep on its own. Manual sleep also works, it takes about 30 seconds. Hibernation is disabled by default on desktops. For good measure lets disable stand-by and auto power off.
@@ -197,7 +211,7 @@ If you don't plan on using the iGPU at all (i.e. no display connected) you can d
 
 ## SMBIOS
 The best SMBIOS to use is the one that suits your macOS needs best:
-- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz
+- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz -- default for this repo as per 24/06/2021
 - iMac15,1 - Allows up to Big Sur, iGPU runs at 200mhz
 - iMac14,3 - Allows up to Catalina, iGPU runs at 200mhz
 - iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
@@ -206,7 +220,7 @@ Functionality wise there is no difference, everything works. The higher iGPU bas
 
 On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing that is Big Sur + Catalina and Mojave. Once Monterey is released Apple will provide them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
-> Note: If you change the model from the 15,1 default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change 15,1 to 14,3 or whatever model you selected on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model.
+> Note: If you change the model from the default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change Macmini7,1 to iMac14,3/iMac15,1 on line 25 and 212. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model. Right click on the kext and select show contents to get to the plsit hiding in there.
 
 ## Graphical boot
 1. Download needed drivers and resources and copy them
