@@ -94,7 +94,7 @@ Put your ethernet mac address in the ```ROM``` field without semicolons. Fixing 
 ## First boot!
 Before we can boot into the macOS installer itself there are some things we have to disable and enable that Dell has hidden in the BIOS itself. Why Dell does this is unclear to me, this is a business desktop not a consumer desktop or laptop. There is no need to hide more advanced options. Luckily we can still change them.
 
-Boot from the installer and clear the NVRAM this is important as Clover and OpenCore share that space. It leads to hard to diagnose issues. Clear it each time you've booted with Clover.
+Boot from the installer and clear the NVRAM, this is important to do, especially if you use(d) Clover. It can lead to hard to diagnose issues
 
 Once rebooted and back in the OpenCore picker select modGRUBShell.efi and press enter. You'll end up in a shell where you can execute commands.
 
@@ -117,7 +117,7 @@ We're done. Exit the shell by running the ```reboot``` command.
 
 <sub>Credit for DVMT/CFG Lock BIOS research goes to @JimLee1996 and his nice [write up](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) on this subject. Thanks to his work I was able to figure out how to enable EHCI hand-off. More might still come, there's a lot of interesting things that Dell is not exposing in the BIOS. Another big thanks goes to @datasone for providing [the modified Grub shell](https://github.com/datasone/grub-mod-setup_var/).</sub>
 
-> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. To clear all the settings follow [these](#resetting-uefi-changes) steps.
+> Note: Resetting NVRAM or loading BIOS defaults does ***not*** clear all these changes. Make *sure* to double check you're entering the right values and nothing can go wrong. To clear all the settings follow [these](#resetting-uefi-changes) steps.
 
 ## Installing macOS
 You're now ready to install macOS. Boot from the installer again and select the *Install macOS* entry. Once you made it into the installer format the disks how you like them (use APFS for the macOS partition) and proceed installing. OpenCore should automagically select the right boot partition when reboots happen but pay attention when it does and make sure you keep booting from the internal disk until you end up on a working desktop. The name of the option will change from "Install macOS" to whatever name you gave the macOS partition. Any external boot options are clearly labeled in OpenCore. Sometimes the installer can seem to have stalled (no updates in verbose boot). This happened a lot in the Big Sur installers. Sometimes up to 5 minutes. But it would always boot into the installer. Once installed this delay went away.
@@ -126,7 +126,7 @@ You're now ready to install macOS. Boot from the installer again and select the 
 2. Back in the OpenCore menu, boot from ```Install macOS .... (external)``` again and after a while the screen will change and show a progress bar. Now the actual install is happening. Sit back and relax. Once done the machine will reboot again.
 3. Back again in the OpenCore menu your internal disk should now be selected automatically. It will be named whatever you named your internal disk. Press enter to boot into your macOS and move on to the next section.
 
-> Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple has always had issues calculating the remaining time for reason, the same happens when installing updates.
+> Note: If it gets stuck saying ```Less than a minute remaining...``` don't worry, on real Macs this also happens and can take quite some time. Apple always has issues calculating the remaining time for some reason, the same happens when installing updates.
 
 If you run into any boot issues, check the [troubleshooting sections](https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html) of the OpenCore vanilla guide. Big chance your problem is listed including a solution.
 
