@@ -11,7 +11,7 @@ My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
 
 ### Intro
 
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too.
+This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too. Please note Monterey is still in developer beta, things can andwill break in between beta releases. Currently beta 1 is working perfectly but beta 2 is broken. Try it at your own risk or wait for public beta's or maybe the final version later this year.
 
 For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
 
