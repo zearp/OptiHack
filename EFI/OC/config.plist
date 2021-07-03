@@ -596,7 +596,7 @@
 				<key>csr-active-config</key>
 				<data>AAAAAA==</data>
 				<key>prev-lang:kbd</key>
-				<string>en-US:0</string>
+				<string>en-ABC:252</string>
 				<key>run-efi-updater</key>
 				<string>No</string>
 			</dict>
