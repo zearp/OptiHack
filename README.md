@@ -181,6 +181,8 @@ This should be enabled and setup properly. You can run the [Intel Power Gadget](
 The MT models have an internal unused usb header. You will have create a new portmap if you intend to use this port (for bluetooth most likely). I didn't map it because I have SFF boxes only. The internal port is HS13. With that port mapped you'll be at the 15 ports limit that macOS imposes. See the section below on how to make a new usb portmap. For more info about usb portmaps please read [this](https://usb-map.gitbook.io/project/terms-of-endearment) great write-up.
 
 ## USB portmap
+This only works on Catalina and below. Making maps on newer macOS might still work as we're below the 15 port limit but it may not reesult in a good map. You can use [this](https://github.com/USBToolBox/) in Windows to make maps if you don't want to install Catalina or older. Do **not** enable XhciPortLimit when not running Catalina or older.
+
 Due to our EHCI/XHCI uefi edits you can make the portmap without any renaming, USBInjectAll and the FakePCIID kexts. This makes mapping a lot easier and faster, lets start by mounting the EFI partition with [EFI Agent](https://github.com/headkaze/EFI-Agent/releases).
 
 (If you're mapping the internal usb port make sure there is something connected to it before you start.)
@@ -220,7 +222,7 @@ Functionality wise there is no difference, everything works. The higher iGPU bas
 
 On any macOS version prior to Catalina there was a command you could run to stop receiving nags to upgrade to a new major release. This was removed in Catalina. We can use the SMBIOS to stop the update nags. For example if you don't plan on upgrading from Catalina use 14,3 and you will never receive upgrade nags to update to Big Sur. Apple provides security updates for the current version and the two previous versions. At the time of writing that is Big Sur + Catalina and Mojave. Once Monterey is released Apple will provide them for Big Sur and Catalina. Once the next version of macOS gets released Catalina support will stop. This will be in about 2 years.
 
-> Note: If you change the model from the default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change Macmini7,1 to iMac14,3/iMac15,1 on line 176. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model. Right click on the kext and select show contents to get to the plist file hiding in there.
+> Note: If you change the model from the default you will have to edit the [plist file inside USBPorts.kext](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist) and change Macmini7,1 to iMac14,3/iMac15,1 near the bottom of the file. You will also have to generate a new pair of serials and system UUID as done [previously](#editing-configplist) if you change the model. Right click on the kext and select show contents to get to the plist file hiding in there.
 
 ## Graphical boot
 1. Download needed drivers and resources and copy them
