@@ -211,7 +211,7 @@ If you don't plan on using the iGPU at all (i.e. no display connected) you can d
 
 ## SMBIOS
 The best SMBIOS to use is the one that suits your macOS needs best:
-- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz -- default for this repo as per 24/06/2021
+- Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz -- default for this repo as per 24/06/2021 -- dual screen troubles
 - iMac15,1 - Allows up to Big Sur, iGPU runs at 200mhz
 - iMac14,3 - Allows up to Catalina, iGPU runs at 200mhz
 - iMac14,4 - No longer used by me but mentioned anyways, iGPU runs at 750mhz
