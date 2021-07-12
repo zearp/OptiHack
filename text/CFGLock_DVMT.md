@@ -1,7 +1,5 @@
 Extracted from the A18 BIOS, which is the same as the A25 BIOS for 9020 models. It is however a fun learning experience to verify these yourself by downloading the A18 or A25 BIOS and extracting it yourself. This [guide](https://github.com/JimLee1996/Hackintosh_OptiPlex_9020) helped me a lot.
 
-The 9020 BIOS also has raid functionaility in it. ~~An add-on I would like to try and port to 7020.~~ Tried some flashing with [UBU](https://www.win-raid.com/t154f16-Tool-Guide-News-quot-UEFI-BIOS-Updater-quot-UBU.html) and learned a lot but not daring to do much until I learn how to recover from a bad flash hah!
-
 CFG Lock:
 
 ```
@@ -50,4 +48,20 @@ Other iGPU related stuff of interest:
 0x4F2BD 			One Of Option: 256MB, Value (8 bit): 0x2 (default) {09 0E C5 04 30 00 02 00 00 00 00 00 00 00}
 0x4F2CB 			One Of Option: 512MB, Value (8 bit): 0x3 {09 0E C6 04 00 00 03 00 00 00 00 00 00 00}
 0x4F2D9 		End One Of {29 02}
+```
+
+Stolen mem cheat sheet:
+```
+00 00 00 01 = 0x01000000 = 16 MB
+00 00 00 02 = 0x02000000 = 32 MB
+00 00 00 04 = 0x04000000 = 64 MB
+00 00 00 06 = 0x06000000 = 96 MB
+00 00 00 08 = 0x08000000 = 128 MB
+00 00 00 10 = 0x10000000 = 256 MB
+00 00 00 18 = 0x18000000 = 384 MB
+00 00 00 20 = 0x20000000 = 512 MB
+00 00 00 30 = 0x30000000 = 768 MB
+00 00 00 40 = 0x40000000 = 1024 MB
+00 00 00 60 = 0x60000000 = 1536 MB
+00 00 00 80 = 0x80000000 = 2048 MB
 ```
