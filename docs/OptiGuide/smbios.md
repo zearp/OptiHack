@@ -3,7 +3,6 @@ sort: 3
 ---
 
 # SMBIOS
-
 For our platform (Haswell) there are a few choices. The best one would the one that suits your needs the best. Don't use an SMBIOS of a Mac that isn't on Haswell as it may lead to problems in many areas including power management.
 
 - Macmini7,1 - Allows up to Monterey, iGPU runs at 750mhz

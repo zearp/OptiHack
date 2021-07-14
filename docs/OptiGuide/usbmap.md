@@ -3,11 +3,9 @@ sort: 4
 ---
 
 # USB Map
-
 In case you changed the SMBIOS you have to edit the plist file inside of ```USBPorts.kext``` to reflect the new SMBIOS. This is easy with ProperTree. Right click on the kext and select ```Show contents``` to get to the plist file inside. It is located at the end of the file right [here](https://github.com/zearp/OptiHack/blob/master/EFI/OC/Kexts/USBPorts.kext/Contents/Info.plist#L147-L148).
 
 ## Remapping
-
 You most likely will not have to create a new map. This is only needed if you use the internal headers and go above the 15 port limit. It may also be needed for those who use the repo on related systems like the 9020m.
 
 Mapping usb using the mthod below only works on Catala and earlier. You can make a new map in Windows 10 using [this](https://github.com/USBToolBox/tool) tool if you have no and don't want to install Catalina. The tool can create 2 kexts, one requires a companion kext and one works stand alone. Use the latter as we don't need the fixes the companion app has. You can toggle this inside the tools settings.

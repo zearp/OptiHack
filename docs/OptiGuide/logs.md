@@ -3,7 +3,6 @@ sort: 7
 ---
 
 # Logs
-
 Logs are very important, not only when you run into troubles but also to see if there are things requiring attention. There are several ways to access logs. On of them is the ```Console`` app.
 
 ## Console app
@@ -25,10 +24,8 @@ For more inforation about the options and many more options run ```man log``` fo
 One more thing worth to mention is using the ```grep``` command together with the log command. It will alloes you to print only messages that contain a certain keyword. For example if you want to see all log entries containing the word "firmware" you'd run something like: ```log show --predicate 'process == "kernel"' --source --last boot | grep -i firmware```. The ```-i``` option will ignore the case.
 
 ## Verbose boot
-
 While this isn't technically a log file it is logging and might get annoying once you've setup your machine. To disable this remove the ```-v``` flag from ```boot-args``` in the OpenCore config. It is on by default so you can see whats going on when installing and makes it easies to spot problems/report issues.
 
 ## Debug logging
-
 Not really needed unless need verbose logging of OpenCore itself and kexts. I will expand this section later, for now please refer to the Dortania guide:
 https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/debug.html

@@ -3,7 +3,6 @@ sort: 5
 ---
 
 # Undervolting
-
 Written for my NUC repo but also applies here.
 
 Undervolting is a great way to to maximise performance, lower power consumption and reduce temperatures. The amount of undervolting you can apply depends on your luck in the [silicon lottery](https://en.wikipedia.org/wiki/Product_binning#Overclocking_and_core_unlocking). You'll have to lower the voltage step by step and test stability with [stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng), [Prime95](https://www.mersenne.org/download/) or other tools like it.
