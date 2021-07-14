@@ -21,7 +21,7 @@ First we'll format your backup medium. Superduper! will erase it agian by defaul
 
 Format it APFS with a GUID partition layout. Open SuperDuper! and in the main window on the left select your macOS disk and on the right select your destination disk. Click copy now, enter password, etc and you're on your way.
 
-![Screenshot](https://github.com/zearp/OptiHack/blob/master/images/superduper.png)
+![Screenshot](https://github.com/zearp/OptiHack/blob/187b1df9c881dcf5ed49eff8c2940a2f3b53ba0f/images/superduper.png)
 
 Once this is done mount the EFI partitions of your your internal and destination disk and copy the EFI folder from the internal disk to the destination so it can boot.
 
