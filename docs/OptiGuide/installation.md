@@ -187,4 +187,4 @@ There are many ways of getting the real mac address, the easiest way to run ```i
 For the second route I suggest reading the [Dortania write-up](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html) about it. I've not needed this myself so I would only suggest following it if you have issues with iCloud/Apple ID.
 
 ## The End
-That's it. If all is well you can now reboot your machine and boot without the need of the installer. Have fun setting up your machine and installing apps. I do suggest making a bootable backup including your EFI to an external disk or fast usb stick. An easy way can be found [here](https://github.com/zearp/OptiHack/blob/master/text/CLONE_IT.md).
+That's it. If all is well you can now reboot your machine and boot without the need of the installer. Have fun setting up your machine and installing apps. I do suggest making a bootable backup including your EFI to an external disk or fast usb stick. An easy how-to can be found in the sidebar.
