@@ -53,6 +53,8 @@ An important thing to remember is that when you change SMBIOS you must also chan
 
 Depending on your needs you will know which SMBIOS suits you. We can now generate some serials.
 
+> Note: Monterey is currently in beta and will be buggy and might break, it also requires ```SecureBootModel``` to be set to ```Disabled```.
+
 ### Generate serials
 For this we will need to unpack the ```master.zip``` for GenSMBIOS that we downloaded earlier, Safari may have already unpacked it. Inside its folder you will find a few scrips. Windows users can use the ```.bat``` script (right click and run as admin) we will use the ```.command``` scripts.
 
