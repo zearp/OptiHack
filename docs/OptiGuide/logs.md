@@ -15,7 +15,7 @@ For example:
 
 ```log show --predicate 'process == "kernel"' --style compact --source --last boot``` 
 
-Will show you all kernel messages since and including the last boot. Running this command right after rebooting will give a usable boot log. You can replace the process with something else like ```bluetoothd``` only shows events from the bluetooth deamon. The ```--style``` options configures how and how much is shown, this flag is optional.
+Will show you all kernel messages since and including the last boot. Running this command right after rebooting will give a usable boot log. You can replace the process with something else like ```bluetoothd``` only shows events from the bluetooth deamon. The ```--style``` options configures how and how much is shown, this flag is optional. It may be needed to add additional parameters to see all the logs such as ```--debug``` and ```--info```.
 
 Sometimes it can be helpful to clear all the logs as there can be a lot of entries to read if you trying to diagnose issues. Clearing the logs right before doing your testing will make sure you don't have to read too many entries that are not relevant. To wipe all the logs run ```sudo log erase --all``` you can also erase logs partially.
 
