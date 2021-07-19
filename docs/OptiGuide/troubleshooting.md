@@ -36,9 +36,15 @@ Applying this fix is easy but does require adding an additional kext.
 ## Screen stuff
 There are some gotchas with DisplayPorts to keep in mind. They don't like hot-plugging in general. Hopefully that is all sorted but if you change the audio over DP/HDMI flags then hot-pluggig may result in crashes.
 
-Another thing I found is that it seems impossible to use dual screens if they both use DP -> HDMI conversion. If one of the two screens is connected using the DP next to the VGA port a screen connected by DP -> HDMI conversion will work. I've not been able to test dual screen using DP. It should be better there.
+Conversion can also be tricky and dependand on a few factors. As a rule of thumb you always use DP -> DP connections if possible. That is the most stable setup and should work perfectly. When converting the DP signal to hdmi things can become tricky. I've had several peopel report that they solved issues with a different conversion cable/dongle. I can confirm this and I even have a cable that works fine with certain screens but doesn't work with others.
+
+When installing it is best to use a DP -> DP connected screen and if not possible connect only 1 screen during the installation. It might be needed to only use the top or bottom connector. Most peopel shouldn't run into any issues. I only have a few screens to test with so there are always cases where it doesn't work properly and just requires some tinkering to get it right. macOS is just very picky about this so it may require some experimentation to get it sorted.
+
+Another thing I found is that it seems impossible to use dual screens if they both use DP -> HDMI conversion. If one of the two screens is connected using the DP next to the VGA port a screen connected by DP -> HDMI conversion will work. I've not been able to test dual screen using DP. It should be better there and it could alos work fine depending on your screens/cables/dongles.
 
 Then there is 4k, on paper each port can handle 4k @ 60hz. And it can do that without issues on Catalina and earlier by setting ```enable-hdmi20``` to ```01000000``` in the config file at ```DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x2,0x0)```. On Big Sur and newer that option no longer works and the option that replaces it -- which is enabled -- seems not to do the trick anymore. I don't have any 4k screens myself and can only test with headless-dummies. Which is far from ideal and uses conversion which is even less ideal. It should be possible to get it going but may require a lot of testing and experimentation.
+
+Grey screen, this seems to be a rare issue with an unknown cause but the fix is relativly simply; change ```NVRAM -> Add -> 7C436110-AB2A-4BBB-A880-FE41995C9F82 -> prev-lang:kbd``` from ```string``` to ```data``` and leave it empty. More research is needed but I can't reproduce it myself.
 
 ## OpenCore default entry
 Sometimes OpenCore may want to keep on booting an entry by defauly you don't want it to use. To fix it select the entry yo uwant to be the default and instead of pressing enter you press control + enter to set it as the new default.
