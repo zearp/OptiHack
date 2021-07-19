@@ -231,6 +231,10 @@
 				<data>AQAAAA==</data>
 				<key>disable-hdmi-patches</key>
 				<data>AQAAAA==</data>
+				<key>dpcd-max-link-rate</key>
+				<data>FAAAAA==</data>
+				<key>enable-dpcd-max-link-rate-fix</key>
+				<data>AQAAAA==</data>
 				<key>enable-hdmi20</key>
 				<data>AAAAAA==</data>
 				<key>enable-max-pixel-clock-override</key>
