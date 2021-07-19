@@ -44,8 +44,6 @@ Another thing I found is that it seems impossible to use dual screens if they bo
 
 Then there is 4k, on paper each port can handle 4k @ 60hz. And it can do that without issues on Catalina and earlier by setting ```enable-hdmi20``` to ```01000000``` in the config file at ```DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x2,0x0)```. On Big Sur and newer that option no longer works and the option that replaces it -- which is enabled -- seems not to do the trick anymore. I don't have any 4k screens myself and can only test with headless-dummies. Which is far from ideal and uses conversion which is even less ideal. It should be possible to get it going but may require a lot of testing and experimentation.
 
-Grey screen, this seems to be a rare issue with an unknown cause but the fix is relativly simply; change ```NVRAM -> Add -> 7C436110-AB2A-4BBB-A880-FE41995C9F82 -> prev-lang:kbd``` from ```string``` to ```data``` and leave it empty. More research is needed but I can't reproduce it myself.
-
 ## OpenCore default entry
 Sometimes OpenCore may want to keep on booting an entry by defauly you don't want it to use. To fix it select the entry yo uwant to be the default and instead of pressing enter you press control + enter to set it as the new default.
 
