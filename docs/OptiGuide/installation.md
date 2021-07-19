@@ -53,6 +53,8 @@ An important thing to remember is that when you change SMBIOS you must also chan
 
 Depending on your needs you will know which SMBIOS suits you. We can now generate some serials.
 
+> Note: Monterey is currently in beta and will be buggy and might break, it also requires ```SecureBootModel``` to be set to ```Disabled```.
+
 ### Generate serials
 For this we will need to unpack the ```master.zip``` for GenSMBIOS that we downloaded earlier, Safari may have already unpacked it. Inside its folder you will find a few scrips. Windows users can use the ```.bat``` script (right click and run as admin) we will use the ```.command``` scripts.
 
@@ -75,7 +77,7 @@ PlatformInfo -> Generic -> SystemUUID
 They are left empty in the config so they are easy to spot. If you already know the mac address of your ethernet connection you can fill that in too, it goes in ```PlatformInfo -> Generic -> ROM```. If you don't know that is ok, we will fix that post install.
 
 ### Choices continued
-The next two choices are both audio related. First of the audio layout. This changes how the in/outputs behave and depending on your preference you may want to change form the default layout. You can find the layout in the config ```DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1B,0x0) -> layout-id```. The default of ```17``` will give you access to all ports but you have to select them manually in ```System Preferences```. If you don't care about the back ports you can use layout id ```15``` which has auto sending for headphones and uses the internal speaker by default. Other compatible layouts are ```13``` and ```16```. I haven't tried those, there may not be any difference compared to ```15```. Layout id ```17``` was custom made for the 7020/9020.
+The next two choices are both audio related. First of the audio layout. This changes how the in/outputs behave and depending on your preference you may want to change form the default layout. You can find the layout in the config ```DeviceProperties -> Add -> PciRoot(0x0)/Pci(0x1B,0x0) -> layout-id```. The default of ```17``` will give you access to all ports but you have to select them manually in ```System Preferences```. If you don't care about the back ports you can use layout id ```15``` which has auto sensing for headphones and uses the internal speaker by default. Other compatible layouts are ```13``` and ```16```. I haven't tried those, there may not be any difference compared to ```15```. Layout id ```17``` was custom made for the 7020/9020.
 
 Secondly if you want to use audio over DisplayPort or HDMI you must change some flags to enable it. This can break hot-plugging of screens and cause a panic or crash when you do. It can also cause problems for dual screens. For more about that please check the ```Troubleshooting``` section.
 
@@ -91,8 +93,11 @@ With that done the installer is now ready to be used.
 ## First steps
 Before we can boot into the installer itself we have some other things to do.
 
+### Screen
+Connect your screen to one of the two DisplayPorts on the back, the vga port and dGPU are disabled by default.
+
 ### BIOS
-Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex.
+Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex. The latest version for the 7020 is A18 and for 9020 it is A25.
 
 My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to UEFI. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
