@@ -99,7 +99,7 @@ Connect your screen to one of the two DisplayPorts on the back, the vga port and
 ### BIOS
 Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex. The latest version for the 7020 is A18 and for 9020 it is A25.
 
-My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to UEFI. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
+My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to ```UEFI```. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ### Clear NVRAM
 Now that the BIOS is sorted boot from the installer and in the OpenCore menu (picker) select clear NVRAM from the options. This will reboot the machine, smash F12 to get to the BIOS boot menu and select the installer again.
