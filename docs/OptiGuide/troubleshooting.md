@@ -36,7 +36,11 @@ Applying this fix is easy but does require adding an additional kext.
 ## Screen stuff
 There are some gotchas with DisplayPorts to keep in mind. They don't like hot-plugging in general. Hopefully that is all sorted but if you change the audio over DP/HDMI flags then hot-pluggig may result in crashes.
 
-Another thing I found is that it seems impossible to use dual screens if they both use DP -> HDMI conversion. If one of the two screens is connected using the DP next to the VGA port a screen connected by DP -> HDMI conversion will work. I've not been able to test dual screen using DP. It should be better there.
+Conversion can also be tricky and dependand on a few factors. As a rule of thumb you always use DP -> DP connections if possible. That is the most stable setup and should work perfectly. When converting the DP signal to hdmi things can become tricky. I've had several peopel report that they solved issues with a different conversion cable/dongle. I can confirm this and I even have a cable that works fine with certain screens but doesn't work with others.
+
+When installing it is best to use a DP -> DP connected screen and if not possible connect only 1 screen during the installation. It might be needed to only use the top or bottom connector. Most peopel shouldn't run into any issues. I only have a few screens to test with so there are always cases where it doesn't work properly and just requires some tinkering to get it right. macOS is just very picky about this so it may require some experimentation to get it sorted.
+
+Another thing I found is that it seems impossible to use dual screens if they both use DP -> HDMI conversion. If one of the two screens is connected using the DP next to the VGA port a screen connected by DP -> HDMI conversion will work. I've not been able to test dual screen using DP. It should be better there and it could alos work fine depending on your screens/cables/dongles.
 
 Screen stays off after wake? This is a known issue that cna happen on certain monitor/cable/machine combinations. Enabling ```force-online``` in the frame buffer section usally fixes that. To enable replace all the zero's with ```01000000``` for the ```force-online``` entry.
 

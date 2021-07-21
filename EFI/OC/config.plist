@@ -227,6 +227,8 @@
 			<dict>
 				<key>AAPL,ig-platform-id</key>
 				<data>AwAiDQ==</data>
+				<key>device-id</key>
+				<data>EgQAAA==</data>
 				<key>disable-external-gpu</key>
 				<data>AQAAAA==</data>
 				<key>disable-hdmi-patches</key>
@@ -618,7 +620,7 @@
 				<key>csr-active-config</key>
 				<data>AAAAAA==</data>
 				<key>prev-lang:kbd</key>
-				<string>en-ABC:252</string>
+				<data></data>
 				<key>run-efi-updater</key>
 				<string>No</string>
 			</dict>

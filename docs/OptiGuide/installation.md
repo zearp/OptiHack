@@ -93,8 +93,11 @@ With that done the installer is now ready to be used.
 ## First steps
 Before we can boot into the installer itself we have some other things to do.
 
+### Screen
+Connect your screen to one of the two DisplayPorts on the back, the vga port and dGPU are disabled by default.
+
 ### BIOS
-Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex.
+Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex. The latest version for the 7020 is A18 and for 9020 it is A25.
 
 My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to UEFI. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
