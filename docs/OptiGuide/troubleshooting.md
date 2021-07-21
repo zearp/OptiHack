@@ -63,3 +63,12 @@ Multiboot can give issues when operating systems share the same disks, or if an 
 
 ## Can't format disk in the installer
 I've had this happen a few times. First click the little eject icons next to the disk thats fails to format, unmounting those partitons. Try again. If it still doesn't want to format exit the ```Disk Utility``` and open a ```Terminal``` instance from the ```Tools``` menu on top. Assuming you only have 1 disk and it can be wiped execute the following command: ```gpt destroy /dev/disk0``` then exit the terminal and try to format it again.
+
+## Error logging in to iCloud after changing SMBIOS
+After updating SMBIOS serials (e.g., from iMac15,1 -> Macmini7,1) you may get the following error when trying to log back into iCloud: "iCloud account is already signed in to iCloud. To use this Apple ID as your primary iCloud account, delete it from Internet Accounts and sign in again." 
+
+To fix:
+1. Open Terminal
+2. Type ```defaults delete MobileMeAccounts```
+3. Press enter
+4. Log into iCloud thru Internet Accounts in settings. The already signed in message should be gone once you sign in.
