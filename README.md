@@ -1,4 +1,6 @@
 # OptiHack
+Dell OptiPlex 7020/9020 hackintosh stuff.
+
 ![Montedell](/images/Monterey.png?raw=true)
 
 # New guide can be found [here](https://zearp.github.io/OptiHack/).
