@@ -12,16 +12,16 @@ I'm not going to cover the first option because I personally have not used it. G
 
 The main difference between the installers is that one will require a working internet connection and needs to download about 12GB of data. Since my internet connection sucks and I often do clean installs I prefer having a full installer. Both will work with the repo's EFI.
 
-If you don't have a working macOS and also have no access to a real Mac to make the installer I suggest setting up a VM/KVM using one of the many solutions. You can have a working Catalina up and running within an hour. It might not be super fast but for the purpose of making an installer it works great. I ould suggest either [this](https://github.com/foxlet/macOS-Simple-KVM) or [this](https://github.com/kholia/OSX-KVM). The former is old but still works.
+If you don't have a working macOS and also have no access to a real Mac to make the installer I suggest setting up a VM or KVM, when using a KVM solution you can have a working macOS installation up and running within an hour. It might not be fast enough for normal usage but for the purpose of making an installer it works great. I would suggest either [this](https://github.com/foxlet/macOS-Simple-KVM) or [this](https://github.com/kholia/OSX-KVM). The former is old but still works and is very easy to use.
 
 ## Making the installer
-Now you have access to a working macOS we're going to download the macOS installer. You can use the App Store for it but you can also use a tool that doesn't require you to sign in with your Apple ID. I like to use [GibMacOS](https://github.com/corpnewt/gibMacOS) but there are other tools out there too. Once you got the macOS installer installed you should have a new application called ```Install macOS Monterey``` or whatever version you downloaded. We can now make the installer with the following steps:
+Now you have access to a working macOS we're going to download the macOS installer. You can use the App Store for it but you can also use a tool that doesn't require you to sign in with your Apple ID. I like to use [GibMacOS](https://github.com/corpnewt/gibMacOS) but there are other tools out there too. Once you got the macOS installer installed you should have a new application called ```Install macOS Monterey``` or whatever version you downloaded in your ```Applications``` folder. We can now make the installer with the following steps:
 
-Insert a usb stick and open the ```Disk Utility``` app. In the top menu go to ```view``` and select ```Show All Devices```. Now select your usb stick in the left sidebar. Select the device not any partitions it may have. Click the erase button and format it as ```Mac OS Extended (Journaled)``` with a ```GUID``` scheme.
+Insert a usb stick and open the ```Disk Utility``` app. In the top menu go to ```view``` and select ```Show All Devices```. Now select your usb stick in the left sidebar. Select the device not any of the partitions it may have. Click the erase button and format it as ```Mac OS Extended (Journaled)``` with a ```GUID``` scheme. Don't change the name from ```Untitled``` and if its named different name it ```Untitled``` or adjust the name in the next command.
 
-Open the ```Terminal``` app and type ```cd``` follow by a space and then drag the macOS installer app into the terminal window and press enter.
+Open the ```Terminal``` app and type ```cd``` followed by a space, then drag the macOS installer app from ```Applications``` into the terminal window and press enter.
 
-Next run the following command: ```sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction``` -- it will now create the installer
+Next run the following command: ```sudo ./Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction``` -- it will now create the installer.
 
 While thats doing its thing lets download the following:
 
@@ -32,15 +32,13 @@ While thats doing its thing lets download the following:
 
 Once the ```createinstallmedia``` script is done you can exit the terminal by typing ```exit```. We're now ready to copy the EFI to the installer.
 
-To do so, simply start EFI Agent and use the menu to mount the EFI partition on the usb installer. A new disk called EFI will appear on the desktop. If not check your ```Finder``` settings and check if hard disks and external disks are enabled to show on the desktop. By default macOS will hide hard disks.
+To do so, start EFI Agent and use its menu (click the icon in the top bar) to mount the EFI partition on the usb installer. A new disk called EFI will appear on the desktop. If not check your ```Finder``` settings and verify that hard disks and external disks are enabled to show on the desktop. By default macOS will hide internal disks.
 
 Unzip the EFI you downloaded from the repo, drag the EFI folder thats inside the zip file to the EFI icon. This will copy the EFI folder to the installer. Keyboard warriors can highlight the downloaded EFI folder and press control + c and then open the EFI folder on the installer and press control + v.
 
 With the EFI folder copied to the installers EFI partition we are now ready for the next step; setting up the config file.
 
 ## Making choices
-The easy part is now done and it's time for a slightly less easy part.
-
 Before we can start editing we have to make some choices, don't worry you can always change these and adjust them to your needs.
 
 The first choice is software. This will determine the SMBIOS you will need to use. We have 3 choices here, they influence Apple updates and other things we won't get into now.
@@ -99,7 +97,7 @@ Connect your screen to one of the two DisplayPorts on the back, the vga port and
 ### BIOS
 Make sure you BIOS is up to date (update if needed) and enter the BIOS on your Optiplex. The latest version for the 7020 is A18 and for 9020 it is A25.
 
-My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to ```UEFI```. Those with a 9020 model will need to change RAID to AHCI mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
+My BIOS settings are simple: load factory defaults and set ```General -> Boot Sequence -> Boot List Option``` to ```UEFI```. Those with a 9020 model will need to change ```RAID``` to ```AHCI``` mode after loading defaults. Double check if loading of legacy roms is enabled. Sleep won't work properly without it.
 
 ### Clear NVRAM
 Now that the BIOS is sorted boot from the installer and in the OpenCore menu (picker) select clear NVRAM from the options. This will reboot the machine, smash F12 to get to the BIOS boot menu and select the installer again.
@@ -118,7 +116,7 @@ For usb to function as good as possible we need to enable handing off EHCx ports
 
 Lastly we enable routing of the EHCx ports to XHCI ones and disable EHCx all together. Only legacy OS would need it. Enter ```setup_var 0x15A 0x2``` to enable the routing then enter ```setup_var 0x146 0x0``` and ```setup_var 0x147 0x0``` to disable the EHCx ports. You can find these values [here](https://github.com/zearp/OptiHack/blob/master/text/XHCI_EHCI.md).
 
-We're done. Exit the shell by running the ```reboot``` command, smash F12 again and once again boot from the installer but this time select the ```Install macOS Monterey``` option, or whatever applies. Al lot of text will scroll by and after a while you should end up in a graphical interface with a minimal menu.
+We're done. Exit the shell by running the ```reboot``` command, smash F12 again and once again boot from the installer but this time select the ```Install macOS Monterey``` option, or whatever applies. A lot of text will scroll by and after a while you should end up in a graphical interface with a menu.
 
 ## Install macOS
 Now that you've made it into the installer itself we're ready to install macOS.
