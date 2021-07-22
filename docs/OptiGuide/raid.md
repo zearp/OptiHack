@@ -1,5 +1,5 @@
 ---
-sort: 13
+sort: 14
 ---
 # RAID
 The last macOS version that fully supports installing and booting from RAID arrays is High Sierra.
