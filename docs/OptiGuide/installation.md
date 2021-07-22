@@ -10,9 +10,9 @@ Before we can install macOS we need to make our installer. There are two options
 
 I'm not going to cover the first option because I personally have not used it. Guides to make a recovery based installer on [Windows](https://dortania.github.io/OpenCore-Install-Guide/installer-guide/winblows-install.html) and [Linux](https://dortania.github.io/OpenCore-Install-Guide/installer-guide/linux-install.html).
 
-The main difference between the installers is that one will require a working internet connection and needs to download about 12GB of data. Since my internet connection sucks and I often do clean installs I prefer having a full installer. Both with work with the repo's EFI.
+The main difference between the installers is that one will require a working internet connection and needs to download about 12GB of data. Since my internet connection sucks and I often do clean installs I prefer having a full installer. Both will work with the repo's EFI.
 
-If you don't have a working macOS and also have no access to a real Mac to make the installer I suggest setting up a VM/KVM using one of the many one-click solutions. You can have a working Catalina up and running within an hour. It might not be super fast but for the purpose of making an installer it works great.
+If you don't have a working macOS and also have no access to a real Mac to make the installer I suggest setting up a VM/KVM using one of the many solutions. You can have a working Catalina up and running within an hour. It might not be super fast but for the purpose of making an installer it works great. I ould suggest either [this](https://github.com/foxlet/macOS-Simple-KVM) or [this](https://github.com/kholia/OSX-KVM). The former is old but still works.
 
 ## Making the installer
 Now you have access to a working macOS we're going to download the macOS installer. You can use the App Store for it but you can also use a tool that doesn't require you to sign in with your Apple ID. I like to use [GibMacOS](https://github.com/corpnewt/gibMacOS) but there are other tools out there too. Once you got the macOS installer installed you should have a new application called ```Install macOS Monterey``` or whatever version you downloaded. We can now make the installer with the following steps:
