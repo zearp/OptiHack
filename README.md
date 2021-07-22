@@ -1,23 +1,8 @@
-# OptiHack
-My hackintosh journey with the Dell Optiplex 7020 SFF/MT.
+## PSA 1: New guide can be found here: https://zearp.github.io/OptiHack/ -- it is still a WIP but the important bits are done.
 
-<sub>Should also work on 9020 SFF and MT models without additional modifications other than changing RAID to AHCI in the BIOS. You will need to create a usb portmap post-install if you use any internal usb headers (SFF models don't have these) or run into any issues. Luckily doing so is [pretty fast and easy](#usb-portmap). The 9020m [seems to need](https://github.com/ismethr/9020mHack/) an AppleALC layout-id of 27 and SMBIOS iMac 14,1.</sub>
+## PSA 2: From the 24th of June the default SMBIOS has been changed. This means that when you update you will either have generate new serials and before doing so logout from the iMessage and Facetime apps as well as iCloud itself. Or you can of course change the SMBIOS back to iMac15,1 or iMac14,3, if you do so you'll also need edit the plist inside USBPorts.kext to match the new model. Please read the [SMBIOS](#smbios) section for more info. This change is done so we can install Monterey.
 
-## PSA 1: From the 24th of June the default SMBIOS has been changed. This means that when you update you will either have generate new serials and before doing so logout from the iMessage and Facetime apps as well as iCloud itself. Or you can of course change the SMBIOS back to iMac15,1 or iMac14,3, if you do so you'll also need edit the plist inside USBPorts.kext to match the new model. Please read the [SMBIOS](#smbios) section for more info. This change is done so we can install Monterey.
-
-## PSA 2: New guide can be found here: https://zearp.github.io/OptiHack/ -- it is still a WIP but the important bits are done.
-
-![Screenshot](/images/Monterey.png?raw=true)
-
-### Intro
-
-This is ~~not~~ almost a complete guide. Some hackintosh experience is a must, I'm going to assume you have a working macOS (real or in a virtual machine) though I will try to include Windows where possible. This guide has been tested with macOS Catalina, Big Sur and Monterey but should work older versions too. Please note Monterey is still in developer beta, things can and will break in between beta releases. For the time being Monterey beta's require ```SecureBootModel``` set to ```Disabled```.
-
-For those with some experience the EFI folder itself should be enough to get going. But I suggest you read on anyways, there are quite a few differences with other methods to keep the setup as vanilla as possible. Many questions will be answered and issues resolved if you read all the sections at least once.
-
-I suck at writing documentation but I need to keep track of things I do for myself and keeping track of progress in guide form it can also help others, hopefully. I've learned a lot in the passed week thanks to all the great guides and awesome software developed totally free by the community. I want to give back and share my findings and journey with all of you.
-
-Please only use this for clean installs, or updating an existing OpenCore install. I replaced my Clover at first and the system wasn't as fast as when I tried a clean install to test my EFI folder before using it on other 7020 boxes. The difference was quite noticeable. So only do a clean install if you're coming from Clover and just import your user data/apps once installed. This will ensure maximum performance. Still want to replace Clover? Read [this](https://dortania.github.io/OpenCore-Desktop-Guide/post-install/nvram.html#cleaning-out-the-clover-gunk) and [this](https://github.com/dortania/OpenCore-Desktop-Guide/tree/master/clover-conversion) on how to do it.
+[Montedell](/images/Monterey.png?raw=true)
 
 ## Index
 (no longer used, sections below are being migrated to the new guide)
