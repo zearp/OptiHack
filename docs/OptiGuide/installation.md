@@ -88,6 +88,8 @@ Now close ```ProperTree``` and save the config file when it asks to. Finally dra
 
 With that done the installer is now ready to be used.
 
+> Note: You can use the search function in ```ProperTree``` to quickly find any config entries mentioned in the guide.
+
 ## First steps
 Before we can boot into the installer itself we have some other things to do.
 
@@ -188,6 +190,15 @@ We can take two routes here, use your real mac address or make one up with an Ap
 There are many ways of getting the real mac address, the easiest way to run ```ifconfig en0 | grep ether``` in a terminal instance and copy the address that looks like 11:aa:22:bb:cc and paste it without the semicolons into the ROM section in the config file at ```PlatformInfo -> Generic```.
 
 For the second route I suggest reading the [Dortania write-up](https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html) about it. I've not needed this myself so I would only suggest following it if you have issues with iCloud/Apple ID.
+
+## Optional steps
+Some last things that are completely optional but would finish your build nicely.
+
+- Remove ```-v``` from the ```boot-args``` in the config to display an Apple logo instead of all the text, may speed up booting a bit too
+- Enable FileVault disk encryption, this makes your build more secure and will prompt you to login very early in the boot process (which I prefer)
+- Disable showing of the OpenCore picker/menu by setting ```ShowPicker``` to ```false``` -- hold down the ```alt``` key to reveal the picker at boot
+- Pretend to be a real Mac by enabling the boot chime and graphical icons in the picker by following [this](https://dortania.github.io/OpenCore-Post-Install/cosmetic/gui.html) guide
+- If you're multi booting, in additional to always using the bios boot menu (F12) also consider setting ```LauncherOption``` to full, read more about how and why you would want to do so [here](https://dortania.github.io/OpenCore-Post-Install/multiboot/bootstrap.html).
 
 ## The End
 That's it. If all is well you can now reboot your machine and boot without the need of the installer. Have fun setting up your machine and installing apps. I do suggest making a bootable backup including your EFI to an external disk or fast usb stick. An easy how-to can be found in the sidebar.
