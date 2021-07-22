@@ -1,4 +1,4 @@
-# PSA 1: New guide can be found here: https://zearp.github.io/OptiHack/ -- it is still a WIP but the important bits are done.
+# PSA 1: New guide can be found here: https://zearp.github.io/OptiHack/
 
 ## PSA 2: From the 24th of June the default SMBIOS has been changed. This means that when you update you will either have generate new serials and before doing so logout from the iMessage and Facetime apps as well as iCloud itself. Or you can of course change the SMBIOS back to iMac15,1 or iMac14,3, if you do so you'll also need edit the plist inside USBPorts.kext to match the new model. This change is done so we can install Monterey.
 
@@ -7,9 +7,7 @@
 (no longer used, sections below are being migrated to the new guide)
 
 * [RAID0 install and booting APFS](#raid0-install-and-booting-apfs)
-* [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
 * [Security](#security)
-
 
 ## RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
@@ -21,44 +19,6 @@ The article is easy to following along with and best to do a clean install with 
 If you have errors relating to security vault or similar when updating the Preboot volumes you can easily fix those by booting into a working macOS recovery partition or installer, open a terminal and run ```resetFileVaultPassword```. 
 
 (This command can also fix the issue where FileVault2 can't be enabled.)
-
-## Fan curve more like a Mac
-These machines run pretty cool with the stock cooler and some new thermal paste. Idles around 30c and 35-40c under light loads. Even when running Geekbench 4 I didn't notice the fan ramp up at all. In the BIOS there's a fan curve defined. It regulates when and how fast the fan spins up. By default Dell has configured it like this;
-
-* Normal idle fans, 1st gear till 55c.
-* From 55c till 71c it runs in 2nd gear.
-* From 71c till 95c it run in 3rd gear.
-
-If it still didn't manage to get things cool again it will start going at the max. Press the little button on the back of the PSU when the machine is powered off but connected to hear how full blast sounds.
-
-Now this is pretty reasonable and the stock fans are not loud. But if you want it to change to how Macs behave we change the values to these;
-
-* Normal idle fans, 1st gear till 71c.
-* From 71c till 87c it runs in 2nd gear.
-* From 87c till 95c it run in 3rd gear.
-
-(With fan control software it doesn't seem possible to trigger the "3rd gear" the [BIOS](https://github.com/zearp/OptiHack/blob/master/text/FANS.md) describes, maybe I misunderstand or it only happens when it nearly catches fire...)
-
-And again if it didn't manage to cool things down it will go towards the max until its cooler, if thats fails thermal throttling starts (TCASE) and if that also fails to cool things down the computer shuts itself down. The Intel ark lists the TCASE for most Haswell cpu's around 72c. I've read on a few forums where people tested this and their Haswell cpu's didn't throttle around that temp but around 85-95c. It depends on the processor, BIOS and motherboard too. You can test this in Windows with AIDA64 to find out where your cpu starts to throttle.
-
-What this Mac-like fan curve does in practise is that short bursts of heavy system load -- that could quickly increase the temps causing the fans to spin up -- not to spin the fans up as the temp will drop down once the burst is over. Resulting in a quieter machine. This is what Apple does and why their machines stay so silent up to around 85-90c when the plane takes off and thermal throttling sets in.
-
-On laptops this can really make a big difference where unpacking a big compressed file won't cause the fans to spin up at all where normally they will go on and then off again. Often repeating that cycle. Same happens when you watch some YouTube or something. It is perfectly fine to leave the fans at lower speeds when doing some intensive work for a while. When I have to pick between watching some videos in silence with the cpu at 65c vs watching it with the fan going on and off I choose the former. Most machines can keep themselves within safe temps with low fan speeds.
-
-All in all for this machine it is not really needed to adjust these but you *can*, and if you replace the stock fans with something else you might have to. If the fans work with how Dells PWM wants to drive them and thats after you converted their proprietary 5 pin fan connecter into a normal 4 pin one with a $0.99 eBay cable.
-
-To get the above curve you change the following values in the modified Grub shell;
-
-```
-setup_var 0x1B8 0x47
-setup_var 0x1B9 0x57
-```
-
-Refer to [this list](https://github.com/zearp/OptiHack/blob/master/text/FANS.md) to set your own temperatures. Be sure to always double check your settings and don't do anything too extreme or your computer will melt or create a blackhole. 
-
-Thats it! Your silent OptiPlex will now be even more silent.
-
-> Note: We've only changed when the fans turn on not how fast they spin. Fans speed modifications are more tricky as they depend on the capabilities of the fan you're driving and as far as the stock fans go they can't really spin much slower with the default settings. Only the system fan can be tuned a bit slower but its not audible.
 
 ## Security
 * One thing you *must* do if not done already is to change the password of the Intel Management BIOS. Reboot the machine and press F12 to show the boot menu and select the Intel Management option. The default password is ```admin``` which is why it should be changed. The new password must have capitals and special characters. While you're in there you can also completely disable remote management or configure it to your liking. If AMT/KVM is missing you will need to update that. If you're having issues with this check if on the inside of your case is a sticker with a number. Only those with a ```1``` are equipped with fully fledged vPro options.
