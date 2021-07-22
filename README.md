@@ -4,47 +4,12 @@
 
 ![Montedell](/images/Monterey.png?raw=true)
 
-## Index
 (no longer used, sections below are being migrated to the new guide)
 
-* [Graphical boot](#graphical-boot)
-* [Keybinding/mapping](#keybindingmapping)
 * [RAID0 install and booting APFS](#raid0-install-and-booting-apfs)
 * [Fan curve more like a Mac](#fan-curve-more-like-a-mac)
-* [SIP](#sip)
 * [Security](#security)
 
-## Graphical boot
-1. Download needed drivers and resources and copy them
-2. Edit the config; disable verbose boot, enable boot chime, enable graphical picker, hide picker unless hotkey is held
-3. Reboot and test
-
-First we need to download [this](https://github.com/acidanthera/OcBinaryData/archive/master.zip) and also download the [latest OpenCore release](https://github.com/acidanthera/OpenCorePkg/releases). Extract the *Resources* folder from the *master.zip* file and place it in EFI/OC. From the OpenCore release archive we need to copy *AudioDxe.efi* and *OpenCanopy.efi* from EFI/OC/Drivers to our EFI/OC/Drivers.
-
-Secondly we need to edit the config, the last two entries need to be added.
-```
-Misc -> Boot -> HideAuxiliary -> True
-Misc -> Boot -> PickerMode -> External
-Misc -> Boot -> ShowPicker -> False
-Misc -> Boot -> TakeoffDelay -> 1000
-UEFI -> Audio -> AudioSupport -> True
-UEFI -> Audio -> PlayChime -> True
-UEFI -> Audio -> VolumeAmplifier -> 100
-UEFI -> Drivers -> AudioDxe.efi
-UEFI -> Drivers -> OpenCanopy.efi
-```
-Lastly remove the *-v* boot flag found at ```NVRAM -> Add -> 7C436110-AB2A-4BBB-A880-FE41995C9F82 -> boot-args```. That should be it. Reboot and test!
-
-Notes:
-- To save some space you can remove everything from the audio resources folder except *OCEFIAudio_VoiceOver_Boot.wav*, which provides the chime sound. All the other audio files are only needed if you use voice-over.
-- Set ShowPicker to True if you always want to see the picker
-- Hold down OPT or ESC while booting to show the picker menu (pressing escape will also refresh the drives so it might flash if you spam the escape key)
-- Other Mac key combo's should also work but haven't tested them, opt+control+p+r should reset NVRAM, command+v should boot in verbose mode, etc
-- TakeoffDelay sets the time in microseconds before actual boot begins, for my keyboard a setting of 1000 worked well. Setting this to a higher number might be needed if you can't get the picker to show
-- The boot chime will play over the internal speaker, to change this set ```UEFI -> Audio -> AudioOut``` to reflect the output you wish to use. It's not possible to play the chime over DP/HDMI. But it is possible to select another output if the internal speaker is not your cup of tea. I've not yet checked which outputs are available. When I do I will update this section. Until then please refer to [this](https://dortania.github.io/OpenCore-Post-Install/cosmetic/gui.html#setting-up-boot-chime-with-audiodxe) guide to sort out the outputs.
-
-## Keybinding/mapping
-Merely installing [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) will make your keyboard work more like a Mac. F4 will open the Launchpad for example. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. You can create profiles per device if you want. For creating a full custom keymap check out [Ukelele](http://software.sil.org/ukelele/).
 
 ## RAID0 install and booting APFS
 I've added 2x 250GB SSDs and currently running them in a [RAID0 setup](https://github.com/zearp/optihack/blob/master/images/diskutility.png?raw=true). The speeds have [doubled](https://github.com/zearp/optihack/blob/master/images/blackmagic.png?raw=true) and are close to the max the sata bus can handle. Cloning my existing install to the array was straight forward thanks to [this guys](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) awesome work.
@@ -100,16 +65,11 @@ Thats it! Your silent OptiPlex will now be even more silent.
 
 To update MEBx and enable KVM/AMT if it isn't available in your BIOS please read [this](https://github.com/zearp/OptiHack/blob/master/text/BIOS_STUFF.md) page. It also deals with updating [microcodes](https://en.wikipedia.org/wiki/Microcode). Which can enhance security as well.
 
-* If you're not going to undervolt please refer to the SIP section on how to set that back to its more secure default.
-
 I personally suggest to also install an app that keeps track of apps connecting out. There are many options out there. Personally I use [TripMode](https://www.tripmode.ch). It is cheap and works great blocking apps that call home a bit too often or shouldn't be accessing the internet at all. I'm looking at you Apple!
 
 > Moreover, further research by Landon Fuller, a software engineer and CEO of Plausible Labs indicates further trespasses on consumer privacy courtesy of OS X Yosemite, including the revelation that any time a user selects “About this Mac” the operating system contacts Apple with a unique analytics identifier whether or not the Apple user has selected to share analytics data of this kind with Apple. [(source)](https://trendblog.net/apples-new-os-x-yosemite-spying/)
 
 The kind people over at [Objective-See](https://objective-see.com/products.html) even provide a free front-end to the build-in firewall called [LuLu](https://objective-see.com/products/lulu.html). They also have a lot of other very useful apps for the security curious amongst us.
-
-**FileVault2**:
-This works out of the box. You can enable it in the System Preferences app. If you're having any issues please double check the settings using [this](https://dortania.github.io/OpenCore-Post-Install/universal/security.html) guide.
 
 ### Windows + macOS sharing a disk
 Windows updates can mess up your EFI partition by overwriting ```BOOTx64.efi```, this will only be a problem if you share 1 disk/EFI with both Windows and macOS. Ideally install each OS on its own disk, unless no other option. To prevent Windows Update from messing up your EFI you have to download the latest OpenCore release and copy the Bootstrap folder found in EFI/OC to your EFI/OC folder. Then change ```Misc -> Security -> BootProtect``` from None to Bootstrap. This should protect OpenCore in the event a Windows update decides to mess with files on your EFI partition. 
