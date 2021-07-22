@@ -65,10 +65,19 @@ Multiboot can give issues when operating systems share the same disks, or if an 
 I've had this happen a few times. First click the little eject icons next to the disk thats fails to format, unmounting those partitons. Try again. If it still doesn't want to format exit the ```Disk Utility``` and open a ```Terminal``` instance from the ```Tools``` menu on top. Assuming you only have 1 disk and it can be wiped execute the following command: ```gpt destroy /dev/disk0``` then exit the terminal and try to format it again.
 
 ## Error logging in to iCloud after changing SMBIOS
-After updating SMBIOS serials (e.g., from iMac15,1 -> Macmini7,1) you may get the following error when trying to log back into iCloud: "iCloud account is already signed in to iCloud. To use this Apple ID as your primary iCloud account, delete it from Internet Accounts and sign in again." 
+After updating SMBIOS serials (e.g., from iMac15,1 -> Macmini7,1) you may get the following error when trying to log back into iCloud: ```iCloud account is already signed in to iCloud. To use this Apple ID as your primary iCloud account, delete it from Internet Accounts and sign in again.```
 
 To fix:
 1. Open Terminal
 2. Type ```defaults delete MobileMeAccounts```
 3. Press enter
 4. Log into iCloud thru Internet Accounts in settings. The already signed in message should be gone once you sign in.
+
+## Keybinding/mapping
+Sometimes keys won't work as expected, you can remap some keys inside macOS in a few places, in ```System Preferences -> Keyboard``` you can click on the ```Modifier Keys...``` button to change some and there is more on the ```Shortcuts``` tab. If that isn't enough try one of the following:
+
+[Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements/releases) -- just installing it will make your keyboard work more like a Mac. For example F4 will open the Launchpad. You don't have to stick with those defaults. It is very easy to remap pretty much any key from any keyboard or mouse or other HID device. Be it bluetooth or wired. You can even create profiles per device if you want.
+
+It comes with a handy event viewer util that can easily help you remap pretty much anything to anything else. I mainly use it to remap keys on bluetooth keyboards to do things like opening Launchpad and sorting out their led/capslock.
+ 
+If that isn't enough you can create a full custom keymap with [Ukelele](http://software.sil.org/ukelele/).
