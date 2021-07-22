@@ -81,3 +81,9 @@ Sometimes keys won't work as expected, you can remap some keys inside macOS in a
 It comes with a handy event viewer util that can easily help you remap pretty much anything to anything else. I mainly use it to remap keys on bluetooth keyboards to do things like opening Launchpad and sorting out their led/capslock.
  
 If that isn't enough you can create a full custom keymap with [Ukelele](http://software.sil.org/ukelele/).
+
+## Can't enable FileVault
+This can happen rarely and might be impossible to fix without a clean install but sometimes it can be fixed by booting into recovery and run ```resetFileVaultPassword``` in the terminal and change (or use the same) password.
+
+## Errors regarding snaphots/permissions when creating clones/backups
+The answer is the same as for FileVault.
