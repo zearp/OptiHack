@@ -32,11 +32,11 @@ gpt add -t hfs disk2
 
 Now you can exit the terminal and start ```Disk Utility``` in there format the new array to APFS. With the array setup we then clone our backup to the new RAID array.
 
-Once that is done mount 1 EFI partional on one of the disks in the array and copy your EFI folder to it. Only do this to one of the disks, else it will get confusing very fast when you want to update or select a boot disk.
+Once that is done mount 1 EFI partition of one of the disks in the array and copy your EFI folder to it. Only do this to one of the disks, else it will get confusing very fast when you want to update or select a boot disk.
 
 You should now be able to boot from the array. The first time you boot in there, and every time you installed macOS updated run the following commands: ```sudo update_dyld_shared_cache -root /``` and ```diskutil apfs updatePreboot disk3s5```.
 
-If you any errors errors relating to security vault or similar when updating the Preboot volume you can fix those by booting into macOS recovery or an installer, open a terminal and run ```resetFileVaultPassword```. 
+If you see any errors relating to security vault or similar when updating the Preboot volume you can fix those by booting into macOS recovery or an installer, open a terminal and run ```resetFileVaultPassword```. 
 
 ## Clean install
 You will need to create your installed with [Catalina Patcher](http://dosdude1.com/catalina/) and follow along with [the guide](https://lesniakrafal.com/install-mac-os-catalina-raid-0/) made by the person who made this method possible.
