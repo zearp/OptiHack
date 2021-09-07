@@ -210,6 +210,17 @@
 	<dict>
 		<key>Add</key>
 		<dict>
+			<key>PciRoot(0x0)/Pci(0x14,0x0)</key>
+			<dict>
+				<key>AAPL,slot-name</key>
+				<string>Internal@0,20,0</string>
+				<key>acpi-wake-type</key>
+				<data>AQ==</data>
+				<key>device_type</key>
+				<string>USB controller</string>
+				<key>model</key>
+				<string>8 Series/C220 Series Chipset Family USB xHCI</string>
+			</dict>
 			<key>PciRoot(0x0)/Pci(0x1B,0x0)</key>
 			<dict>
 				<key>AAPL,slot-name</key>
@@ -222,17 +233,6 @@
 				<integer>17</integer>
 				<key>model</key>
 				<string>8 Series/C220 Series Chipset High Definition Audio Controller</string>
-			</dict>
-			<key>PciRoot(0x0)/Pci(0x14,0x0)</key>
-			<dict>
-				<key>AAPL,slot-name</key>
-				<string>Internal@0,20,0</string>
-				<key>acpi-wake-type</key>
-				<data>AQ==</data>
-				<key>device_type</key>
-				<string>USB controller</string>
-				<key>model</key>
-				<string>8 Series/C220 Series Chipset Family USB xHCI</string>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x2,0x0)</key>
 			<dict>
@@ -254,14 +254,14 @@
 				<data>AQAAAA==</data>
 				<key>force-online</key>
 				<data>AAAAAA==</data>
-				<key>framebuffer-con0-enable</key>
-				<data>AQAAAA==</data>
 				<key>framebuffer-con0-alldata</key>
 				<data>AgQKAAAEAAAQAAAA</data>
-				<key>framebuffer-con1-enable</key>
+				<key>framebuffer-con0-enable</key>
 				<data>AQAAAA==</data>
 				<key>framebuffer-con1-alldata</key>
 				<data>AwYIAAAEAAAQAAAA</data>
+				<key>framebuffer-con1-enable</key>
+				<data>AQAAAA==</data>
 				<key>framebuffer-fbmem</key>
 				<data>AAAAAw==</data>
 				<key>framebuffer-patch-enable</key>
@@ -780,8 +780,22 @@
 		<true/>
 		<key>Drivers</key>
 		<array>
-			<string>HfsPlus.efi</string>
-			<string>OpenRuntime.efi</string>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>HfsPlus.efi</string>
+				<key>Arguments</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>OpenRuntime.efi</string>
+				<key>Arguments</key>
+				<string></string>
+			</dict>
 		</array>
 		<key>Input</key>
 		<dict>
@@ -880,6 +894,8 @@
 			<true/>
 			<key>ExitBootServicesDelay</key>
 			<integer>0</integer>
+			<key>ForceOcWriteFlash</key>
+			<false/>
 			<key>ForgeUefiSupport</key>
 			<false/>
 			<key>IgnoreInvalidFlexRatio</key>
