@@ -30,7 +30,3 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/osx
-EFI/OC/.contentVisibility
-EFI/OC/.contentFlavour
-EFI/BOOT/.contentVisibility
-EFI/BOOT/.contentFlavour
