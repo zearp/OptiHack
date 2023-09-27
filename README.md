@@ -5,7 +5,7 @@ Dell OptiPlex 7020/9020 hackintosh stuff.
 
 # New guide can be found [here](https://zearp.github.io/OptiHack/).
 
-## August 2023 PSA: Monterey is the last macOS that natively supprots the Haswell platform. While it is possinle to run newer versions for now I would not recommended doing so. 
+## August 2023 PSA: Monterey is the last macOS that natively supports the Haswell platform. While it is possible to run newer versions using OCLP for now I would not recommended doing so as long as Monterey gets security updates.
 
 Monterey will continue to receive updates and security updates for a while and running macOS on a hardware platform it doesn't natively support requires a lot of testing to do it right. Comparing frequencies and voltages with Monterey when testing different SMBIOS is a must and only the start. I currently don't have time or need for it since Monterey is perfectly fine. Also many new macOS features will simply not work because they require/use cpu instructions Haswell processors lack. This is already the case with things like SideCar that only work glitchy. I will do some experimentation at some point and see how stable and well it runs. Specially when it comes to the iGPU.
 
