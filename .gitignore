@@ -29,4 +29,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# vite and node stuff
+node_modules/
+**/.vitepress/dist/
+**/.vitepress/cache/
+
 # End of https://www.gitignore.io/api/osx
