@@ -26,7 +26,7 @@ It follows the [Dortania](https://dortania.github.io/OpenCore-Install-Guide/) va
 > [!NOTE]
 > **Maintenance mode.** macOS Monterey is the last version that natively supports Haswell, and this EFI runs it very stably. The repo still gets occasional updates for OpenCore and kexts (most recently November 2026), but newer macOS versions are not supported or tested.
 
-Newer macOS versions can be forced onto Haswell with [OpenCore Legacy Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher), but I don't recommend it while Monterey still gets security updates. Doing it right takes a lot of testing (comparing frequencies, voltages and iGPU behaviour across SMBIOS models), and many newer features depend on CPU instructions Haswell doesn't have anyway.
+Newer macOS versions can be forced onto Haswell with [OpenCore Legacy Patcher](https://github.com/dortania/OpenCore-Legacy-Patcher), ~~but I don't recommend it while Monterey still gets security updates~~ the only way to get an up to date security experience is to use OCLP for iGPU patches and an SMBIOS matching your needs. Doing it right takes a lot of testing (comparing frequencies, voltages and iGPU behaviour across SMBIOS models), and many newer features depend on CPU instructions Has-well doesn't have anyway. The kernel however still supports Haswell even in Tahoe it is the iGPU support that was removed in Ventura. Which need root patches that have downsides on its own. I will be working on an OCLP guide at some point after I have tested more. Till then you can experiment yourself by using OCLP and pretend you have an actual `Mac mini 7,1` and it will get you to whatever it supports, Tahoe most likely.
 
 <details>
 <summary>Past announcements</summary>
